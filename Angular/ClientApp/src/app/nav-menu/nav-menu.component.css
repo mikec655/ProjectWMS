@@ -1,0 +1,62 @@
+li .glyphicon {
+    margin-right: 10px;
+}
+
+/* Highlighting rules for nav menu items */
+li.link-active a,
+li.link-active a:hover,
+li.link-active a:focus {
+    background-color: #4189C7;
+    color: white;
+}
+
+/* Keep the nav menu independent of scrolling and on top of other items */
+.main-nav {
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    z-index: 1;
+    border: none;
+}
+
+.navbar-inverse {
+  transition: all 0.2s ease-in-out;
+  border: none;
+}
+
+.navbar {
+  border: none;
+}
+
+.collapse, .collapse.in {
+  display: block !important;
+  transition: all 0.2s ease-in-out;
+  border-color: rgba(0, 0, 0, 0);
+}
+
+.collapse.in {
+  opacity: 0;
+  height: 0;
+}
+
+.collapse {
+  opacity: 1;
+  height: 100%;
+  background-color: #222;
+}
+
+.navbar-header {
+  background-color: #222;
+}
+
+.navbar-inverse, .navbar {
+  background-color: rgba(255, 255, 255, 0.00);
+}
+
+@media (min-width: 768px) {
+  .collapse.in {
+    opacity: 1;
+    transition: none;
+  }
+}
