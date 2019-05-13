@@ -1,9 +1,9 @@
 <nav class="navbar navbar-expand-md navbar-dark bg-dark fixed-top">
   <a class='navbar-brand' [routerLink]='["/"]'>Angular</a>
-  <button class="navbar-toggler collapsed" type="button" data-toggle="collapse" data-target='.navbar-collapse' [attr.aria-expanded]='isExpanded' (click)="toggle()">
+  <button class="navbar-toggler collapsed" type="button" data-toggle="collapse" data-target='.navbar-collapse' [attr.aria-expanded]='isExpanded' (click)="toggleCollapse()">
     <span class="navbar-toggler-icon"></span>
   </button>
-  <div class="collapse navbar-collapse" [ngClass]='{ "show": isExpanded }'>
+  <div class="collapse navbar-collapse" id="viewport-navbar" [@collapse]="collapse">
     <ul class="navbar-nav mr-auto">
       <li class="nav-item" [routerLinkActive]='["active"]' [routerLinkActiveOptions]='{ exact: true }'>
         <a class="nav-link" [routerLink]="['/']">Home</a>

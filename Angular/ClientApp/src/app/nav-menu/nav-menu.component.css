@@ -1,0 +1,7 @@
+@media(min-width:768px) {
+  #viewport-navbar {
+    display: flex !important;
+    opacity: 1 !important;
+    transform: translate3d(0px, 0px, 0px) !important;
+  }
+}
