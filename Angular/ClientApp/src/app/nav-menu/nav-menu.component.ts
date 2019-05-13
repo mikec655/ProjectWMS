@@ -1,5 +1,6 @@
 import { Component } from '@angular/core';
 import { trigger, state, style, animate, transition } from '@angular/animations';
+import { delay } from 'q';
 
 @Component({
   selector: 'app-nav-menu',
@@ -10,22 +11,21 @@ import { trigger, state, style, animate, transition } from '@angular/animations'
       state('open', style({
         opacity: '1',
         display: 'block',
-        height: 'auto',
         transform: 'translate3d(0, 0, 0)'
       })),
       state('closed', style({
         opacity: '0',
-        display: 'block',
-        height: '0',
-        transform: 'translate3d(0, -200%, 0)'
+        display: 'none',
+        transform: 'translate3d(0, -100%, 0)'
       })),
-      transition('closed => open', animate('400ms ease-in')),
-      transition('open => closed', animate('400ms ease-out'))
+      transition('closed => open', animate('400ms 100ms ease-in-out')),
+      transition('open => closed', animate('400ms 100ms ease-in-out'))
     ])
   ]
 })
 export class NavMenuComponent {
   isExpanded = true;
+  maxHeight = 70;
 
   close() {
     this.isExpanded = false;
@@ -40,5 +40,8 @@ export class NavMenuComponent {
   toggleCollapse() {
     // this.show = !this.show
     this.collapse = this.collapse == "open" ? 'closed' : 'open';
+    this.isExpanded = this.collapse == "open" ? true : false;
+    this.maxHeight = this.isExpanded ? 500 : 65;
+    delay(600).then(() => { this.maxHeight = 200; console.log("fired")});
   }
 }

@@ -5,3 +5,12 @@
     transform: translate3d(0px, 0px, 0px) !important;
   }
 }
+
+.navbar {
+  transition: max-height 400ms ease-in-out;
+  transition-delay: 0ms;
+}
+
+.ng-animating {
+  display: block !important;
+}
