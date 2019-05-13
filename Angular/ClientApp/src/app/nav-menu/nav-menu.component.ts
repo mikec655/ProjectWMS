@@ -1,6 +1,5 @@
 import { Component } from '@angular/core';
 import { trigger, state, style, animate, transition } from '@angular/animations';
-import { delay } from 'q';
 
 @Component({
   selector: 'app-nav-menu',
