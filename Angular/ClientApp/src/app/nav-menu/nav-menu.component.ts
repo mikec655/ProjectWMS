@@ -41,6 +41,5 @@ export class NavMenuComponent {
     this.collapse = this.collapse == "open" ? 'closed' : 'open';
     this.isExpanded = this.collapse == "open" ? true : false;
     this.maxHeight = this.isExpanded ? 500 : 65;
-    delay(600).then(() => { this.maxHeight = 200; console.log("fired")});
   }
 }
