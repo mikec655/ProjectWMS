@@ -30,8 +30,8 @@ namespace Angular
                 configuration.RootPath = "ClientApp/dist";
             });
 
-            //var connection = @"Data Source = (LocalDb)\MSSQLLocalDB; Database=EFGetStarted.AspNet.NewDatabase; Integrated Security = SSPI;";
-            var connection = @"Server=54.37.88.136;Database=EFGetStarted.AspNetCore.NewDb;User ID=SA;Password=LantaarnPaalLampje1234;ConnectRetryCount=0;TrustServerCertificate=true;Encrypt=true;";
+            var connection = @"Data Source=(LocalDb)\MSSQLLocalDB;Initial Catalog=aspnet-MvcMovie;Integrated Security=SSPI;";
+            //var connection = @"Server=54.37.88.136;Database=EFGetStarted.AspNetCore.NewDb;User ID=SA;Password=LantaarnPaalLampje1234;ConnectRetryCount=0;TrustServerCertificate=true;Encrypt=true;";
             services.AddDbContext<BloggingContext>
                 (options => options.UseSqlServer(connection));
         }
