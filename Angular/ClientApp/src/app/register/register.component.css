@@ -1,6 +1,14 @@
-.form-signin {
+.form-register {
   max-width: 330px;
   margin: auto;
+}
+
+.ng-valid[required], .ng-valid.required {
+  border-left: 5px solid #42A948; /* green */
+}
+
+.ng-invalid:not(form) {
+  border-left: 5px solid #a94442; /* red */
 }
 
 /*
@@ -43,7 +51,7 @@ body {
   .form-label-group > label {
     position: absolute;
     top: 0;
-    left: 0;
+    left: 5px;
     display: block;
     width: 100%;
     margin-bottom: 0; /* Override default `<label>` margin */

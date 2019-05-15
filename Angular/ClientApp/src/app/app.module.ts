@@ -12,6 +12,7 @@ import { CounterComponent } from './counter/counter.component';
 import { FetchDataComponent } from './fetch-data/fetch-data.component';
 import { HelloWorldComponent } from './hello-world/hello-world.component';
 import { AuthenticationComponent } from './authentication/authentication.component';
+import { RegisterComponent } from './register/register.component';
 
 @NgModule({
   declarations: [
@@ -21,7 +22,8 @@ import { AuthenticationComponent } from './authentication/authentication.compone
     CounterComponent,
     FetchDataComponent,
     HelloWorldComponent,
-    AuthenticationComponent
+    AuthenticationComponent,
+    RegisterComponent
   ],
   imports: [
     BrowserModule.withServerTransition({ appId: 'ng-cli-universal' }),
@@ -33,7 +35,8 @@ import { AuthenticationComponent } from './authentication/authentication.compone
       { path: 'counter', component: CounterComponent },
       { path: 'fetch-data', component: FetchDataComponent },
       { path: 'hello-world', component: HelloWorldComponent },
-      { path: 'login', component: AuthenticationComponent }
+      { path: 'login', component: AuthenticationComponent },
+      { path: 'register', component: RegisterComponent}
     ])
   ],
   providers: [],
