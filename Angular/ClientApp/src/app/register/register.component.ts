@@ -6,13 +6,17 @@ import { Component, OnInit } from '@angular/core';
   styleUrls: ['./register.component.css']
 })
 export class RegisterComponent implements OnInit {
-
+  email: String;
   model = new Register(0, '', '', '');
 
   constructor() { }
 
   ngOnInit() {
   }
+
+  onClick() {
+    this.email = "hoi";
+}
 
 }
 
