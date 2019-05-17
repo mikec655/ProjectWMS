@@ -1,34 +1,46 @@
-<form class="form-register" #registerForm="ngForm">
+<form class="form-register" [formGroup]="registerForm" (ngSubmit)="onSubmit()">
 
-  <h1 class="h3 mb-3 font-weight-normal">Register</h1>
+    <h1 class="h3 mb-3 font-weight-normal">Register</h1>
 
-  <div class="form-label-group">
-    <input id="inputEmail" class="form-control" type="email" placeholder="Email address" required="" autofocus=""
-           [(ngModel)]="model.email" name="email" #email="ngModel" pattern="^[A-Za-z0-9._%+-]+@[A-Za-z0-9.-]+.[A-Za-z]{2,}$" (focus)="focus=true" (blur)="focus=false"/>
-    <label for="inputEmail">Email address</label>
-    <div [hidden]="email.valid || email.pristine || focus"
-         class="alert alert-danger">
-      Please enter a valid email
+    <div class="form-label-group">
+        <input formControlName="email" id="inputEmail" class="form-control" type="email" placeholder="Email address" required="" autofocus="" [ngClass]="{ 'is-invalid': f.email.dirty && f.email.errors }"
+               name="email" minLength="12" pattern="^[A-Za-z0-9._%+-]+@[A-Za-z0-9.-]+.[A-Za-z]{2,}$" (focus)="focusEmail=true" (blur)="focusEmail=false" />
+        <label for="inputEmail">Email address</label>
+        <div *ngIf="f.email.dirty && f.email.errors" class="invalid-feedback">
+            <div *ngIf="f.email.errors.required">This field is required</div>
+            <div *ngIf="f.email.errors.pattern">Please enter a valid email</div>
+        </div>
     </div>
-  </div>
-  Todo remove this: {{ focus }}
-  <div class="form-label-group">
-    <input id="inputPassword" class="form-control" type="password" placeholder="Password" required=""
-           [(ngModel)]="model.password" name="password" #name="ngModel"/>
-    <label for="inputPassword">Password</label>
-  </div>
-  <div class="form-label-group">
-    <label for="inputRepeatPassword">Repeat Password</label>
-    <input id="inputRepeatPassword" class="form-control" type="password" placeholder="Repeat Password" required=""
-           [(ngModel)]="model.repeatPassword" name="repeatPassword" />
-  </div>
-  <div class="checkbox mb-3">
-    <label>
-      <input type="checkbox" value="remember me" />
-      Remember me
-    </label>
-  </div>
-  <p>Already have an account <a [routerLink]="['/login']">signin</a></p>
-  <button class="btn btn-lg btn-primary btn-block" type="submit" (click)="onClick()">Create Account</button>
+
+    Todo remove this: {{ f.email.errors }}
+    <div class="form-label-group">
+        <input formControlName="password" id="inputPassword" class="form-control" type="password" placeholder="Password" required=""
+               name="password" [ngClass]="{ 'is-invalid': f.password.dirty && f.password.errors }" />
+        <label for="inputPassword">Password</label>
+        <div *ngIf="f.password.dirty && f.password.errors" class="invalid-feedback">
+            <div *ngIf="f.password.errors.required">This field is required</div>
+            <div *ngIf="f.password.errors.minLength">Password must be 6 characters or longer</div>
+        </div>
+    </div>
+
+    <div class="form-label-group">
+        <input formControlName="repeatPassword" id="inputRepeatPassword" class="form-control" type="password" placeholder="Repeat Password" required=""
+               name="repeatPassword" [ngClass]="{ 'is-invalid': f.repeatPassword.dirty && f.repeatPassword.errors }" />
+        <label for="inputRepeatPassword">Repeat Password</label>
+        <div class="invalid-feedback" *ngIf="f.repeatPassword.dirty && f.repeatPassword.errors">
+            <div *ngIf="f.repeatPassword.errors.required">This field is required</div>
+            <div *ngIf="f.repeatPassword.errors.mustMatch">Passwords must match</div>
+        </div>
+    </div>
+
+    <div class="checkbox mb-3">
+        <label>
+            <input type="checkbox" value="remember me" />
+            Remember me
+        </label>
+    </div>
+
+    <p>Already have an account <a [routerLink]="['/login']">signin</a></p>
+    <button class="btn btn-lg btn-primary btn-block" type="submit" (click)="onClick(registerForm)">Create Account</button>
 </form>
 

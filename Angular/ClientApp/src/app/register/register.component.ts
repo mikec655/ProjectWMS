@@ -1,4 +1,7 @@
 import { Component, OnInit } from '@angular/core';
+import { NgForm, NgModel, FormGroup, FormControl, FormBuilder, Validators } from '@angular/forms';
+
+import { MustMatch } from '../_utils/password-match.validator'
 
 @Component({
   selector: 'app-register',
@@ -7,16 +10,34 @@ import { Component, OnInit } from '@angular/core';
 })
 export class RegisterComponent implements OnInit {
   email: String;
-  model = new Register(0, '', '', '');
+  registerForm: FormGroup;
+  profileForm: FormGroup;
+  submitted = false;
 
-  constructor() { }
+  constructor(private formBuilder: FormBuilder) { }
 
   ngOnInit() {
+    this.registerForm = this.formBuilder.group({
+      email: ['', [Validators.required]],
+      password: ['', [Validators.required, Validators.minLength(6)]],
+      repeatPassword: ['', [Validators.required]]
+    }, {
+        validator: MustMatch('password', 'repeatPassword')
+    });
   }
 
   onClick() {
     this.email = "hoi";
-}
+  }
+
+  // Shorthand to get the controls of the form
+  get f() { return this.registerForm.controls; }
+
+  onSubmit() {
+    this.submitted = true;
+    // TODO: Use EventEmitter with form value
+    console.warn(this.registerForm.value);
+  }
 
 }
 
@@ -24,9 +45,9 @@ export class Register {
 
   constructor(
     public id: number,
-    public email: string,
-    public password: string,
-    public repeatPassword: string
+    public email: NgModel,
+    public password: NgModel,
+    public repeatPassword: NgModel
   ) { }
 
 }
