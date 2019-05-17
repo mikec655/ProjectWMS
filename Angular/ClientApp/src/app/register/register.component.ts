@@ -34,6 +34,7 @@ export class RegisterComponent implements OnInit {
   get f() { return this.registerForm.controls; }
 
   onSubmit() {
+    console.log(this.registerForm.controls.password.errors)
     this.submitted = true;
     // TODO: Use EventEmitter with form value
     console.warn(this.registerForm.value);

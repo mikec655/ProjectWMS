@@ -19,7 +19,7 @@
         <label for="inputPassword">Password</label>
         <div *ngIf="f.password.dirty && f.password.errors" class="invalid-feedback">
             <div *ngIf="f.password.errors.required">This field is required</div>
-            <div *ngIf="f.password.errors.minLength">Password must be 6 characters or longer</div>
+            <div *ngIf="f.password.errors.minlength">Password must be {{f.password.errors.minlength.requiredLength}} characters or longer</div>
         </div>
     </div>
 
