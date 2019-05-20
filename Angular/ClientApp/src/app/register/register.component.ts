@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { NgForm, NgModel, FormGroup, FormControl, FormBuilder, Validators } from '@angular/forms';
+import { NgModel, FormGroup, FormBuilder, Validators } from '@angular/forms';
 
 import { MustMatch } from '../_utils/password-match.validator'
 
