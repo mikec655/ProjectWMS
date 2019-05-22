@@ -6,6 +6,8 @@ using Microsoft.AspNetCore.Mvc;
 using EFGetStarted.AspNetCore.NewDb.Models;
 using Microsoft.EntityFrameworkCore;
 using Newtonsoft.Json;
+using System.Dynamic;
+using Newtonsoft.Json.Linq;
 
 namespace Angular.Controllers
 {
@@ -22,6 +24,16 @@ namespace Angular.Controllers
             "Freezing", "Bracing", "Chilly", "Cool", "Mild", "Warm", "Balmy", "Hot", "Sweltering", "Scorching"
         };
 
+        [HttpPost("[action]")]
+        public ActionResult Login([FromBody]dynamic value)
+        {
+            var userInfo = value.ToObject<UserInfo>();
+            Console.WriteLine(userInfo?.email);
+            Console.WriteLine($"email: {value?.GetType()}");
+            var response = value;
+            return Json(userInfo);
+        }
+
         [HttpGet("[action]")]
         public IEnumerable<Blog> WeatherForecasts()
         {
@@ -31,6 +43,12 @@ namespace Angular.Controllers
                 Console.WriteLine(a.BlogId);
             }
             return blogs;
+        }
+
+        public class UserInfo
+        {
+            public string email { get; set; }
+            public string password { get; set; }
         }
 
         public class WeatherForecast
