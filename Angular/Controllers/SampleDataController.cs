@@ -25,10 +25,24 @@ namespace Angular.Controllers
         };
 
         [HttpPost("[action]")]
+        public ActionResult Register([FromBody]dynamic value)
+        {
+            var userInfo = value.ToObject<User>();
+            Console.WriteLine(userInfo?.Email);
+            _context.Add<User>(userInfo);
+            _context.SaveChangesAsync();
+            Console.WriteLine($"email: {value?.GetType()}");
+            var response = value;
+            return Json(userInfo);
+        }
+
+        [HttpPost("[action]")]
         public ActionResult Login([FromBody]dynamic value)
         {
-            var userInfo = value.ToObject<UserInfo>();
-            Console.WriteLine(userInfo?.email);
+            var userInfo = value.ToObject<User>();
+            Console.WriteLine(userInfo?.Email);
+            _context.Add<User>(userInfo);
+            _context.SaveChangesAsync();
             Console.WriteLine($"email: {value?.GetType()}");
             var response = value;
             return Json(userInfo);
