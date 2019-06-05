@@ -1,21 +1,18 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
-using EFGetStarted.AspNetCore.NewDb.Models;
 using Microsoft.EntityFrameworkCore;
-using Newtonsoft.Json;
-using System.Dynamic;
 using Newtonsoft.Json.Linq;
+using Angular.Models;
 
 namespace Angular.Controllers
 {
     [Route("api/[controller]")]
     public class SampleDataController : Controller
     {
-        private readonly BloggingContext _context;
-        public SampleDataController(BloggingContext context)
+        private readonly UserContext _context;
+        public SampleDataController(UserContext context)
         {
             _context = context;
         }
@@ -48,6 +45,7 @@ namespace Angular.Controllers
                 var query = from User in _context.Users
                             where User.Email == userInfo.Email
                             select User;
+                
                 if (query.Count() != 1)
                 {
                     return Json(null);
@@ -65,17 +63,6 @@ namespace Angular.Controllers
                 }
             }
             return Json(null);
-        }
-
-        [HttpGet("[action]")]
-        public IEnumerable<Blog> WeatherForecasts()
-        {
-            var blogs = _context.Blogs.Include(b => b.Posts);
-            foreach(var a in blogs)
-            {
-                Console.WriteLine(a.BlogId);
-            }
-            return blogs;
         }
 
         public class UserInfo
