@@ -38,7 +38,7 @@ namespace Angular.Controllers
         [HttpPost]
         public ActionResult<User> Login([FromBody] User user)
         {
-            user = _userService.Authenticate(user.Email, user.Password);
+            user = _userService.Authenticate(user.Username, user.Password);
             if (user == null)
             {
                 return NotFound();
@@ -104,7 +104,7 @@ namespace Angular.Controllers
         [HttpPost]
         public async Task<IActionResult> PostUser([FromBody] User user)
         {
-            if (!ModelState.IsValid || string.IsNullOrWhiteSpace(user.Password) || string.IsNullOrWhiteSpace(user.Email))
+            if (!ModelState.IsValid || string.IsNullOrWhiteSpace(user.Password) || string.IsNullOrWhiteSpace(user.Username))
             {
                 return BadRequest(ModelState);
             }

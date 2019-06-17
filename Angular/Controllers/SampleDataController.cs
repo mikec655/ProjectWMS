@@ -40,10 +40,10 @@ namespace Angular.Controllers
             if (value is JObject jObject)
             {
                 var userInfo = jObject.ToObject<User>();
-                Console.WriteLine(userInfo?.Email);
-                var email = userInfo.Email.ToString();
+                Console.WriteLine(userInfo?.Username);
+                var email = userInfo.Username.ToString();
                 var query = from User in _context.Users
-                            where User.Email == userInfo.Email
+                            where User.Username == userInfo.Username
                             select User;
                 
                 if (query.Count() != 1)
@@ -53,7 +53,7 @@ namespace Angular.Controllers
                 var user = query.FirstOrDefault();
                 if (user.Password == userInfo.Password)
                 {
-                    Console.WriteLine($"Login succeeded. email: {user.Email}; password: {user.Password}");
+                    Console.WriteLine($"Login succeeded. email: {user.Username}; password: {user.Password}");
                     return Json(user);
                 }
                 else

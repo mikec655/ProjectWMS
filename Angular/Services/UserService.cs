@@ -33,7 +33,7 @@ namespace MemoryGame.Services
 
         public User Authenticate(string username, string password)
         {
-            var user = _context.Users.FirstOrDefault(x => x.Email == username);
+            var user = _context.Users.FirstOrDefault(x => x.Username == username);
 
             if (user == null)
                 return null;
@@ -67,13 +67,13 @@ namespace MemoryGame.Services
         public User Register(string username, string password)
         {
 
-            var user = _context.Users.FirstOrDefault(x => x.Email == username);
+            var user = _context.Users.FirstOrDefault(x => x.Username == username);
             if (user != null)
             {
                 return null;
             }
 
-            var newUser = new User { Password = Hash.GenerateHash(password), Email = username };
+            var newUser = new User { Password = Hash.GenerateHash(password), Username = username };
 
             _context.Users.AddAsync(newUser);
             _context.SaveChangesAsync();
@@ -84,7 +84,7 @@ namespace MemoryGame.Services
         public async Task<User> RegisterAsync(User user)
         {
 
-            var existingUser = _context.Users.FirstOrDefault(x => x.Email == user.Email);
+            var existingUser = _context.Users.FirstOrDefault(x => x.Username == user.Username);
             if (existingUser != null)
             {
                 return null;
@@ -95,7 +95,7 @@ namespace MemoryGame.Services
             _context.Users.Add(user);
             await _context.SaveChangesAsync();
 
-            user = Authenticate(user.Email, user.Password);
+            user = Authenticate(user.Username, user.Password);
 
             user.Password = null;
 
@@ -106,7 +106,7 @@ namespace MemoryGame.Services
         {
             var query = from Users in _context.Users
                         select Users;
-            return query.Select(user => new User { UserId = user.UserId, Email = user.Email });
+            return query.Select(user => new User { UserId = user.UserId, Username = user.Username });
         }
     }
 }
