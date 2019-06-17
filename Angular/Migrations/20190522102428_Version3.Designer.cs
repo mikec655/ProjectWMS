@@ -9,14 +9,14 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace Angular.Migrations
 {
     [DbContext(typeof(UserContext))]
-    [Migration("20190508101709_LocalDb")]
-    partial class LocalDb
+    [Migration("20190522102428_Version3")]
+    partial class Version3
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
-                .HasAnnotation("ProductVersion", "2.1.8-servicing-32085")
+                .HasAnnotation("ProductVersion", "2.2.4-servicing-10062")
                 .HasAnnotation("Relational:MaxIdentifierLength", 128)
                 .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
@@ -24,9 +24,11 @@ namespace Angular.Migrations
                 {
                     b.Property<int>("BlogId")
                         .ValueGeneratedOnAdd()
+                        .HasColumnType("int")
                         .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
-                    b.Property<string>("Url");
+                    b.Property<string>("Url")
+                        .HasColumnType("varchar(200)");
 
                     b.HasKey("BlogId");
 
@@ -50,6 +52,24 @@ namespace Angular.Migrations
                     b.HasIndex("BlogId");
 
                     b.ToTable("Posts");
+                });
+
+            modelBuilder.Entity("EFGetStarted.AspNetCore.NewDb.Models.User", b =>
+                {
+                    b.Property<int>("UserId")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int")
+                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+
+                    b.Property<string>("Email")
+                        .HasColumnType("varchar(200)");
+
+                    b.Property<string>("Password")
+                        .HasColumnType("varchar(200)");
+
+                    b.HasKey("UserId");
+
+                    b.ToTable("Users");
                 });
 
             modelBuilder.Entity("EFGetStarted.AspNetCore.NewDb.Models.Post", b =>

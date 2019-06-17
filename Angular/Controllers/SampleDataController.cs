@@ -1,21 +1,18 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
-using EFGetStarted.AspNetCore.NewDb.Models;
 using Microsoft.EntityFrameworkCore;
-using Newtonsoft.Json;
-using System.Dynamic;
 using Newtonsoft.Json.Linq;
+using Angular.Models;
 
 namespace Angular.Controllers
 {
     [Route("api/[controller]")]
     public class SampleDataController : Controller
     {
-        private readonly BloggingContext _context;
-        public SampleDataController(BloggingContext context)
+        private readonly UserContext _context;
+        public SampleDataController(UserContext context)
         {
             _context = context;
         }
@@ -25,24 +22,47 @@ namespace Angular.Controllers
         };
 
         [HttpPost("[action]")]
-        public ActionResult Login([FromBody]dynamic value)
+        public ActionResult Register([FromBody]dynamic value)
         {
-            var userInfo = value.ToObject<UserInfo>();
-            Console.WriteLine(userInfo?.email);
+            var userInfo = value.ToObject<User>();
+            Console.WriteLine(userInfo?.Email);
+            _context.Add<User>(userInfo);
+            _context.SaveChangesAsync();
             Console.WriteLine($"email: {value?.GetType()}");
             var response = value;
             return Json(userInfo);
         }
 
-        [HttpGet("[action]")]
-        public IEnumerable<Blog> WeatherForecasts()
+        // No clue why but changing it to anything but dynamic breaks it, it receives a JObject but setting type to that doesn't work.
+        [HttpPost("[action]")]
+        public ActionResult Login([FromBody]dynamic value)
         {
-            var blogs = _context.Blogs.Include(b => b.Posts);
-            foreach(var a in blogs)
+            if (value is JObject jObject)
             {
-                Console.WriteLine(a.BlogId);
+                var userInfo = jObject.ToObject<User>();
+                Console.WriteLine(userInfo?.Email);
+                var email = userInfo.Email.ToString();
+                var query = from User in _context.Users
+                            where User.Email == userInfo.Email
+                            select User;
+                
+                if (query.Count() != 1)
+                {
+                    return Json(null);
+                }
+                var user = query.FirstOrDefault();
+                if (user.Password == userInfo.Password)
+                {
+                    Console.WriteLine($"Login succeeded. email: {user.Email}; password: {user.Password}");
+                    return Json(user);
+                }
+                else
+                {
+                    Console.WriteLine("Incorrect password.");
+                    return Json(false);
+                }
             }
-            return blogs;
+            return Json(null);
         }
 
         public class UserInfo

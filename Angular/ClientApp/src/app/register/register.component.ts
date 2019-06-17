@@ -2,6 +2,8 @@ import { Component, OnInit } from '@angular/core';
 import { NgModel, FormGroup, FormBuilder, Validators } from '@angular/forms';
 
 import { MustMatch } from '../_utils/password-match.validator'
+import { AuthenticationService } from '../authentication.service';
+import { HttpClient } from '@angular/common/http';
 
 @Component({
   selector: 'app-register',
@@ -13,8 +15,11 @@ export class RegisterComponent implements OnInit {
   registerForm: FormGroup;
   profileForm: FormGroup;
   submitted = false;
-
-  constructor(private formBuilder: FormBuilder) { }
+  result: any;
+  constructor(
+    private formBuilder: FormBuilder,
+    private authenticationService: AuthenticationService,
+    private http: HttpClient) { }
 
   ngOnInit() {
     this.registerForm = this.formBuilder.group({
@@ -38,6 +43,14 @@ export class RegisterComponent implements OnInit {
     this.submitted = true;
     // TODO: Use EventEmitter with form value
     console.warn(this.registerForm.value);
+    var test = {
+      "email": this.registerForm.controls.password.value,
+      "password": this.registerForm.controls.email.value
+    }
+    let data = JSON.stringify(test);
+    this.http
+      .post<string>('api/SampleData/Register', test)
+      .subscribe(result => { this.result = result; console.log(result); });
   }
 
 }
