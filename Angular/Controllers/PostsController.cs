@@ -58,16 +58,9 @@ namespace Angular.Controllers
                 return Unauthorized();
             }
 
-            var oldPost = await _context.Posts.SingleOrDefaultAsync(p => p.PostId == id);
-
-            if (oldPost == null || oldPost.PostUserId != post.PostUserId)
+            if (!await _context.Posts.AnyAsync(p => p.PostId == id && p.PostUserId == post.PostUserId))
             {
                 return BadRequest();
-            }
-
-            if (post.PostUserId.ToString() != User.Identity.Name)
-            {
-                return Unauthorized();
             }
                 
 
