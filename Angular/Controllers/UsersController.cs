@@ -62,6 +62,16 @@ namespace Angular.Controllers
                 return NotFound();
             }
 
+            if (User.Identity.Name != user.UserId.ToString())
+            {
+                return Unauthorized();
+            }
+
+            // Remove password if running on Release, could be used for debugging so that's why the pragma is used
+#if RELEASE
+            user.Password = null;
+#endif
+
             return Ok(user);
         }
 
@@ -78,6 +88,13 @@ namespace Angular.Controllers
             {
                 return BadRequest();
             }
+
+            if (User.Identity.Name != id.ToString())
+            {
+                return Unauthorized();
+            }
+
+            user.Password = Hash.GenerateHash(user.Password);
 
             _context.Entry(user).State = EntityState.Modified;
 
@@ -126,6 +143,11 @@ namespace Angular.Controllers
             if (!ModelState.IsValid)
             {
                 return BadRequest(ModelState);
+            }
+
+            if (User.Identity.Name != id.ToString())
+            {
+                return Unauthorized();
             }
 
             var user = await _context.Users.FindAsync(id);
