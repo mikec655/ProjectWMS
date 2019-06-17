@@ -3,7 +3,7 @@ import { NgModel, FormGroup, FormBuilder, Validators } from '@angular/forms';
 
 import { MustMatch } from '../_utils/password-match.validator'
 import { AuthenticationService } from '../authentication.service';
-import { HttpClient } from 'selenium-webdriver/http';
+import { HttpClient } from '@angular/common/http';
 
 @Component({
   selector: 'app-register',
