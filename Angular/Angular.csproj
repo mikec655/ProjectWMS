@@ -32,6 +32,11 @@
   </ItemGroup>
 
   <ItemGroup>
+    <Compile Remove="Migrations\20190617130306_FoodShareInitial.cs" />
+    <Compile Remove="Migrations\20190617130306_FoodShareInitial.Designer.cs" />
+  </ItemGroup>
+
+  <ItemGroup>
     <None Remove="ClientApp\src\app\hello-world\hello-world.component.ts" />
   </ItemGroup>
 

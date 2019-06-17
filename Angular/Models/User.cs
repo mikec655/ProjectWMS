@@ -25,7 +25,7 @@ namespace Angular.Models
 
         public string Gender { get; set; }
 
-        public DateTime BirthData { get; set; }
+        public DateTime BirthDate { get; set; }
 
         public int More { get; set; }
 
