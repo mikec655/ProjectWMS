@@ -11,20 +11,21 @@
 @media only screen and (max-width: 600px) {
   .col {
 
-   /* display: block;*/
+    display: block;
     width: 100%;
 
-    display: flex;
+  /*
   align-items: center;
   flex-direction: column;
   font-size-adjust: initial;
-  flex-wrap: wrap;
+  flex-wrap: wrap;*/
   }
 }
 
 #userblock {
   padding-right: 5px;
   width: 100%;
+  /*
   display: flex;
   align-items: center;
   flex-direction: column;
@@ -32,12 +33,11 @@
   text-overflow: unset;
   overflow: hidden;
   flex-wrap: wrap;
+    */
   border-right: 1px solid darkgrey !important;
 }
 
   #userblock * {
-    
-    
     overflow: hidden;
   }
 
