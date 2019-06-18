@@ -18,9 +18,9 @@ namespace Angular.Controllers
     public class UsersController : ControllerBase
     {
         private readonly UserContext _context;
-        private readonly UserService _userService;
+        private readonly IUserService _userService;
 
-        public UsersController(UserContext context, UserService userService)
+        public UsersController(UserContext context, IUserService userService)
         {
             _userService = userService;
             _context = context;
@@ -34,14 +34,14 @@ namespace Angular.Controllers
         }
 
         [AllowAnonymous]
-        [Route("api/login")]
+        [Route("/api/login")]
         [HttpPost]
         public ActionResult<User> Login([FromBody] User user)
         {
             user = _userService.Authenticate(user.Username, user.Password);
             if (user == null)
             {
-                return NotFound();
+                return NotFound("User not found.");
             }
             return user;
         }

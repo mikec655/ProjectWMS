@@ -11,6 +11,8 @@ using Angular.Utils;
 using System.Text;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.IdentityModel.Tokens;
+using AspNetCore.RouteAnalyzer;
+using MemoryGame.Services;
 
 namespace Angular
 {
@@ -60,10 +62,16 @@ namespace Angular
                 };
             });
 
+#if DEBUG
+            services.AddRouteAnalyzer();
+#endif
+
             var connection = @"Data Source=(LocalDb)\MSSQLLocalDB;Initial Catalog=FoodShare;Integrated Security=SSPI;";
             //var connection = @"Server=54.37.88.136;Database=EFGetStarted.AspNetCore.NewDb;User ID=SA;Password=LantaarnPaalLampje1234;ConnectRetryCount=0;TrustServerCertificate=true;Encrypt=true;";
             services.AddDbContext<UserContext>
                 (options => options.UseSqlServer(connection));
+
+            services.AddScoped<IUserService, UserService>();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
@@ -91,6 +99,9 @@ namespace Angular
 
             app.UseMvc(routes =>
             {
+#if DEBUG
+                routes.MapRouteAnalyzer("/routes");
+#endif
                 routes.MapRoute(
                     name: "default",
                     template: "{controller}/{action=Index}/{id?}");

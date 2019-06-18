@@ -18,6 +18,9 @@ namespace MemoryGame.Services
     {
         User Authenticate(string username, string password);
         User Register(string username, string password);
+
+        Task<User> RegisterAsync(User user);
+
         IEnumerable<User> GetAll();
     }
     public class UserService : IUserService
