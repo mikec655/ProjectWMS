@@ -1,0 +1,8 @@
+version: '3.4'
+
+services:
+  angular:
+    image: ${DOCKER_REGISTRY-}angular
+    build:
+      context: .
+      dockerfile: Dockerfile

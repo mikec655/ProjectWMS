@@ -11,7 +11,7 @@ import { HttpClient } from '@angular/common/http';
   styleUrls: ['./register.component.css']
 })
 export class RegisterComponent implements OnInit {
-  email: String;
+  username: String;
   registerForm: FormGroup;
   profileForm: FormGroup;
   submitted = false;
@@ -23,7 +23,7 @@ export class RegisterComponent implements OnInit {
 
   ngOnInit() {
     this.registerForm = this.formBuilder.group({
-      email: ['', [Validators.required]],
+      username: ['', [Validators.required]],
       password: ['', [Validators.required, Validators.minLength(6)]],
       repeatPassword: ['', [Validators.required]]
     }, {
@@ -32,7 +32,7 @@ export class RegisterComponent implements OnInit {
   }
 
   onClick() {
-    this.email = "hoi";
+    this.username = "hoi";
   }
 
   // Shorthand to get the controls of the form
@@ -44,12 +44,12 @@ export class RegisterComponent implements OnInit {
     // TODO: Use EventEmitter with form value
     console.warn(this.registerForm.value);
     var test = {
-      "email": this.registerForm.controls.password.value,
-      "password": this.registerForm.controls.email.value
+      "username": this.registerForm.controls.email.value,
+      "password": this.registerForm.controls.password.value
     }
     let data = JSON.stringify(test);
     this.http
-      .post<string>('api/SampleData/Register', test)
+      .post<string>('api/Users', test)
       .subscribe(result => { this.result = result; console.log(result); });
   }
 
@@ -59,7 +59,7 @@ export class Register {
 
   constructor(
     public id: number,
-    public email: NgModel,
+    public username: NgModel,
     public password: NgModel,
     public repeatPassword: NgModel
   ) { }

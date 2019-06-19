@@ -21,7 +21,6 @@ namespace Angular.Controllers
             "Freezing", "Bracing", "Chilly", "Cool", "Mild", "Warm", "Balmy", "Hot", "Sweltering", "Scorching"
         };
 
-        [HttpPost("[action]")]
         public ActionResult Register([FromBody]dynamic value)
         {
             var userInfo = value.ToObject<User>();
@@ -33,35 +32,30 @@ namespace Angular.Controllers
             return Json(userInfo);
         }
 
-        // No clue why but changing it to anything but dynamic breaks it, it receives a JObject but setting type to that doesn't work.
-        [HttpPost("[action]")]
-        public ActionResult Login([FromBody]dynamic value)
+        public ActionResult Login([FromBody] User userInfo)
         {
-            if (value is JObject jObject)
-            {
-                var userInfo = jObject.ToObject<User>();
-                Console.WriteLine(userInfo?.Username);
-                var email = userInfo.Username.ToString();
-                var query = from User in _context.Users
-                            where User.Username == userInfo.Username
-                            select User;
+            Console.WriteLine(userInfo?.Username);
+            var email = userInfo.Username.ToString();
+            var query = from User in _context.Users
+                        where User.Username == userInfo.Username
+                        select User;
                 
-                if (query.Count() != 1)
-                {
-                    return Json(null);
-                }
-                var user = query.FirstOrDefault();
-                if (user.Password == userInfo.Password)
-                {
-                    Console.WriteLine($"Login succeeded. email: {user.Username}; password: {user.Password}");
-                    return Json(user);
-                }
-                else
-                {
-                    Console.WriteLine("Incorrect password.");
-                    return Json(false);
-                }
+            if (query.Count() != 1)
+            {
+                return Json(null);
             }
+            var user = query.FirstOrDefault();
+            if (user.Password == userInfo.Password)
+            {
+                Console.WriteLine($"Login succeeded. email: {user.Username}; password: {user.Password}");
+                return Json(user);
+            }
+            else
+            {
+                Console.WriteLine("Incorrect password.");
+                return Json(false);
+            }
+
             return Json(null);
         }
 
