@@ -3,9 +3,9 @@
     <h1 class="h3 mb-3 font-weight-normal">Register</h1>
 
     <div class="form-label-group">
-        <input formControlName="username" id="inputUsername" class="form-control" type="email" placeholder="Email address" required="" autofocus="" [ngClass]="{ 'is-invalid': f.email.dirty && f.email.errors }"
-               name="username" minLength="12" pattern="^[A-Za-z0-9._%+-]+@[A-Za-z0-9.-]+.[A-Za-z]{2,}$" (focus)="focusEmail=true" (blur)="focusEmail=false" />
-        <label for="inputUsername">Email address</label>
+        <input formControlName="email" id="inputEmail" class="form-control" type="email" placeholder="Email address" required="" autofocus="" [ngClass]="{ 'is-invalid': f.email.dirty && f.email.errors }"
+               name="email" minLength="12" pattern="^[A-Za-z0-9._%+-]+@[A-Za-z0-9.-]+.[A-Za-z]{2,}$" (focus)="focusEmail=true" (blur)="focusEmail=false" />
+        <label for="inputEmail">Email address</label>
         <div *ngIf="f.email.dirty && f.email.errors" class="invalid-feedback">
             <div *ngIf="f.email.errors.required">This field is required</div>
             <div *ngIf="f.email.errors.pattern">Please enter a valid email</div>

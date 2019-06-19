@@ -21,7 +21,7 @@ export class AuthenticationComponent {
 
   ngOnInit() {
     this.loginForm = this.formBuilder.group({
-      username: ['', [Validators.required]],
+      email: ['', [Validators.required]],
       password: ['', [Validators.required]],
     });
   }
@@ -35,12 +35,12 @@ export class AuthenticationComponent {
     // TODO: Use EventEmitter with form value
     console.warn(this.loginForm.value);
     var test = {
-      "username": this.loginForm.controls.username.value,
-      "password": this.loginForm.controls.password.value
+      "email": this.loginForm.controls.password.value,
+      "password": this.loginForm.controls.email.value
     }
     let data = JSON.stringify(test);
     this.http
-      .post<string>('api/Login', test)
+      .post<string>('api/SampleData/Login', test)
       .subscribe(result => { this.result = result; console.log(result); });
   }
 }
