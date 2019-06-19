@@ -29,7 +29,7 @@ namespace Angular
         public void ConfigureServices(IServiceCollection services)
         {
             services.AddCors();
-            services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_2_1);
+            services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_2_2);
 
             // In production, the Angular files will be served from this directory
             services.AddSpaStaticFiles(configuration =>
@@ -63,7 +63,7 @@ namespace Angular
             });
 
 #if DEBUG
-            services.AddRouteAnalyzer();
+            //services.AddRouteAnalyzer();
 #endif
 
             var connection = @"Data Source=(LocalDb)\MSSQLLocalDB;Initial Catalog=FoodShare;Integrated Security=SSPI;";
@@ -93,6 +93,7 @@ namespace Angular
                 .AllowAnyMethod()
                 .AllowAnyHeader());
 
+            app.UseAuthentication();
             app.UseHttpsRedirection();
             app.UseStaticFiles();
             app.UseSpaStaticFiles();
@@ -100,7 +101,7 @@ namespace Angular
             app.UseMvc(routes =>
             {
 #if DEBUG
-                routes.MapRouteAnalyzer("/routes");
+                //routes.MapRouteAnalyzer("/routes");
 #endif
                 routes.MapRoute(
                     name: "default",
@@ -116,7 +117,8 @@ namespace Angular
 
                 if (env.IsDevelopment())
                 {
-                    spa.UseAngularCliServer(npmScript: "start");
+                    //spa.UseAngularCliServer(npmScript: "start");
+                    spa.UseProxyToSpaDevelopmentServer("http://localhost:4200");
                 }
             });
         }

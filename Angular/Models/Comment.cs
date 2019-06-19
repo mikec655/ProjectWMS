@@ -21,5 +21,9 @@ namespace Angular.Models
 
         [ForeignKey("CommentUserId")]
         public User User { get; set; }
+
+        public string Content { get; set; }
+
+        public DateTime PostedAt { get; set; }
     }
 }

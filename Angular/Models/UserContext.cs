@@ -33,6 +33,8 @@ namespace Angular.Models
                 new User() { UserId = 1, Username = "Test", Password = "6sNsu+pxGtzIoQmNHq2nX5KFbemuNM10tzdUuL5E8Zo=.xygrNhDB6A8KLH8QilMWkw==", Firstname = "Jans", Lastname = "Jansen", Gender = "M", BirthDate = DateTime.Now });
             modelBuilder.Entity<Post>().HasData(
                 new Post() { PostUserId = 1, Message = "Kaas", PostedAt = DateTime.Now, PostId = 1 });
+            modelBuilder.Entity<Comment>().HasData(
+                new Comment() { CommentId = 1, CommentUserId = 1, CommentPostId = 1, Content = "Hippity hoppity", PostedAt = DateTime.Now });
             _ = modelBuilder.Entity<Following>()
                 .HasOne<User>(p => p.Target)
                 .WithMany()

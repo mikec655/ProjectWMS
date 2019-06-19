@@ -1,6 +1,5 @@
 ﻿using Angular.Utils;
 using Angular.Models;
-using Angular.Utils;
 using Microsoft.Extensions.Options;
 using Microsoft.IdentityModel.Tokens;
 using System;

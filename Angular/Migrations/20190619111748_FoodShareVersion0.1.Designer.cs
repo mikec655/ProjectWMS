@@ -4,14 +4,16 @@ using Angular.Models;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 namespace Angular.Migrations
 {
     [DbContext(typeof(UserContext))]
-    partial class BloggingContextModelSnapshot : ModelSnapshot
+    [Migration("20190619111748_FoodShareVersion0.1")]
+    partial class FoodShareVersion01
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -29,10 +31,6 @@ namespace Angular.Migrations
 
                     b.Property<int>("CommentUserId");
 
-                    b.Property<string>("Content");
-
-                    b.Property<DateTime>("PostedAt");
-
                     b.HasKey("CommentId");
 
                     b.HasIndex("CommentPostId");
@@ -46,9 +44,7 @@ namespace Angular.Migrations
                         {
                             CommentId = 1,
                             CommentPostId = 1,
-                            CommentUserId = 1,
-                            Content = "Hippity hoppity",
-                            PostedAt = new DateTime(2019, 6, 19, 13, 33, 10, 967, DateTimeKind.Local).AddTicks(8659)
+                            CommentUserId = 1
                         });
                 });
 
@@ -173,7 +169,7 @@ namespace Angular.Migrations
                             PostId = 1,
                             Message = "Kaas",
                             PostUserId = 1,
-                            PostedAt = new DateTime(2019, 6, 19, 13, 33, 10, 967, DateTimeKind.Local).AddTicks(5386)
+                            PostedAt = new DateTime(2019, 6, 19, 13, 17, 48, 595, DateTimeKind.Local).AddTicks(6858)
                         });
                 });
 
@@ -232,7 +228,7 @@ namespace Angular.Migrations
                         new
                         {
                             UserId = 1,
-                            BirthDate = new DateTime(2019, 6, 19, 13, 33, 10, 965, DateTimeKind.Local).AddTicks(8494),
+                            BirthDate = new DateTime(2019, 6, 19, 13, 17, 48, 593, DateTimeKind.Local).AddTicks(5446),
                             Firstname = "Jans",
                             Gender = "M",
                             Lastname = "Jansen",
