@@ -37,6 +37,13 @@ namespace Angular.Models
                 new Post() { PostUserId = 1, Message = "Kaas", PostedAt = DateTime.Now, PostId = 1 });
             modelBuilder.Entity<Comment>().HasData(
                 new Comment() { CommentId = 1, CommentUserId = 1, CommentPostId = 1, Content = "Hippity hoppity", PostedAt = DateTime.Now });
+            modelBuilder.Entity<Invitation>().HasData(
+                new Invitation()
+                {
+                    InvitationId = 1,
+                    NumberOfGuest = 1,
+                    InvitationPostId = 1
+                });
             modelBuilder.Entity<Location>().HasData(
                 new Location()
                 {
