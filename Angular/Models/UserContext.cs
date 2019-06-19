@@ -1,5 +1,7 @@
 ﻿using Angular.Models;
+using GeoAPI.Geometries;
 using Microsoft.EntityFrameworkCore;
+using NetTopologySuite.Geometries;
 using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
@@ -35,6 +37,13 @@ namespace Angular.Models
                 new Post() { PostUserId = 1, Message = "Kaas", PostedAt = DateTime.Now, PostId = 1 });
             modelBuilder.Entity<Comment>().HasData(
                 new Comment() { CommentId = 1, CommentUserId = 1, CommentPostId = 1, Content = "Hippity hoppity", PostedAt = DateTime.Now });
+            modelBuilder.Entity<Location>().HasData(
+                new Location()
+                {
+                    LocationId = 1,
+                    LocationInvitationId = 1,
+                    LocationPoint = new Point(-122.333056, 47.609722) { SRID = 4326 }
+                });
             _ = modelBuilder.Entity<Following>()
                 .HasOne<User>(p => p.Target)
                 .WithMany()
