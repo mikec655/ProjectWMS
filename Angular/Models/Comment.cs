@@ -12,7 +12,7 @@ namespace Angular.Models
         [Key]
         public int CommentId { get; set; }
 
-        public int CommentPostId { get; set; }
+        public int? CommentPostId { get; set; }
 
         [ForeignKey("CommentPostId")]
         public Post Post { get; set; }

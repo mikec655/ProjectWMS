@@ -52,18 +52,28 @@ namespace Angular.Controllers
             return comment;
         }
 
-        // PUT: api/post/5/comments
+        // PUT: api/post/5/comments/1
         [HttpPut("{id}")]
-        public async Task<IActionResult> PutComment(int id, Comment comment)
+        public async Task<IActionResult> PutComment(int id, int postId, Comment comment)
         {
             if (id != comment.CommentId)
             {
                 return BadRequest();
             }
 
+            if (comment.CommentPostId == null && postId == 0)
+            {
+                comment.CommentPostId = postId;
+            }
+            
+            if (comment.CommentPostId == 0)
+            {
+                return BadRequest();
+            }
+
             if (User.Identity.Name != comment.CommentUserId.ToString())
             {
-                return BadRequest("Poster not equal to logged in user!");
+                return BadRequest();
             }
 
             if (!await _context.Comments.AnyAsync(p => p.CommentId == id && p.CommentUserId == comment.CommentUserId))
@@ -94,16 +104,26 @@ namespace Angular.Controllers
 
         // POST: api/post/5/comments
         [HttpPost]
-        public async Task<ActionResult<Comment>> PostComment(Comment comment)
+        public async Task<ActionResult<Comment>> PostComment(int postId, Comment comment)
         {
             if (comment.CommentUserId.ToString() != User.Identity.Name)
             {
                 return Unauthorized();
             }
 
+            if (comment.CommentPostId == null && postId != 0)
+            {
+                comment.CommentPostId = postId;
+            }
+
+            if (comment.CommentPostId == 0)
+            {
+                return BadRequest();
+            }
+
             if (!await _context.Posts.AnyAsync(p => p.PostId == comment.CommentPostId))
             {
-                return NotFound("Post not found.");
+                return NotFound();
             }
 
             _context.Comments.Add(comment);
