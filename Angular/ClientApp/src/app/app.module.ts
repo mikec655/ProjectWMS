@@ -13,6 +13,7 @@ import { FetchDataComponent } from './fetch-data/fetch-data.component';
 import { HelloWorldComponent } from './hello-world/hello-world.component';
 import { AuthenticationComponent } from './authentication/authentication.component';
 import { RegisterComponent } from './register/register.component';
+import { StartComponent } from './start/start/start.component';
 
 @NgModule({
   declarations: [
@@ -32,12 +33,11 @@ import { RegisterComponent } from './register/register.component';
     FormsModule,
     ReactiveFormsModule,
     RouterModule.forRoot([
-      { path: '', component: HomeComponent, pathMatch: 'full' },
-      { path: 'counter', component: CounterComponent },
-      { path: 'fetch-data', component: FetchDataComponent },
-      { path: 'hello-world', component: HelloWorldComponent },
+      { path: '', loadChildren: "./start/start.module#StartModule" },
+      { path: 'map', loadChildren: "./map/map.module#MapModule" },
+      { path: 'profile', loadChildren: "./profile/profile.module#ProfileModule" },
       { path: 'login', component: AuthenticationComponent },
-      { path: 'register', component: RegisterComponent}
+      { path: 'register', component: RegisterComponent }
     ])
   ],
   providers: [],

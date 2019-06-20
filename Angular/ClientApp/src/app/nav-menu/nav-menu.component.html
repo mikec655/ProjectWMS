@@ -1,5 +1,6 @@
 <nav class="navbar navbar-expand-md navbar-dark bg-dark fixed-top" [style.max-height.px]="maxHeight">
-  <a class='navbar-brand' [routerLink]='["/"]'>Angular</a>
+  <img src="" />
+  <a class='navbar-brand' [routerLink]='["/"]'>FoodShare.nl</a>
   <button class="navbar-toggler collapsed" type="button" data-toggle="collapse" data-target='.navbar-collapse' [attr.aria-expanded]='isExpanded' (click)="toggleCollapse()">
     <span class="navbar-toggler-icon"></span>
   </button>
@@ -9,10 +10,10 @@
         <a class="nav-link" [routerLink]="['/']">Home</a>
       </li>
       <li class="nav-item" [routerLinkActive]='["active"]'>
-        <a class="nav-link" [routerLink]="['/counter']" href="">Counter</a>
+        <a class="nav-link" [routerLink]="['/map']" href="">Map</a>
       </li>
       <li class="nav-item" [routerLinkActive]='["active"]'>
-        <a class="nav-link" [routerLink]="['/hello-world']">Hello World</a>
+        <a class="nav-link" [routerLink]="['/profile']">Profile</a>
       </li>
     </ul>
     <form class="form-inline">
