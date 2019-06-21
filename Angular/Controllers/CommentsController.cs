@@ -11,7 +11,7 @@ using Microsoft.AspNetCore.Authorization;
 namespace Angular.Controllers
 {
     [Authorize]
-    [Route("api/post/{postId}/[controller]")]
+    [Route("api/posts/{postId}/[controller]")]
     [ApiController]
     public class CommentsController : ControllerBase
     {
@@ -22,7 +22,7 @@ namespace Angular.Controllers
             _context = context;
         }
 
-        // GET: api/post/5/comments
+        // GET: api/posts/5/comments
         [AllowAnonymous]
         [HttpGet]
         public async Task<ActionResult<IEnumerable<Comment>>> GetComments(int postId)
@@ -36,9 +36,8 @@ namespace Angular.Controllers
             return await _context.Comments.Where(p => p.CommentPostId == postId).ToListAsync();
         }
 
-        // GET: api/Comments/5
+        // GET: api/posts/Comments/5
         [AllowAnonymous]
-        [Route("/api/comment")]
         [HttpGet("{id}")]
         public async Task<ActionResult<Comment>> GetComment(int id)
         {
@@ -52,7 +51,7 @@ namespace Angular.Controllers
             return comment;
         }
 
-        // PUT: api/post/5/comments/1
+        // PUT: api/posts/5/comments/1
         [HttpPut("{id}")]
         public async Task<IActionResult> PutComment(int id, int postId, Comment comment)
         {
@@ -102,7 +101,7 @@ namespace Angular.Controllers
             return NoContent();
         }
 
-        // POST: api/post/5/comments
+        // POST: api/posts/5/comments
         [HttpPost]
         public async Task<ActionResult<Comment>> PostComment(int postId, Comment comment)
         {
@@ -132,7 +131,7 @@ namespace Angular.Controllers
             return CreatedAtAction("GetComment", new { id = comment.CommentId }, comment);
         }
 
-        // DELETE: api/Comments/5
+        // DELETE: api/posts/5/Comments/5
         [HttpDelete("{id}")]
         public async Task<ActionResult<Comment>> DeleteComment(int id)
         {

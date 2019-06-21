@@ -13,23 +13,23 @@ namespace Angular.Controllers
 
     [Route("api/[controller]")]
     [ApiController]
-    public class PostController : ControllerBase
+    public class PostsController : ControllerBase
     {
         private readonly UserContext _context;
 
-        public PostController(UserContext context)
+        public PostsController(UserContext context)
         {
             _context = context;
         }
 
-        // GET: api/Post
+        // GET: api/Posts
         [HttpGet]
         public async Task<ActionResult<IEnumerable<Post>>> GetPosts()
         {
             return await _context.Posts.ToListAsync();
         }
 
-        // GET: api/Post/5
+        // GET: api/Posts/5
         [HttpGet("{id}")]
         public async Task<ActionResult<Post>> GetPost(int id)
         {
@@ -43,7 +43,7 @@ namespace Angular.Controllers
             return post;
         }
 
-        // PUT: api/Post/5
+        // PUT: api/Posts/5
         [Authorize]
         [HttpPut("{id}")]
         public async Task<IActionResult> PutPost(int id, Post post)
@@ -85,7 +85,7 @@ namespace Angular.Controllers
             return NoContent();
         }
 
-        // POST: api/Post
+        // POST: api/Posts
         [Authorize]
         [HttpPost]
         public async Task<ActionResult<Post>> PostPost(Post post)
@@ -96,7 +96,7 @@ namespace Angular.Controllers
             return CreatedAtAction("GetPost", new { id = post.PostId }, post);
         }
 
-        // DELETE: api/Post/5
+        // DELETE: api/Posts/5
         [Authorize]
         [HttpDelete("{id}")]
         public async Task<ActionResult<Post>> DeletePost(int id)

@@ -85,7 +85,7 @@ namespace Angular.Controllers
             return NoContent();
         }
 
-        // POST: api/Reviews
+        // POST: api/users/5/Reviews
         [HttpPost]
         public async Task<ActionResult<Review>> PostReview(Review review)
         {
@@ -95,7 +95,7 @@ namespace Angular.Controllers
             return CreatedAtAction("GetReview", new { id = review.ReviewId }, review);
         }
 
-        // DELETE: api/Reviews/5
+        // DELETE: api/users/5/Reviews/5
         [HttpDelete("{id}")]
         public async Task<ActionResult<Review>> DeleteReview(int id)
         {
