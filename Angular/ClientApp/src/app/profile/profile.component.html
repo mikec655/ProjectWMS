@@ -5,10 +5,10 @@
         <div *ngIf="profileview == 'notloggedin'">
           <div id="userblock">
             <img class="img-fluid" id="profilephoto" src="http://simpleicon.com/wp-content/uploads/account.png" alt="Card image cap" style="border-width: 2px;">
-            <h1 class="align-self-start" style="font-size:18px">{{username}}</h1>
+            <h1 class="align-self-start" style="font-size:18px">{{userProfile.username}}</h1>
 
             <div id="userdescriptionblock">
-              <p class="align-self-start">{{profiledescription}}.</p>
+              <p class="align-self-start">{{userProfile.profile_description}}.</p>
             </div>
             <!-- VAK voor het posten van een review-->
             <div id="postreviewblock">

@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { HttpClient } from '@angular/common/http';
+import { HttpClient, HttpHeaders } from '@angular/common/http';
 
 @Injectable({
   providedIn: 'root'
@@ -8,14 +8,17 @@ export class ProfileService {
 
   constructor(private http: HttpClient) { }
 
-  getUserProfile(): UserProfile {
-    this.http.post<string>("api/", "");
-    return null;
+  getUserProfile(id: number) {
+    return this.http.get<any>("api/Users/" + id)
   }
+
+  editUserProfile(id: number, profile: UserProfile) {
+    return this.http.put<any>("api/Users/" + id, profile)
+  }
+
 }
 
 export class UserProfile {
-  id: number
   username: string
   firstname: string
   lastname: string
