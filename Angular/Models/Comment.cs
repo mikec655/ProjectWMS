@@ -25,5 +25,8 @@ namespace Angular.Models
         public string Content { get; set; }
 
         public DateTime PostedAt { get; set; }
+
+        [NotMapped]
+        public long TimeStamp { get; set; }
     }
 }

@@ -10,6 +10,20 @@ using Microsoft.AspNetCore.Authorization;
 
 namespace Angular.Controllers
 {
+    public class PostVM
+    {
+        public int PostId { get; set; }
+
+        public int PostUserId { get; set; }
+
+        public string UserFirstName { get; set; }
+
+        public string UserLastName { get; set; }
+
+        public long PostedAtUnix { get; set; }
+
+        public string Message { get; set; }
+    }
 
     [Route("api/[controller]")]
     [ApiController]
@@ -31,9 +45,21 @@ namespace Angular.Controllers
 
         // GET: api/Posts/5
         [HttpGet("{id}")]
-        public async Task<ActionResult<Post>> GetPost(int id)
+        public async Task<ActionResult<PostVM>> GetPost(int id)
         {
-            var post = await _context.Posts.FindAsync(id);
+            var post = await _context.Posts
+                .Where(p => p.PostId == id)
+                .Include(p => p.User)
+                .Select(p => new PostVM
+                {
+                    PostId = p.PostId,
+                    PostUserId = p.PostUserId,
+                    PostedAtUnix = new DateTimeOffset(p.PostedAt.ToUniversalTime()).ToUnixTimeMilliseconds(),
+                    Message = p.Message,
+                    UserFirstName = p.User.Firstname,
+                    UserLastName = p.User.Lastname
+                })
+                .FirstOrDefaultAsync();
 
             if (post == null)
             {

@@ -15,6 +15,23 @@ namespace Angular.Controllers
     [ApiController]
     public class CommentsController : ControllerBase
     {
+        public class CommentDto
+        {
+            public int CommentId { get; set; }
+
+            public int? CommentPostId { get; set; }
+
+            public int CommentUserId { get; set; }
+
+            public string UserFirstName { get; set; }
+
+            public string UserLastName { get; set; }
+
+            public string Content { get; set; }
+
+            public long PostedAtUnix { get; set; }
+        }
+
         private readonly UserContext _context;
 
         public CommentsController(UserContext context)
@@ -25,7 +42,7 @@ namespace Angular.Controllers
         // GET: api/posts/5/comments
         [AllowAnonymous]
         [HttpGet]
-        public async Task<ActionResult<IEnumerable<Comment>>> GetComments(int postId)
+        public async Task<ActionResult<IEnumerable<CommentDto>>> GetComments(int postId)
         {
             // Check if the post existts, otherwise return 404
             if (!await _context.Comments.AnyAsync(p => p.CommentPostId == postId))
@@ -33,7 +50,18 @@ namespace Angular.Controllers
                 return NotFound();
             }
 
-            return await _context.Comments.Where(p => p.CommentPostId == postId).ToListAsync();
+            var comments = await _context.Comments.Where(p => p.CommentPostId == postId).Select(p => new CommentDto
+            {
+                CommentId = p.CommentId,
+                CommentPostId = p.CommentPostId,
+                CommentUserId = p.CommentUserId,
+                UserFirstName = p.User.Firstname,
+                UserLastName = p.User.Lastname,
+                Content = p.Content,
+                PostedAtUnix = new DateTimeOffset(p.PostedAt).ToUnixTimeMilliseconds()
+            }).ToListAsync();
+
+            return comments;
         }
 
         // GET: api/posts/Comments/5
