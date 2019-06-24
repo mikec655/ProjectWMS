@@ -7,6 +7,7 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using Angular.Models;
 using Microsoft.AspNetCore.Authorization;
+using System.Linq.Expressions;
 
 namespace Angular.Controllers
 {
@@ -15,22 +16,6 @@ namespace Angular.Controllers
     [ApiController]
     public class CommentsController : ControllerBase
     {
-        public class CommentDto
-        {
-            public int CommentId { get; set; }
-
-            public int? CommentPostId { get; set; }
-
-            public int CommentUserId { get; set; }
-
-            public string UserFirstName { get; set; }
-
-            public string UserLastName { get; set; }
-
-            public string Content { get; set; }
-
-            public long PostedAtUnix { get; set; }
-        }
 
         private readonly UserContext _context;
 
@@ -50,26 +35,17 @@ namespace Angular.Controllers
                 return NotFound();
             }
 
-            var comments = await _context.Comments.Where(p => p.CommentPostId == postId).Select(p => new CommentDto
-            {
-                CommentId = p.CommentId,
-                CommentPostId = p.CommentPostId,
-                CommentUserId = p.CommentUserId,
-                UserFirstName = p.User.Firstname,
-                UserLastName = p.User.Lastname,
-                Content = p.Content,
-                PostedAtUnix = new DateTimeOffset(p.PostedAt).ToUnixTimeMilliseconds()
-            }).ToListAsync();
+            var comments = await _context.Comments.Where(p => p.CommentPostId == postId).Select(CommentDto.Projection).ToListAsync();
 
             return comments;
         }
 
-        // GET: api/posts/Comments/5
+        // GET: api/posts/1/Comments/5
         [AllowAnonymous]
         [HttpGet("{id}")]
-        public async Task<ActionResult<Comment>> GetComment(int id)
+        public async Task<ActionResult<CommentDto>> GetComment(int id)
         {
-            var comment = await _context.Comments.FindAsync(id);
+            var comment = CommentDto.FromEntity(await _context.Comments.FirstOrDefaultAsync(p => p.CommentId == id));
 
             if (comment == null)
             {
@@ -81,7 +57,7 @@ namespace Angular.Controllers
 
         // PUT: api/posts/5/comments/1
         [HttpPut("{id}")]
-        public async Task<IActionResult> PutComment(int id, int postId, Comment comment)
+        public async Task<IActionResult> PutComment(int id, int postId, CommentDto comment)
         {
             if (id != comment.CommentId)
             {
@@ -108,7 +84,7 @@ namespace Angular.Controllers
                 return BadRequest();
             }
 
-            _context.Entry(comment).State = EntityState.Modified;
+            _context.Entry(comment.ToEntity()).State = EntityState.Modified;
 
             try
             {
@@ -131,7 +107,7 @@ namespace Angular.Controllers
 
         // POST: api/posts/5/comments
         [HttpPost]
-        public async Task<ActionResult<Comment>> PostComment(int postId, Comment comment)
+        public async Task<ActionResult<Comment>> PostComment(int postId, CommentDto comment)
         {
             if (comment.CommentUserId.ToString() != User.Identity.Name)
             {
@@ -153,7 +129,7 @@ namespace Angular.Controllers
                 return NotFound();
             }
 
-            _context.Comments.Add(comment);
+            _context.Comments.Add(comment.ToEntity());
             await _context.SaveChangesAsync();
 
             return CreatedAtAction("GetComment", new { id = comment.CommentId }, comment);
