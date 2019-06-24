@@ -38,6 +38,7 @@ namespace Angular.Controllers
         [HttpPost]
         public ActionResult<User> Login([FromBody] User user)
         {
+            Console.WriteLine($"{user.Username} : {user.Password}");
             user = _userService.Authenticate(user.Username, user.Password);
             if (user == null)
             {

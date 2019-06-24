@@ -1,29 +1,22 @@
 import { HttpRequest, HttpHandler, HttpEvent, HttpInterceptor } from '@angular/common/http';
 import { Observable } from 'rxjs';
 import { Injectable } from '@angular/core';
+import { AuthenticationService } from '../authentication.service';
 
 @Injectable()
 export class AuthInterceptor implements HttpInterceptor {
+    constructor(private authenticationService: AuthenticationService) { }
 
-  intercept(req: HttpRequest<any>,
-    next: HttpHandler): Observable<HttpEvent<any>> {
+    intercept(req: HttpRequest<any>, next: HttpHandler): Observable<HttpEvent<any>> {
+        let currentUser = this.authenticationService.currentUserValue;
+        if (currentUser && currentUser.token) {
+            req = req.clone({
+                setHeaders: {
+                    Authorization: `Bearer ${currentUser.token}`
+                }
+            })
+        }
 
-    //const idToken = localStorage.getItem("id_token");
-
-    console.log("KRIJG DE TERING");
-
-    const idToken = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1bmlxdWVfbmFtZSI6IjEiLCJuYmYiOjE1NjExMDY1MzIsImV4cCI6MTU2MTcxMTMzMiwiaWF0IjoxNTYxMTA2NTMyfQ.Fv-Je5eJkZSkBGb3bbz-mALu2FSQokrhYhWod5OWVks";
-
-    if (idToken) {
-      const cloned = req.clone({
-        headers: req.headers.set("Authorization",
-          "Bearer " + idToken)
-      });
-
-      return next.handle(cloned);
+        return next.handle(req);
     }
-    else {
-      return next.handle(req);
-    }
-  }
 }

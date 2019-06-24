@@ -34,9 +34,9 @@ import { StartComponent } from './start/start/start.component';
     FormsModule,
     ReactiveFormsModule,
     RouterModule.forRoot([
-      { path: '', loadChildren: "./start/start.module#StartModule" },
-      { path: 'map', loadChildren: "./map/map.module#MapModule" },
-      { path: 'profile', loadChildren: "./profile/profile.module#ProfileModule" },
+      { path: '', loadChildren: () => import('./start/start.module').then(m => m.StartModule) },
+      { path: 'map', loadChildren: () => import('./map/map.module').then(m => m.MapModule) },
+      { path: 'profile', loadChildren: () => import('./profile/profile.module').then(m => m.ProfileModule) },
       { path: 'login', component: AuthenticationComponent },
       { path: 'register', component: RegisterComponent }
     ])
