@@ -23,10 +23,15 @@
             "styles": [
               "src/styles.css",
               "node_modules/bootstrap/dist/css/bootstrap.min.css",
-              "src/assets/leaflet/leaflet.css"
+              "src/assets/leaflet/leaflet.css",
+              "https://maxcdn.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css"
             ],
             "scripts": [
-              "src/assets/leaflet/leaflet.js"
+              "src/assets/leaflet/leaflet.js",
+              
+              "https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js",
+              "https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js",
+              "https://maxcdn.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"
             ]
           },
           "configurations": {

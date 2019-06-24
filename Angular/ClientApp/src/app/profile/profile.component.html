@@ -41,9 +41,12 @@
             <div id="userdescriptionblock">
               <p class="align-self-start"> {{profiledescription}}</p>
             </div>
-            <!-- VAK voor het posten van een review-->
+            <!-- VAK voor het posten van een profielfoto-->
             <div id="postreviewblock">
-
+              <form action="/action_page.php">
+                <input type="file" name="pic" accept="image/*">
+                <input type="submit">
+              </form>
             </div>
             <!-- Hier komt ene lijst van reviews-->
             <div id="readreviewblock">
@@ -58,7 +61,8 @@
         <div *ngIf="profileview == 'notloggedin'">
           <div id="posts">
             <h1 class="align-self-start" id="postlist">Posts:</h1>
-            <p class="align-self-start">{{posttekst}}</p>
+            <!--<p class="align-self-start">{{posttekst}}</p>-->
+            <app-post></app-post>
           </div>
         </div>
           <!-- Hier moeten de post van het profiel worden geladen als er Wel is ingelogd op het account van het profiel hierbij moet er een delete knop bijgevoegd worden -->
