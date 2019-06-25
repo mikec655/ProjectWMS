@@ -12,7 +12,7 @@ export class ProfileComponent implements OnInit {
   //als deze variabele: notloggedin is dan veranderd htmllayout.
   //dus als we in de service checken of het id van de ingelodepersoon gelijkt is aand de pagina dan weergeven we dit?
   //geen idee of dit handig is tho, misschien beter om 2 componenten te maken.
-  public profileview = 'notloggedin';
+  public profileview = 'loggedin';
   public username = "usernamevariable";
   public profiledescription = "profiledescriptionvariable";
   public newreviewgrade = document.getElementById("amount");

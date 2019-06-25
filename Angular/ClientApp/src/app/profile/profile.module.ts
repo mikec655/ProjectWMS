@@ -5,11 +5,20 @@ import { ProfileComponent } from './profile.component';
 //import { PostComponent } from '../post/post.component';
 import { RouterModule } from '@angular/router';
 import { PostModule } from '../post/post.module';
+import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
+import { UsersettingsComponent } from './usersettings/usersettings.component';
+
+
 
 @NgModule({
-  declarations: [ReviewComponent, ProfileComponent],
+  declarations: [ReviewComponent, ProfileComponent, UsersettingsComponent],
+  
+  bootstrap: [UsersettingsComponent],
   imports: [
+
     PostModule,
+ 
+    NgbModule.forRoot(),
     CommonModule,
     RouterModule.forChild([
       { path: '', component: ProfileComponent, /*canActivate: [AuthGuardService]*/ }
