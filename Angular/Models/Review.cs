@@ -23,7 +23,7 @@ namespace Angular.Models
         /// The person being reviewed (Target of this review)
         /// </summary>
         [ForeignKey("ReviewTargetId")]
-        public User Target { get; set; }
+        public UserAccount Target { get; set; }
 
         public int ReviewUserId { get; set; }
 
@@ -31,6 +31,6 @@ namespace Angular.Models
         /// The person who posted the review
         /// </summary>
         [ForeignKey("ReviewUserId")]
-        public User User { get; set; }
+        public UserAccount User { get; set; }
     }
 }

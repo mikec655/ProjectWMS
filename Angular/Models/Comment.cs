@@ -21,7 +21,7 @@ namespace Angular.Models
         public int CommentUserId { get; set; }
 
         [ForeignKey("CommentUserId")]
-        public User User { get; set; }
+        public UserAccount User { get; set; }
 
         public string Content { get; set; }
 

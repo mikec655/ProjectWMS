@@ -15,12 +15,12 @@ namespace MemoryGame.Services
     // Based upon: https://jasonwatmore.com/post/2018/08/14/aspnet-core-21-jwt-authentication-tutorial-with-example-api
     public interface IUserService
     {
-        User Authenticate(string username, string password);
-        User Register(string username, string password);
+        UserAccount Authenticate(string username, string password);
+        UserAccount Register(string username, string password);
 
-        Task<User> RegisterAsync(User user);
+        Task<UserAccount> RegisterAsync(UserAccount user);
 
-        IEnumerable<User> GetAll();
+        IEnumerable<UserAccount> GetAll();
     }
     public class UserService : IUserService
     {
@@ -33,7 +33,7 @@ namespace MemoryGame.Services
             _context = userContext;
         }
 
-        public User Authenticate(string username, string password)
+        public UserAccount Authenticate(string username, string password)
         {
             var user = _context.Users.FirstOrDefault(x => x.Username == username);
 
@@ -66,7 +66,7 @@ namespace MemoryGame.Services
             return user;
         }
 
-        public User Register(string username, string password)
+        public UserAccount Register(string username, string password)
         {
 
             var user = _context.Users.FirstOrDefault(x => x.Username == username);
@@ -75,7 +75,7 @@ namespace MemoryGame.Services
                 return null;
             }
 
-            var newUser = new User { Password = Hash.GenerateHash(password), Username = username };
+            var newUser = new UserAccount { Password = Hash.GenerateHash(password), Username = username };
 
             _context.Users.AddAsync(newUser);
             _context.SaveChangesAsync();
@@ -83,7 +83,7 @@ namespace MemoryGame.Services
             return newUser;
         }
 
-        public async Task<User> RegisterAsync(User user)
+        public async Task<UserAccount> RegisterAsync(UserAccount user)
         {
 
             var existingUser = _context.Users.FirstOrDefault(x => x.Username == user.Username);
@@ -104,11 +104,11 @@ namespace MemoryGame.Services
             return user;
         }
 
-        public IEnumerable<User> GetAll()
+        public IEnumerable<UserAccount> GetAll()
         {
             var query = from Users in _context.Users
                         select Users;
-            return query.Select(user => new User { UserId = user.UserId, Username = user.Username });
+            return query.Select(user => new UserAccount { UserId = user.UserId, Username = user.Username });
         }
     }
 }

@@ -24,9 +24,9 @@ namespace Angular.Controllers
         [HttpPost("[action]")]
         public ActionResult Register([FromBody]dynamic value)
         {
-            var userInfo = value.ToObject<User>();
+            var userInfo = value.ToObject<UserAccount>();
             Console.WriteLine(userInfo?.Email);
-            _context.Add<User>(userInfo);
+            _context.Add<UserAccount>(userInfo);
             _context.SaveChangesAsync();
             Console.WriteLine($"email: {value?.GetType()}");
             var response = value;
@@ -39,7 +39,7 @@ namespace Angular.Controllers
         {
             if (value is JObject jObject)
             {
-                var userInfo = jObject.ToObject<User>();
+                var userInfo = jObject.ToObject<UserAccount>();
                 Console.WriteLine(userInfo?.Username);
                 var email = userInfo.Username.ToString();
                 var query = from User in _context.Users

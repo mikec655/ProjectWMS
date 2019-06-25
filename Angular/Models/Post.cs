@@ -15,7 +15,7 @@ namespace Angular.Models
         public int PostUserId { get; set; }
 
         [ForeignKey("PostUserId")]
-        public User User { get; set; }
+        public UserAccount User { get; set; }
 
         public DateTime PostedAt { get; set; }
 

@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace Angular.Models
 {
-    public class User
+    public class UserAccount
     {
         [Key]
         [Column(TypeName = "int")]
@@ -25,9 +25,22 @@ namespace Angular.Models
 
         public string Gender { get; set; }
 
-        public DateTime BirthDate { get; set; }
+        public DateTime? BirthDate { get; set; }
 
-        public int More { get; set; }
+        [NotMapped]
+        public long BirthDateUnix { get; set; }
+
+        public string Street { get; set; }
+
+        public int Number { get; set; }
+
+        public string ZipCode { get; set; }
+
+        public string City { get; set; }
+
+        public string ProfilePicture { get; set; }
+
+        public string ProfileDescription { get; set; }
 
         [NotMapped]
         public string Token { get; set; }

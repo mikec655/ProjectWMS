@@ -15,7 +15,7 @@ namespace Angular.Models
         public int GuestUserId { get; set; }
 
         [ForeignKey("GuestUserId")]
-        public User User { get; set; }
+        public UserAccount User { get; set; }
 
         public int InvitationId { get; set; }
 
