@@ -6,6 +6,7 @@ import { ProfileComponent } from './profile.component';
 import { RouterModule } from '@angular/router';
 import { PostModule } from '../post/post.module';
 import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
+import { FormsModule } from '@angular/forms';
 import { UsersettingsComponent } from './usersettings/usersettings.component';
 
 
@@ -15,9 +16,8 @@ import { UsersettingsComponent } from './usersettings/usersettings.component';
   
   bootstrap: [UsersettingsComponent],
   imports: [
-
     PostModule,
- 
+    FormsModule,
     NgbModule.forRoot(),
     CommonModule,
     RouterModule.forChild([

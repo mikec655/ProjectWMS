@@ -16,8 +16,6 @@ import { RegisterComponent } from './register/register.component';
 import { StartComponent } from './start/start/start.component';
 import { PostModule } from './post/post.module';
 
-
-
 @NgModule({
   declarations: [
     
