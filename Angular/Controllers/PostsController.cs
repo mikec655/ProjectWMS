@@ -54,7 +54,7 @@ namespace Angular.Controllers
                 {
                     PostId = p.PostId,
                     PostUserId = p.PostUserId,
-                    PostedAtUnix = new DateTimeOffset(p.PostedAt.ToUniversalTime()).ToUnixTimeMilliseconds(),
+                    PostedAtUnix = new DateTimeOffset(p.PostedAt.Value.ToUniversalTime()).ToUnixTimeMilliseconds(),
                     Message = p.Message,
                     UserFirstName = p.User.Firstname,
                     UserLastName = p.User.Lastname
@@ -116,10 +116,21 @@ namespace Angular.Controllers
         [HttpPost]
         public async Task<ActionResult<Post>> PostPost(Post post)
         {
+            post.ToEntity();
+
+            post.PostedAt = DateTime.UtcNow;
+
             _context.Posts.Add(post);
+
             await _context.SaveChangesAsync();
 
-            return CreatedAtAction("GetPost", new { id = post.PostId }, post);
+            return CreatedAtAction("GetPost", new { id = post.PostId }, new PostVM
+                {
+                    PostId = post.PostId,
+                    PostUserId = post.PostUserId,
+                    PostedAtUnix = new DateTimeOffset(post.PostedAt.Value.ToUniversalTime()).ToUnixTimeMilliseconds(),
+                    Message = post.Message,
+                });
         }
 
         // DELETE: api/Posts/5

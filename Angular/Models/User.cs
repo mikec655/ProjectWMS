@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Angular.Utils;
+using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
@@ -11,7 +12,7 @@ namespace Angular.Models
     {
         [Key]
         [Column(TypeName = "int")]
-        public int UserId { get; set; }
+        public int? UserId { get; set; }
 
         [Column(TypeName = "nvarchar(255)")]
         public string Username { get; set; }
@@ -48,5 +49,24 @@ namespace Angular.Models
         // Since we got 2 navigational properties (relations) with Review define the InverseProperty so it knows which one we want
         [InverseProperty("User")]
         public List<Review> Reviews { get; set; }
+
+        /// <summary>
+        /// Convert this to a DTO object ready for transmission
+        /// </summary>
+        public void ToDto()
+        {
+            Password = null;
+
+            BirthDateUnix = new DateTimeOffset(BirthDate.Value.ToUniversalTime()).ToUnixTimeMilliseconds();
+            BirthDate = null;
+        }
+
+        /// <summary>
+        /// Convert this to an Entity ready for insertion into database. Doesn't do hashing.
+        /// </summary>
+        public void ToEntity()
+        {
+            BirthDate = DateTimeOffset.FromUnixTimeMilliseconds(BirthDateUnix).UtcDateTime;
+        }
     }
 }

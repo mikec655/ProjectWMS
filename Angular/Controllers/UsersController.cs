@@ -69,10 +69,7 @@ namespace Angular.Controllers
             }
 
             // Remove password if running on Release, could be used for debugging so that's why the pragma is used
-            user.Password = null;
-
-            user.BirthDateUnix = new DateTimeOffset(user.BirthDate.Value.ToUniversalTime()).ToUnixTimeMilliseconds();
-            user.BirthDate = null;
+            user.ToDto();
 
             return Ok(user);
         }
@@ -95,6 +92,8 @@ namespace Angular.Controllers
             {
                 return Unauthorized();
             }
+
+            user.ToEntity();
 
             user.Password = Hash.GenerateHash(user.Password);
 
@@ -128,14 +127,11 @@ namespace Angular.Controllers
                 return BadRequest(ModelState);
             }
 
-            var newUser = await _userService.RegisterAsync(user);
+            user.ToEntity();
 
-            if(newUser == null)
-            {
-                return NotFound();
-            }
+            await _userService.RegisterAsync(user);
 
-            return Ok(newUser);
+            return CreatedAtAction("GetUser", new { id = user.UserId }, user);
         }
 
         // DELETE: api/Users/5

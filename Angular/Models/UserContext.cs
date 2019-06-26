@@ -51,6 +51,16 @@ namespace Angular.Models
                     LocationInvitationId = 1,
                     LocationPoint = new Point(-122.333056, 47.609722) { SRID = 4326 }
                 });
+            modelBuilder.Entity<Review>().HasData(
+                new Review()
+                {
+                    ReviewId = 1,
+                    ReviewUserId = 1,
+                    ReviewTargetId = 1,
+                    Description = "Lekkere kaas wel.",
+                    PostedAt = DateTime.UtcNow,
+                    Rating = 5,
+                });
             _ = modelBuilder.Entity<Following>()
                 .HasOne<UserAccount>(p => p.Target)
                 .WithMany()
