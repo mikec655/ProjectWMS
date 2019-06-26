@@ -33,4 +33,16 @@ export class AuthenticationService {
         localStorage.removeItem('currentUser');
         this.currentUserSubject.next(null);
     }
+
+    isLoggedIn() {
+        if (this.currentUserSubject.value == null) {
+            return false;
+        }
+
+        if (this.currentUserSubject.value.token == null) {
+            return false;
+        }
+
+        return true;
+    }
 }

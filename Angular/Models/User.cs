@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Angular.Utils;
+using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
@@ -7,11 +8,11 @@ using System.Threading.Tasks;
 
 namespace Angular.Models
 {
-    public class User
+    public class UserAccount
     {
         [Key]
         [Column(TypeName = "int")]
-        public int UserId { get; set; }
+        public int? UserId { get; set; }
 
         [Column(TypeName = "nvarchar(255)")]
         public string Username { get; set; }
@@ -25,9 +26,22 @@ namespace Angular.Models
 
         public string Gender { get; set; }
 
-        public DateTime BirthDate { get; set; }
+        public DateTime? BirthDate { get; set; }
 
-        public int More { get; set; }
+        [NotMapped]
+        public long BirthDateUnix { get; set; }
+
+        public string Street { get; set; }
+
+        public int Number { get; set; }
+
+        public string ZipCode { get; set; }
+
+        public string City { get; set; }
+
+        public string ProfilePicture { get; set; }
+
+        public string ProfileDescription { get; set; }
 
         [NotMapped]
         public string Token { get; set; }
@@ -36,9 +50,23 @@ namespace Angular.Models
         [InverseProperty("User")]
         public List<Review> Reviews { get; set; }
 
-        public static implicit operator User(object v)
+        /// <summary>
+        /// Convert this to a DTO object ready for transmission
+        /// </summary>
+        public void ToDto()
         {
-            throw new NotImplementedException();
+            Password = null;
+
+            BirthDateUnix = new DateTimeOffset(BirthDate.Value.ToUniversalTime()).ToUnixTimeMilliseconds();
+            BirthDate = null;
+        }
+
+        /// <summary>
+        /// Convert this to an Entity ready for insertion into database. Doesn't do hashing.
+        /// </summary>
+        public void ToEntity()
+        {
+            BirthDate = DateTimeOffset.FromUnixTimeMilliseconds(BirthDateUnix).UtcDateTime;
         }
     }
 }

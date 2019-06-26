@@ -31,19 +31,6 @@ export class AuthenticationComponent {
     get f() { return this.loginForm.controls; }
 
     onSubmit() {
-        /*console.log(this.loginForm.controls.password.errors)
-        this.submitted = true;
-        // TODO: Use EventEmitter with form value
-        console.warn(this.loginForm.value);
-        var test = {
-            "email": this.loginForm.controls.password.value,
-            "password": this.loginForm.controls.email.value
-        }
-        let data = JSON.stringify(test);
-        this.http
-            .post<string>('api/Login', test)
-            .subscribe(result => { this.result = result; console.log(result); });*/
-        console.log('login')
         this.authenticationService.login(this.loginForm.controls.email.value, this.loginForm.controls.password.value)
             .pipe(first())
             .subscribe(

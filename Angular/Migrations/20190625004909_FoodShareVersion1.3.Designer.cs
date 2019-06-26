@@ -5,14 +5,16 @@ using GeoAPI.Geometries;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 namespace Angular.Migrations
 {
     [DbContext(typeof(UserContext))]
-    partial class BloggingContextModelSnapshot : ModelSnapshot
+    [Migration("20190625004909_FoodShareVersion1.3")]
+    partial class FoodShareVersion13
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -49,7 +51,7 @@ namespace Angular.Migrations
                             CommentPostId = 1,
                             CommentUserId = 1,
                             Content = "Hippity hoppity",
-                            PostedAt = new DateTime(2019, 6, 26, 3, 13, 32, 134, DateTimeKind.Local).AddTicks(466)
+                            PostedAt = new DateTime(2019, 6, 25, 2, 49, 8, 849, DateTimeKind.Local).AddTicks(3658)
                         });
                 });
 
@@ -193,7 +195,7 @@ namespace Angular.Migrations
                             PostId = 1,
                             Message = "Kaas",
                             PostUserId = 1,
-                            PostedAt = new DateTime(2019, 6, 26, 3, 13, 32, 133, DateTimeKind.Local).AddTicks(5222)
+                            PostedAt = new DateTime(2019, 6, 25, 2, 49, 8, 849, DateTimeKind.Local).AddTicks(459)
                         });
                 });
 
@@ -205,8 +207,6 @@ namespace Angular.Migrations
 
                     b.Property<string>("Description")
                         .HasColumnType("nvarchar(max)");
-
-                    b.Property<DateTime?>("PostedAt");
 
                     b.Property<short>("Rating");
 
@@ -221,17 +221,6 @@ namespace Angular.Migrations
                     b.HasIndex("ReviewUserId");
 
                     b.ToTable("Reviews");
-
-                    b.HasData(
-                        new
-                        {
-                            ReviewId = 1,
-                            Description = "Lekkere kaas wel.",
-                            PostedAt = new DateTime(2019, 6, 26, 1, 13, 32, 144, DateTimeKind.Utc).AddTicks(3908),
-                            Rating = (short)5,
-                            ReviewTargetId = 1,
-                            ReviewUserId = 1
-                        });
                 });
 
             modelBuilder.Entity("Angular.Models.UserAccount", b =>
@@ -275,7 +264,7 @@ namespace Angular.Migrations
                         new
                         {
                             UserId = 1,
-                            BirthDate = new DateTime(2019, 6, 26, 3, 13, 32, 130, DateTimeKind.Local).AddTicks(6315),
+                            BirthDate = new DateTime(2019, 6, 25, 2, 49, 8, 847, DateTimeKind.Local).AddTicks(1479),
                             City = "Stadskanaal",
                             Firstname = "Jans",
                             Gender = "M",

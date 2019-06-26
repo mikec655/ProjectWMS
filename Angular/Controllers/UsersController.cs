@@ -28,7 +28,7 @@ namespace Angular.Controllers
 
         // GET: api/Users
         [HttpGet]
-        public IEnumerable<User> GetUsers()
+        public IEnumerable<UserAccount> GetUsers()
         {
             return _context.Users;
         }
@@ -36,7 +36,7 @@ namespace Angular.Controllers
         [AllowAnonymous]
         [Route("/api/login")]
         [HttpPost]
-        public ActionResult<User> Login([FromBody] User user)
+        public ActionResult<UserAccount> Login([FromBody] UserAccount user)
         {
             Console.WriteLine($"{user.Username} : {user.Password}");
             user = _userService.Authenticate(user.Username, user.Password);
@@ -56,7 +56,7 @@ namespace Angular.Controllers
                 return BadRequest(ModelState);
             }
 
-            var user = await _context.Users.FindAsync(id);
+            UserAccount user = await _context.Users.FindAsync(id);
 
             if (user == null)
             {
@@ -69,16 +69,14 @@ namespace Angular.Controllers
             }
 
             // Remove password if running on Release, could be used for debugging so that's why the pragma is used
-#if RELEASE
-            user.Password = null;
-#endif
+            user.ToDto();
 
             return Ok(user);
         }
 
         // PUT: api/Users/5
         [HttpPut("{id}")]
-        public async Task<IActionResult> PutUser([FromRoute] int id, [FromBody] User user)
+        public async Task<IActionResult> PutUser([FromRoute] int id, [FromBody] UserAccount user)
         {
             if (!ModelState.IsValid)
             {
@@ -94,6 +92,8 @@ namespace Angular.Controllers
             {
                 return Unauthorized();
             }
+
+            user.ToEntity();
 
             user.Password = Hash.GenerateHash(user.Password);
 
@@ -120,21 +120,18 @@ namespace Angular.Controllers
 
         // POST: api/Users
         [HttpPost]
-        public async Task<IActionResult> PostUser([FromBody] User user)
+        public async Task<IActionResult> PostUser([FromBody] UserAccount user)
         {
             if (!ModelState.IsValid || string.IsNullOrWhiteSpace(user.Password) || string.IsNullOrWhiteSpace(user.Username))
             {
                 return BadRequest(ModelState);
             }
 
-            var newUser = await _userService.RegisterAsync(user);
+            user.ToEntity();
 
-            if(newUser == null)
-            {
-                return NotFound();
-            }
+            await _userService.RegisterAsync(user);
 
-            return Ok(newUser);
+            return CreatedAtAction("GetUser", new { id = user.UserId }, user);
         }
 
         // DELETE: api/Users/5

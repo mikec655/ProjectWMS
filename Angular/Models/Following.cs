@@ -17,9 +17,9 @@ namespace Angular.Models
         public int? FollowingTargetUserId { get; set; }
 
         [ForeignKey("FollowingUserId")]
-        public User User { get; set; }
+        public UserAccount User { get; set; }
 
         [ForeignKey("FollowingTargetUserId")]
-        public User Target { get; set; }
+        public UserAccount Target { get; set; }
     }
 }
