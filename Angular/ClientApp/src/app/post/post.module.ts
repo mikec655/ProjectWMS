@@ -6,6 +6,9 @@ import { PostComponent } from './post.component';
   declarations: [PostComponent],
   imports: [
     CommonModule
+  ],
+  exports: [
+    PostComponent
   ]
 })
 export class PostModule { }

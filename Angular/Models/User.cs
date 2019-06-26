@@ -35,5 +35,10 @@ namespace Angular.Models
         // Since we got 2 navigational properties (relations) with Review define the InverseProperty so it knows which one we want
         [InverseProperty("User")]
         public List<Review> Reviews { get; set; }
+
+        public static implicit operator User(object v)
+        {
+            throw new NotImplementedException();
+        }
     }
 }
