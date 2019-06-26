@@ -1,3 +1,30 @@
-<p>
-  post works!
-</p>
+
+
+<!---Hier een ngfor -->
+  <div class="card" style="width: rem;">
+    <img class="card-img-top" src="..." alt="Card image cap">
+    <div class="card-body">
+      <h5 class="card-title">TITLE</h5><a href="#" class="card-link">Check userProfile</a>
+      <p class="card-text">PostText</p>
+    </div>
+    <!-- hier een ng for alle opgehaalde posts-->
+    <div class="card-body">
+      <button type="button" class="btn btn-outline-primary" (click)="isCollapsed = !isCollapsed"
+              [attr.aria-expanded]="!isCollapsed" aria-controls="collapseExample">
+        Show comments 
+      </button>
+
+      <div id="collapseExample" [ngbCollapse]="isCollapsed">
+        <div class="card">
+          <p id="posttekst">
+            You can collapse this card by clicking Toggle
+
+          </p>
+        </div>
+      </div>
+    </div>
+      <li class="list-group-item">Dapibus ac facilisis in</li>
+      
+
+    </div>
+

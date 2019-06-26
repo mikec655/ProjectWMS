@@ -15,9 +15,11 @@ import { HelloWorldComponent } from './hello-world/hello-world.component';
 import { AuthenticationComponent } from './authentication/authentication.component';
 import { RegisterComponent } from './register/register.component';
 import { StartComponent } from './start/start/start.component';
+import { PostModule } from './post/post.module';
 
 @NgModule({
   declarations: [
+    
     AppComponent,
     NavMenuComponent,
     HomeComponent,
@@ -31,6 +33,7 @@ import { StartComponent } from './start/start/start.component';
     BrowserModule.withServerTransition({ appId: 'ng-cli-universal' }),
     BrowserAnimationsModule,
     HttpClientModule,
+    //PostModule,
     FormsModule,
     ReactiveFormsModule,
     RouterModule.forRoot([

@@ -1,17 +1,19 @@
-import { Component, OnInit } from '@angular/core';
-import { PostService } from './post.service';
+import { Component, OnInit} from '@angular/core';
+
 
 @Component({
   selector: 'app-post',
   templateUrl: './post.component.html',
   styleUrls: ['./post.component.css']
 })
+
 export class PostComponent implements OnInit {
 
-  constructor(private postService: PostService) { }
-
+  constructor() { }
+  public isCollapsed = false;
   ngOnInit() {
-      this.postService.getPost(1).subscribe(post => console.log(post))
+  
   }
+
 
 }
