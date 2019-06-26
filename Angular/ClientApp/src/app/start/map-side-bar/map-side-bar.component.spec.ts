@@ -1,5 +1,5 @@
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
-
+//import { MapComponent } from '../../map/map.component';
 import { MapSideBarComponent } from './map-side-bar.component';
 
 describe('MapSideBarComponent', () => {
