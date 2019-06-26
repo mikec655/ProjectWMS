@@ -15,9 +15,11 @@ import { HelloWorldComponent } from './hello-world/hello-world.component';
 import { AuthenticationComponent } from './authentication/authentication.component';
 import { RegisterComponent } from './register/register.component';
 import { StartComponent } from './start/start/start.component';
+import { PostModule } from './post/post.module';
 
 @NgModule({
   declarations: [
+    
     AppComponent,
     NavMenuComponent,
     HomeComponent,
@@ -31,12 +33,13 @@ import { StartComponent } from './start/start/start.component';
     BrowserModule.withServerTransition({ appId: 'ng-cli-universal' }),
     BrowserAnimationsModule,
     HttpClientModule,
+    //PostModule,
     FormsModule,
     ReactiveFormsModule,
     RouterModule.forRoot([
-      { path: '', loadChildren: "./start/start.module#StartModule" },
-      { path: 'map', loadChildren: "./map/map.module#MapModule" },
-      { path: 'profile', loadChildren: "./profile/profile.module#ProfileModule" },
+      { path: '', loadChildren: () => import('./start/start.module').then(m => m.StartModule) },
+      { path: 'map', loadChildren: () => import('./map/map.module').then(m => m.MapModule) },
+      { path: 'profile', loadChildren: () => import('./profile/profile.module').then(m => m.ProfileModule) },
       { path: 'login', component: AuthenticationComponent },
       { path: 'register', component: RegisterComponent }
     ])

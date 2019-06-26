@@ -11,7 +11,7 @@ using Microsoft.AspNetCore.Authorization;
 namespace Angular.Controllers
 {
     [Authorize]
-    [Route("api/users/{userId}/[controller]")]
+    [Route("api/users/{userId:int?}/[controller]")]
     [ApiController]
     public class ReviewsController : ControllerBase
     {
@@ -32,7 +32,7 @@ namespace Angular.Controllers
                 return NotFound();
             }
 
-            return await _context.Reviews.Where(p => p.ReviewTargetId == userId).ToListAsync();
+            return await _context.Reviews.Where(p => p.ReviewTargetId == userId).Select(p => p.ToDtoClone()).ToListAsync();
         }
 
         // GET: api/users/5/Reviews/5
@@ -46,6 +46,8 @@ namespace Angular.Controllers
             {
                 return NotFound();
             }
+
+            review.ToDto();
 
             return review;
         }
@@ -63,6 +65,8 @@ namespace Angular.Controllers
             {
                 return Unauthorized();
             }
+
+            review.ToEntity();
 
             _context.Entry(review).State = EntityState.Modified;
 
@@ -89,10 +93,12 @@ namespace Angular.Controllers
         [HttpPost]
         public async Task<ActionResult<Review>> PostReview(Review review)
         {
+            review.ToEntity();
+
             _context.Reviews.Add(review);
             await _context.SaveChangesAsync();
 
-            return CreatedAtAction("GetReview", new { id = review.ReviewId }, review);
+            return CreatedAtAction("GetReview", new { id = review.ReviewId, userId = 0 }, review);
         }
 
         // DELETE: api/users/5/Reviews/5

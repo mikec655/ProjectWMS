@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Newtonsoft.Json;
+using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
@@ -10,7 +11,7 @@ namespace Angular.Models
     public class Review
     {
         [Key]
-        public int ReviewId { get; set; }
+        public int? ReviewId { get; set; }
 
         public short Rating { get; set; }
 
@@ -19,11 +20,17 @@ namespace Angular.Models
 
         public int ReviewTargetId { get; set; }
 
+        [JsonIgnore]
+        public DateTime? PostedAt { get; set; }
+
+        [NotMapped]
+        public long PostedAtUnix { get; set; }
+
         /// <summary>
         /// The person being reviewed (Target of this review)
         /// </summary>
         [ForeignKey("ReviewTargetId")]
-        public User Target { get; set; }
+        public UserAccount Target { get; set; }
 
         public int ReviewUserId { get; set; }
 
@@ -31,6 +38,29 @@ namespace Angular.Models
         /// The person who posted the review
         /// </summary>
         [ForeignKey("ReviewUserId")]
-        public User User { get; set; }
+        public UserAccount User { get; set; }
+
+        public void ToDto()
+        {
+            PostedAtUnix = new DateTimeOffset(PostedAt.Value.ToUniversalTime()).ToUnixTimeMilliseconds();
+        }
+
+        public Review ToDtoClone()
+        {
+            return new Review
+            {
+                ReviewId = ReviewId,
+                Rating = Rating,
+                Description = Description,
+                ReviewTargetId = ReviewTargetId,
+                PostedAtUnix = new DateTimeOffset(PostedAt.Value.ToUniversalTime()).ToUnixTimeMilliseconds(),
+                ReviewUserId = ReviewUserId
+            };
+        }
+
+        public void ToEntity()
+        {
+            PostedAt = DateTimeOffset.FromUnixTimeMilliseconds(PostedAtUnix).UtcDateTime;
+        }
     }
 }

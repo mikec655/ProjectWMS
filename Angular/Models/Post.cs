@@ -15,10 +15,23 @@ namespace Angular.Models
         public int PostUserId { get; set; }
 
         [ForeignKey("PostUserId")]
-        public User User { get; set; }
+        public UserAccount User { get; set; }
 
-        public DateTime PostedAt { get; set; }
+        public DateTime? PostedAt { get; set; }
+
+        [NotMapped]
+        public long PostedAtUnix { get; set; }
 
         public string Message { get; set; }
+
+        public void ToEntity()
+        {
+            PostedAt = DateTimeOffset.FromUnixTimeMilliseconds(PostedAtUnix).UtcDateTime;
+        }
+
+        public void ToDto()
+        {
+            PostedAtUnix = new DateTimeOffset(PostedAt.Value.ToUniversalTime()).ToUnixTimeMilliseconds();
+        }
     }
 }
