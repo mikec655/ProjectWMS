@@ -8,24 +8,67 @@ declare let L;
 })
 export class MapComponent implements OnInit {
 
+    private map
+    private locations: Position[] = [
+        {
+           timestamp: 0,
+           coords: {
+                latitude: 52.1271700,
+                longitude: 5.1809676,
+                altitude: 0,
+                heading: 0,
+                speed: 0,
+                accuracy: 0,
+                altitudeAccuracy: 0
+            },
+        },
+        {
+            timestamp: 0,
+            coords: {
+                latitude: 52.1271700,
+                longitude: 5.1809676,
+                altitude: 0,
+                heading: 0,
+                speed: 0,
+                accuracy: 0,
+                altitudeAccuracy: 0
+            }
+        }
+    ]
+
     constructor() { }
 
     ngOnInit() {
 
-        navigator.geolocation.getCurrentPosition(this.showPosition);
+        this.map = L.map('map').setView([52.1092717, 5.1809676], 11);
+
+        L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {}).addTo(this.map);
+
+        this.updateMap();
 
     }
 
     showPosition(position: Position) {
-        console.log(position);
+
         var coords = L.latLng(position.coords.latitude, position.coords.longitude, position.coords.altitude);
-        var map = L.map('map').setView(coords, 11);
 
-        L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {}).addTo(map);
+        var customIcon = L.icon({
+            iconUrl: 'assets/leaflet/images/marker-icon-2x.png',
+            shadowUrl: 'assets/leaflet/images/marker-shadow.png',
+            iconSize: [24, 40],
+            shadowSize: [24, 40],
+            iconAnchor: [12, 40],
+            shadowAnchor: [4, 62],
+            popupAnchor: [0, -38]
+        });
 
-        L.marker(coords).addTo(map)
-            .bindPopup('A pretty CSS3 popup.<br> Easily customizable.')
+        L.marker(coords, { icon: customIcon }).addTo(this.map)
+            .bindPopup("<h5>{Title}</h5><h6>{User}</h6>{post abcdefghijklmnopqrstuvwqxyz}<br/><br/><span>0/4 personen</span><button style='float: right'>Aanmelden</button>")
             .openPopup();
+    }
+
+    updateMap(): void {
+        this.locations.forEach(location => this.showPosition(location));
     }
 
 }
