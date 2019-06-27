@@ -4,10 +4,14 @@ using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 using System.Linq;
+using System.Linq.Expressions;
 using System.Threading.Tasks;
 
 namespace Angular.Models
 {
+    /// <summary>
+    /// 
+    /// </summary>
     public class UserAccount
     {
         [Key]
@@ -67,6 +71,98 @@ namespace Angular.Models
         public void ToEntity()
         {
             BirthDate = DateTimeOffset.FromUnixTimeMilliseconds(BirthDateUnix).UtcDateTime;
+        }
+    }
+
+    public class UserAccountDto
+    {
+        public int? UserId { get; set; }
+
+        public string Username { get; set; }
+
+        public string Password { get; set; }
+
+        public string Firstname { get; set; }
+
+        public string Lastname { get; set; }
+
+        public string Gender { get; set; }
+
+        public long? BirthDateUnix { get; set; }
+
+        public string Street { get; set; }
+
+        public int? Number { get; set; }
+
+        public string ZipCode { get; set; }
+
+        public string City { get; set; }
+
+        public string ProfilePicture { get; set; }
+
+        public string ProfileDescription { get; set; }
+
+        public string Token { get; set; }
+
+        public static Expression<Func<UserAccount, UserAccountDto>> Projection
+        {
+            get
+            {
+                return p => new UserAccountDto()
+                {
+                    UserId = p.UserId,
+                    Username = p.Username,
+                    Password = null,
+                    Firstname = p.Firstname,
+                    Lastname = p.Lastname,
+                    Gender = p.Gender,
+                    BirthDateUnix = new DateTimeOffset(p.BirthDate.Value.ToUniversalTime()).ToUnixTimeMilliseconds(),
+                    Street = p.Street,
+                    Number = p.Number,
+                    ZipCode = p.ZipCode,
+                    City = p.City,
+                    ProfilePicture = p.ProfilePicture,
+                    ProfileDescription = p.ProfileDescription,
+                    Token = p.Token
+            };
+            }
+        }
+
+        public static Expression<Func<UserAccountDto, UserAccount>> ReverseProjection
+        {
+            get
+            {
+                return p => new UserAccount()
+                {
+                    UserId = p.UserId,
+                    Username = p.Username,
+                    Password = p.Password,
+                    Firstname = p.Firstname,
+                    Lastname = p.Lastname,
+                    Gender = p.Gender,
+                    BirthDate = DateTimeOffset.FromUnixTimeMilliseconds(p.BirthDateUnix.GetValueOrDefault()).UtcDateTime,
+                    Street = p.Street,
+                    Number = p.Number.GetValueOrDefault(),
+                    ZipCode = p.ZipCode,
+                    City = p.City,
+                    ProfilePicture = p.ProfilePicture,
+                    ProfileDescription = p.ProfileDescription,
+                    Token = p.Token
+                };
+            }
+        }
+
+        public static UserAccountDto FromEntity(UserAccount entity)
+        {
+            if (entity == null)
+                return null;
+
+            return Projection.Compile().Invoke(entity);
+        }
+
+        public UserAccount ToEntity()
+        {
+            return ReverseProjection.Compile().Invoke(this);
         }
     }
 }
