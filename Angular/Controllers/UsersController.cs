@@ -99,18 +99,18 @@ namespace Angular.Controllers
         /// Update the given UserAccount
         /// </summary>
         /// <param name="id">The ID to update</param>
-        /// <param name="user">The new UserAccount data</param>
+        /// <param name="userDto">The new UserAccount data</param>
         /// <returns></returns>
         // PUT: api/Users/5
         [HttpPut("{id}")]
-        public async Task<IActionResult> PutUser([FromRoute] int id, [FromBody] UserAccount user)
+        public async Task<IActionResult> PutUser([FromRoute] int id, [FromBody] UserAccountDto userDto)
         {
             if (!ModelState.IsValid)
             {
                 return BadRequest(ModelState);
             }
 
-            if (id != user.UserId)
+            if (id != userDto.UserId)
             {
                 return BadRequest();
             }
@@ -120,7 +120,7 @@ namespace Angular.Controllers
                 return Unauthorized();
             }
 
-            user.ToEntity();
+            var user = userDto.ToEntity();
 
             user.Password = Hash.GenerateHash(user.Password);
 
@@ -148,22 +148,22 @@ namespace Angular.Controllers
         /// <summary>
         /// Adds the given user to the database
         /// </summary>
-        /// <param name="user">The user to add to the database</param>
+        /// <param name="userDto">The user to add to the database</param>
         /// <returns></returns>
         // POST: api/Users
         [HttpPost]
-        public async Task<IActionResult> PostUser([FromBody] UserAccount user)
+        public async Task<IActionResult> PostUser([FromBody] UserAccountDto userDto)
         {
-            if (!ModelState.IsValid || string.IsNullOrWhiteSpace(user.Password) || string.IsNullOrWhiteSpace(user.Username))
+            if (!ModelState.IsValid || string.IsNullOrWhiteSpace(userDto.Password) || string.IsNullOrWhiteSpace(userDto.Username))
             {
                 return BadRequest(ModelState);
             }
 
-            user.ToEntity();
+            var user = userDto.ToEntity();
 
             await _userService.RegisterAsync(user);
 
-            return CreatedAtAction("GetUser", new { id = user.UserId }, user);
+            return CreatedAtAction("GetUser", new { id = userDto.UserId }, userDto);
         }
 
         /// <summary>
@@ -194,7 +194,7 @@ namespace Angular.Controllers
             _context.Users.Remove(user);
             await _context.SaveChangesAsync();
 
-            return Ok(user);
+            return Ok(UserAccountDto.FromEntity(user));
         }
 
         private bool UserExists(int id)
