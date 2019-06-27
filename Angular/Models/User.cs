@@ -44,7 +44,10 @@ namespace Angular.Models
 
         public string City { get; set; }
 
-        public string ProfilePicture { get; set; }
+        public int? UserMediaId { get; set; }
+
+        [ForeignKey("UserMediaId")]
+        public Media ProfilePicture { get; set; }
 
         public string ProfileDescription { get; set; }
 
@@ -99,7 +102,7 @@ namespace Angular.Models
 
         public string City { get; set; }
 
-        public string ProfilePicture { get; set; }
+        public int? UserMediaId { get; set; }
 
         public string ProfileDescription { get; set; }
 
@@ -122,7 +125,7 @@ namespace Angular.Models
                     Number = p.Number,
                     ZipCode = p.ZipCode,
                     City = p.City,
-                    ProfilePicture = p.ProfilePicture,
+                    UserMediaId = p.UserMediaId,
                     ProfileDescription = p.ProfileDescription,
                     Token = p.Token
             };
@@ -146,7 +149,7 @@ namespace Angular.Models
                     Number = p.Number.GetValueOrDefault(),
                     ZipCode = p.ZipCode,
                     City = p.City,
-                    ProfilePicture = p.ProfilePicture,
+                    UserMediaId = p.UserMediaId,
                     ProfileDescription = p.ProfileDescription,
                     Token = p.Token
                 };
@@ -180,7 +183,7 @@ namespace Angular.Models
                 Number = 0611992103,
                 ZipCode = "9503HH",
                 City = "Stadskanaal",
-                ProfilePicture = "Putin.jpg",
+                UserMediaId = 1,
                 ProfileDescription = "Kaas",
             };
         }

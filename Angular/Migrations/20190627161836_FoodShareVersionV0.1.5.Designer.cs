@@ -5,14 +5,16 @@ using GeoAPI.Geometries;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 namespace Angular.Migrations
 {
     [DbContext(typeof(UserContext))]
-    partial class BloggingContextModelSnapshot : ModelSnapshot
+    [Migration("20190627161836_FoodShareVersionV0.1.5")]
+    partial class FoodShareVersionV015
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -49,7 +51,7 @@ namespace Angular.Migrations
                             CommentPostId = 1,
                             CommentUserId = 1,
                             Content = "Hippity hoppity",
-                            PostedAt = new DateTime(2019, 6, 27, 20, 23, 6, 687, DateTimeKind.Local).AddTicks(979)
+                            PostedAt = new DateTime(2019, 6, 27, 18, 18, 35, 723, DateTimeKind.Local).AddTicks(438)
                         });
                 });
 
@@ -191,7 +193,7 @@ namespace Angular.Migrations
                             PostId = 1,
                             Message = "Kaas",
                             PostUserId = 1,
-                            PostedAt = new DateTime(2019, 6, 27, 20, 23, 6, 686, DateTimeKind.Local).AddTicks(5930)
+                            PostedAt = new DateTime(2019, 6, 27, 18, 18, 35, 722, DateTimeKind.Local).AddTicks(7350)
                         });
                 });
 
@@ -225,7 +227,7 @@ namespace Angular.Migrations
                         {
                             ReviewId = 1,
                             Description = "Lekkere kaas wel.",
-                            PostedAt = new DateTime(2019, 6, 27, 18, 23, 6, 696, DateTimeKind.Utc).AddTicks(366),
+                            PostedAt = new DateTime(2019, 6, 27, 16, 18, 35, 729, DateTimeKind.Utc).AddTicks(4110),
                             Rating = (short)5,
                             ReviewTargetId = 1,
                             ReviewUserId = 1
@@ -256,9 +258,9 @@ namespace Angular.Migrations
 
                     b.Property<string>("ProfileDescription");
 
-                    b.Property<string>("Street");
+                    b.Property<string>("ProfilePicture");
 
-                    b.Property<int?>("UserMediaId");
+                    b.Property<string>("Street");
 
                     b.Property<string>("Username")
                         .HasColumnType("nvarchar(255)");
@@ -267,15 +269,13 @@ namespace Angular.Migrations
 
                     b.HasKey("UserId");
 
-                    b.HasIndex("UserMediaId");
-
                     b.ToTable("Users");
 
                     b.HasData(
                         new
                         {
                             UserId = 1,
-                            BirthDate = new DateTime(2019, 6, 27, 20, 23, 6, 684, DateTimeKind.Local).AddTicks(1356),
+                            BirthDate = new DateTime(2019, 6, 27, 18, 18, 35, 720, DateTimeKind.Local).AddTicks(6730),
                             City = "Stadskanaal",
                             Firstname = "Jans",
                             Gender = "M",
@@ -283,8 +283,8 @@ namespace Angular.Migrations
                             Number = 611992103,
                             Password = "6sNsu+pxGtzIoQmNHq2nX5KFbemuNM10tzdUuL5E8Zo=.xygrNhDB6A8KLH8QilMWkw==",
                             ProfileDescription = "Kaas",
+                            ProfilePicture = "Putin.jpg",
                             Street = "Hoofdkade",
-                            UserMediaId = 1,
                             Username = "Test",
                             ZipCode = "9503HH"
                         });
@@ -362,13 +362,6 @@ namespace Angular.Migrations
                         .WithMany()
                         .HasForeignKey("ReviewUserId")
                         .OnDelete(DeleteBehavior.Restrict);
-                });
-
-            modelBuilder.Entity("Angular.Models.UserAccount", b =>
-                {
-                    b.HasOne("Angular.Models.Media", "ProfilePicture")
-                        .WithMany()
-                        .HasForeignKey("UserMediaId");
                 });
 #pragma warning restore 612, 618
         }

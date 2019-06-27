@@ -231,7 +231,7 @@ namespace Angular.Controllers
                 Number = 0611992103,
                 ZipCode = "9503HH",
                 City = "Stadskanaal",
-                ProfilePicture = "Putin.jpg",
+                UserMediaId = 1,
                 ProfileDescription = "Kaas",
                 Token = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1bmlxdWVfbmFtZSI6IjEiLCJuYmYiOjE1NjE1OTkwNTcsImV4cCI6MTU2MjIwMzg1NywiaWF0IjoxNTYxNTk5MDU3fQ.d4LYTe3c0s_8QLqQqfZvHDpuk2KP6YTpF_WrB-hT8rQ"
             };
@@ -253,7 +253,7 @@ namespace Angular.Controllers
                 Number = 0611992103,
                 ZipCode = "9503HH",
                 City = "Stadskanaal",
-                ProfilePicture = "Putin.jpg",
+                UserMediaId = 1,
                 ProfileDescription = "Kaas",
             };
         }
