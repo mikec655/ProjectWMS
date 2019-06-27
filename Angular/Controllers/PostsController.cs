@@ -38,9 +38,20 @@ namespace Angular.Controllers
 
         // GET: api/Posts
         [HttpGet]
-        public async Task<ActionResult<IEnumerable<Post>>> GetPosts()
+        public async Task<ActionResult<IEnumerable<PostVM>>> GetPosts()
         {
-            return await _context.Posts.ToListAsync();
+            return await _context.Posts
+                .Include(p => p.User)
+                .Select(p => new PostVM
+                {
+                    PostId = p.PostId,
+                    PostUserId = p.PostUserId,
+                    PostedAtUnix = new DateTimeOffset(p.PostedAt.Value.ToUniversalTime()).ToUnixTimeMilliseconds(),
+                    Message = p.Message,
+                    UserFirstName = p.User.Firstname,
+                    UserLastName = p.User.Lastname
+                })
+                .ToListAsync();
         }
 
         // GET: api/Posts/5

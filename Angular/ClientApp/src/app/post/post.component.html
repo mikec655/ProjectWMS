@@ -1,11 +1,11 @@
 
 
 <!---Hier een ngfor -->
-  <div class="card" style="width: rem;">
+  <div class="card" >
     <img class="card-img-top" src="..." alt="Card image cap">
     <div class="card-body">
-      <h5 class="card-title">TITLE</h5><a href="#" class="card-link">Check userProfile</a>
-      <p class="card-text">PostText</p>
+      <a href="#" class="card-link">{{ post.userFirstName }} {{ post.userLastName }}</a>
+      <p class="card-text">{{ post.message }}</p>
     </div>
     <!-- hier een ng for alle opgehaalde posts-->
     <div class="card-body">
@@ -15,16 +15,12 @@
       </button>
 
       <div id="collapseExample" [ngbCollapse]="isCollapsed">
-        <div class="card">
+        <div class="card" *ngFor="let comment of comments">
           <p id="posttekst">
-            You can collapse this card by clicking Toggle
-
+            {{comment.content}}
           </p>
         </div>
       </div>
     </div>
-      <li class="list-group-item">Dapibus ac facilisis in</li>
-      
-
-    </div>
+  </div>
 
