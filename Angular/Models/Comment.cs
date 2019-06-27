@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Swashbuckle.AspNetCore.Examples;
+using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
@@ -34,7 +35,7 @@ namespace Angular.Models
     }
 
     //Data transfer Object used for conversion between ASP.NET and Angular
-    public class CommentDto
+    public class CommentDto : IExamplesProvider
     {
         public int CommentId { get; set; }
 
@@ -49,6 +50,20 @@ namespace Angular.Models
         public string Content { get; set; }
 
         public long PostedAtUnix { get; set; }
+
+        public virtual object GetExamples()
+        {
+            return new CommentDto()
+            {
+                CommentId = 1,
+                CommentPostId = 1,
+                CommentUserId = 1,
+                UserFirstName = "Jans",
+                UserLastName = "Jansen",
+                Content = "Kaas",
+                PostedAtUnix = 1561511612134
+            };
+        }
 
         public static Expression<Func<Comment, CommentDto>> Projection
         {

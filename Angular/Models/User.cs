@@ -1,4 +1,5 @@
 ﻿using Angular.Utils;
+using Swashbuckle.AspNetCore.Examples;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
@@ -74,7 +75,7 @@ namespace Angular.Models
         }
     }
 
-    public class UserAccountDto
+    public class UserAccountDto : IExamplesProvider
     {
         public int? UserId { get; set; }
 
@@ -163,6 +164,25 @@ namespace Angular.Models
         public UserAccount ToEntity()
         {
             return ReverseProjection.Compile().Invoke(this);
+        }
+
+        public object GetExamples()
+        {
+            return new UserAccountDto()
+            {
+                UserId = 1,
+                Username = "Test",
+                Firstname = "Jans",
+                Lastname = "Jansen",
+                Gender = "M",
+                BirthDateUnix = 1561511612130,
+                Street = "Hoofdkade",
+                Number = 0611992103,
+                ZipCode = "9503HH",
+                City = "Stadskanaal",
+                ProfilePicture = "Putin.jpg",
+                ProfileDescription = "Kaas",
+            };
         }
     }
 }

@@ -7,6 +7,7 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using Angular.Models;
 using Microsoft.AspNetCore.Authorization;
+using Swashbuckle.AspNetCore.Examples;
 
 namespace Angular.Controllers
 {
@@ -24,6 +25,7 @@ namespace Angular.Controllers
 
         // GET: api/Users/5/posts
         [HttpGet("/api/users/{userId}/posts")]
+        [ProducesResponseType(typeof(IEnumerable<PostDto>), 200)]
         public async Task<ActionResult<IEnumerable<PostDto>>> GetPosts(int userId)
         {
             return await _context.Posts
@@ -33,6 +35,7 @@ namespace Angular.Controllers
         }
 
         // GET: api/Posts/5
+        [ProducesResponseType(typeof(PostDto), 200)]
         [HttpGet("{id}")]
         public async Task<ActionResult<PostDto>> GetPost(int id)
         {
@@ -93,6 +96,7 @@ namespace Angular.Controllers
         }
 
         // POST: api/Posts
+        [SwaggerResponseExample(200, typeof(PostDto))]
         [Authorize]
         [HttpPost]
         public async Task<ActionResult<Post>> PostPost(PostDto postDto)

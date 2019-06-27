@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Swashbuckle.AspNetCore.Examples;
+using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
@@ -36,7 +37,7 @@ namespace Angular.Models
         }
     }
 
-    public class PostDto
+    public class PostDto : IExamplesProvider
     {
         public int PostId { get; set; }
 
@@ -94,6 +95,19 @@ namespace Angular.Models
         public Post ToEntity()
         {
             return ReverseProjection.Compile().Invoke(this);
+        }
+
+        public object GetExamples()
+        {
+            return new PostDto()
+            {
+                PostId = 1,
+                PostUserId = 1,
+                UserFirstName = "Jans",
+                UserLastName = "Jansen",
+                Message = "KAAS",
+                PostedAtUnix = 1561511612134
+            };
         }
     }
 

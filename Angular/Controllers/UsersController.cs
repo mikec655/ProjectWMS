@@ -34,25 +34,36 @@ namespace Angular.Controllers
         /// <returns>Array with UserAccounts</returns>
         // GET: api/Users
         [HttpGet]
-        public IEnumerable<UserAccount> GetUsers()
+        public IEnumerable<UserAccountDto> GetUsers()
         {
-            return _context.Users;
+            return _context.Users.Select(UserAccountDto.Projection);
         }
 
         /// <summary>
         /// Login to the given UserAccount
         /// </summary>
         /// <param name="userDto">UserAccount, only Username and Password are required</param>
+        /// <remarks>
+        /// Examples didn't seem to work for request so added example request here:
+        /// 
+        ///     POST /api/login
+        ///     {
+        ///         "username": "Test",
+        ///         "password": "Wachtwoord"
+        ///     }
+        /// 
+        /// 
+        /// </remarks>
         /// <returns></returns>
         [Consumes("application/json")]
         [Produces("application/json")]
-        [ProducesResponseType(typeof(UserAccount), 200)]
-        [SwaggerRequestExample(typeof(UserAccountDto), typeof(LoginRequestExample))]
+        [ProducesResponseType(typeof(UserAccountDto), 200)]
+        [SwaggerRequestExample(typeof(UserAccountDto), typeof(UserAccountDto))]
         [SwaggerResponseExample(200, typeof(UserDtoResponseExample))]
         [AllowAnonymous]
         [Route("/api/login")]
         [HttpPost]
-        public ActionResult<UserAccountDto> Login([FromBody] UserAccountDto userDto)
+        public IActionResult Login([FromBody] UserAccountDto userDto)
         {
             var user = _userService.Authenticate(userDto.Username, userDto.Password);
             if (user == null)
@@ -60,7 +71,7 @@ namespace Angular.Controllers
                 return NotFound("User not found.");
             }
 
-            return UserAccountDto.FromEntity(user);
+            return Ok(UserAccountDto.FromEntity(user));
         }
 
         /// <summary>
@@ -69,6 +80,7 @@ namespace Angular.Controllers
         /// <param name="id">The User ID</param>
         /// <returns>UserAccount data</returns>
         // GET: api/Users/5
+        [SwaggerResponseExample(200, typeof(UserAccountDto))]
         [HttpGet("{id}")]
         public async Task<IActionResult> GetUser([FromRoute] int id)
         {
@@ -77,7 +89,7 @@ namespace Angular.Controllers
                 return BadRequest(ModelState);
             }
 
-            UserAccount user = await _context.Users.FindAsync(id);
+            var user = UserAccountDto.FromEntity(await _context.Users.FindAsync(id));
 
             if (user == null)
             {
@@ -88,9 +100,6 @@ namespace Angular.Controllers
             {
                 return Unauthorized();
             }
-
-            // Remove password if running on Release, could be used for debugging so that's why the pragma is used
-            user.ToDto();
 
             return Ok(user);
         }
@@ -151,6 +160,8 @@ namespace Angular.Controllers
         /// <param name="userDto">The user to add to the database</param>
         /// <returns></returns>
         // POST: api/Users
+        [SwaggerRequestExample(typeof(UserAccountDto), typeof(UserPostRequestExample))]
+        [SwaggerResponseExample(201, typeof(UserAccountDto))]
         [HttpPost]
         public async Task<IActionResult> PostUser([FromBody] UserAccountDto userDto)
         {
@@ -172,6 +183,7 @@ namespace Angular.Controllers
         /// <param name="id">The User ID to remove</param>
         /// <returns>The Deleted User object</returns>
         // DELETE: api/Users/5
+        [SwaggerResponseExample(200, typeof(UserAccountDto))]
         [HttpDelete("{id}")]
         public async Task<IActionResult> DeleteUser([FromRoute] int id)
         {
@@ -203,17 +215,6 @@ namespace Angular.Controllers
         }
     }
 
-    public class LoginRequestExample : IExamplesProvider
-    {
-        public virtual object GetExamples()
-        {
-            return new UserAccountDto() {
-                Username = "Test",
-                Password = "Wachtwoord"
-            };
-        }
-    }
-
     public class UserDtoResponseExample : IExamplesProvider
     {
         public virtual object GetExamples()
@@ -233,6 +234,39 @@ namespace Angular.Controllers
                 ProfilePicture = "Putin.jpg",
                 ProfileDescription = "Kaas",
                 Token = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1bmlxdWVfbmFtZSI6IjEiLCJuYmYiOjE1NjE1OTkwNTcsImV4cCI6MTU2MjIwMzg1NywiaWF0IjoxNTYxNTk5MDU3fQ.d4LYTe3c0s_8QLqQqfZvHDpuk2KP6YTpF_WrB-hT8rQ"
+            };
+        }
+    }
+
+    public class UserPostRequestExample : IExamplesProvider
+    {
+        public virtual object GetExamples()
+        {
+            return new UserAccountDto()
+            {
+                Username = "Test",
+                Firstname = "Jans",
+                Lastname = "Jansen",
+                Gender = "M",
+                BirthDateUnix = 1561511612130,
+                Street = "Hoofdkade",
+                Number = 0611992103,
+                ZipCode = "9503HH",
+                City = "Stadskanaal",
+                ProfilePicture = "Putin.jpg",
+                ProfileDescription = "Kaas",
+            };
+        }
+    }
+
+    public class LoginRequestExample : IExamplesProvider
+    {
+        public object GetExamples()
+        {
+            return new UserAccountDto()
+            {
+                Username = "Test",
+                Password = "Wachtwoord"
             };
         }
     }
