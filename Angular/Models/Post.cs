@@ -26,6 +26,8 @@ namespace Angular.Models
         [NotMapped]
         public long PostedAtUnix { get; set; }
 
+        public Invitation Invitation { get; set; }
+
         public string Message { get; set; }
 
         public int PostMediaId { get; set; }
@@ -77,7 +79,7 @@ namespace Angular.Models
                     Message = p.Message,
                     Title = p.Title,
                     PostMediaId = p.PostMediaId,
-                    PostedAtUnix = new DateTimeOffset(p.PostedAt.HasValue ? p.PostedAt.Value : DateTime.UtcNow).ToUnixTimeMilliseconds()
+                    PostedAtUnix = new DateTimeOffset(p.PostedAt.GetValueOrDefault()).ToUnixTimeMilliseconds()
                 };
             }
         }
