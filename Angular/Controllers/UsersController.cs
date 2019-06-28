@@ -162,6 +162,7 @@ namespace Angular.Controllers
         // POST: api/Users
         [SwaggerRequestExample(typeof(UserAccountDto), typeof(UserPostRequestExample))]
         [SwaggerResponseExample(201, typeof(UserAccountDto))]
+        [AllowAnonymous]
         [HttpPost]
         public async Task<IActionResult> PostUser([FromBody] UserAccountDto userDto)
         {
