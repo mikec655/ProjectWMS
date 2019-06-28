@@ -1,4 +1,5 @@
-import { Component, OnInit} from '@angular/core';
+import { Component, OnInit, Input} from '@angular/core';
+import { Post, PostService } from './post.service';
 
 
 @Component({
@@ -9,10 +10,18 @@ import { Component, OnInit} from '@angular/core';
 
 export class PostComponent implements OnInit {
 
-  constructor() { }
-  public isCollapsed = false;
-  ngOnInit() {
-  
+    @Input() post = new Post()
+    private comments = []
+    public isCollapsed = false;
+
+    constructor(private postService: PostService) { }
+   
+
+    ngOnInit() {
+        this.postService.getComments(this.post.postId).subscribe(comments => {
+            console.log(comments);
+            this.comments = comments
+        })
   }
 
 
