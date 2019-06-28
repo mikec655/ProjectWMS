@@ -26,6 +26,10 @@ namespace Angular.Models
 
         public string Message { get; set; }
 
+        public int PostMediaId { get; set; }
+
+        public Media Media { get; set; }
+
         public void ToEntity()
         {
             PostedAt = DateTimeOffset.FromUnixTimeMilliseconds(PostedAtUnix).UtcDateTime;
@@ -50,6 +54,8 @@ namespace Angular.Models
         public long PostedAtUnix { get; set; }
 
         public string Message { get; set; }
+
+        public int PostMediaId { get; set; }
 
         /// <summary>
         /// Convert given Post to a DTO object. Include User for correct operation
