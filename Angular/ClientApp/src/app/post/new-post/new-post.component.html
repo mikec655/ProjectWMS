@@ -1,0 +1,36 @@
+<ng-template #content let-modal id="modal">
+    <div class="modal-header">
+        <h4 class="modal-title" id="modal-basic-title">New Post</h4>
+        <button type="button" class="close" aria-label="Close" (click)="modal.dismiss('Cross click')">
+            <span aria-hidden="true">&times;</span>
+        </button>
+    </div>
+    <div class="modal-body">
+        <form>
+            <div class="form-group">
+                <div class="form-group">
+                    <label for="usr">Title:</label>
+
+
+
+                    <label for="usr">PostText:</label>
+
+
+                    <label for="pwd">aantal gasten:</label>
+                    <label for="pwd">adress:</label>
+                    <label for="pwd">upoad a picture</label>
+                </div>
+            </div>
+        </form>
+    </div>
+    <div class="modal-footer">
+        <B> {{message}} </B>
+        <button type="button" class="btn btn-outline-dark" (click)="close('Save click')">Save</button>
+        <!-- modal.dismiss('Values saved')-->
+    </div>
+</ng-template>
+
+<button class="btn btn-lg btn-outline-primary" (click)="open(content)" id="newpostbutton">New Post</button>
+
+
+<!--- {{CloseResult}}--->
