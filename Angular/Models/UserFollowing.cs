@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace Angular.Models
 {
-    public class Following
+    public class UserFollowing
     {
         [Key]
         public int FollowId { get; set; }

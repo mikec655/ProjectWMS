@@ -22,7 +22,7 @@ namespace Angular.Models
 
         public DbSet<UserAccount> Users { get; set; }
         public DbSet<Comment> Comments { get; set; }
-        public DbSet<Following> Followings { get; set; }
+        public DbSet<UserFollowing> Followings { get; set; }
         public DbSet<Guest> Guests { get; set; }
         public DbSet<Invitation> Invitations { get; set; }
         public DbSet<Location> Locations { get; set; }
@@ -69,11 +69,11 @@ namespace Angular.Models
                     Type = "image/png",
                     ImageData = Encoding.UTF8.GetBytes("BLYAT")
                 });
-            _ = modelBuilder.Entity<Following>()
+            _ = modelBuilder.Entity<UserFollowing>()
                 .HasOne<UserAccount>(p => p.Target)
                 .WithMany()
                 .OnDelete(DeleteBehavior.SetNull);
-            _ = modelBuilder.Entity<Following>()
+            _ = modelBuilder.Entity<UserFollowing>()
                 .HasOne<UserAccount>(p => p.User)
                 .WithMany()
                 .OnDelete(DeleteBehavior.Restrict);

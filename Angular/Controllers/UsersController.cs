@@ -184,6 +184,83 @@ namespace Angular.Controllers
             return CreatedAtAction("GetUser", new { id = userDto.UserId.GetValueOrDefault() }, userDto);
         }
 
+        [HttpPost("{id}/follow")]
+        public async Task<IActionResult> FollowUser([FromRoute] int id)
+        {
+            if (User.Identity.Name == id.ToString())
+            {
+                return BadRequest();
+            }
+
+            var target = await _context.Users.FindAsync(id);
+
+            if (target == null)
+            {
+                return NotFound();
+            }
+
+            var user = await _context.Users.Include(p => p.Following).FirstOrDefaultAsync(p => p.UserId.ToString() == User.Identity.Name);
+
+            if (user == null)
+            {
+                // Should be impossible
+                return BadRequest();
+            }
+
+            if (user.Following.Any(p => p.FollowingTargetUserId == id))
+            {
+                return Conflict();
+            }
+
+            var userFollowing = new UserFollowing()
+            {
+                FollowingTargetUserId = id,
+                FollowingUserId = int.Parse(User.Identity.Name)
+            };
+
+            user.Following.Add(userFollowing);
+            await _context.SaveChangesAsync();
+
+            return Ok();
+        }
+
+        [HttpPost("{id}/unfollow")]
+        public async Task<IActionResult> UnfollowUser([FromRoute] int id)
+        {
+            if (User.Identity.Name == id.ToString())
+            {
+                return BadRequest();
+            }
+
+            var target = await _context.Users.FindAsync(id);
+
+            if (target == null)
+            {
+                return NotFound();
+            }
+
+            var user = await _context.Users.Include(p => p.Following).FirstOrDefaultAsync(p => p.UserId.ToString() == User.Identity.Name);
+
+            if (user == null)
+            {
+                // Should be impossible
+                return BadRequest();
+            }
+
+            var userFollowing = user.Following.FirstOrDefault(p => p.FollowingTargetUserId == id);
+
+            if (userFollowing == null)
+            {
+                return NotFound();
+            }
+
+            user.Following.Remove(userFollowing);
+
+            await _context.SaveChangesAsync();
+
+            return Ok();
+        }
+
         /// <summary>
         /// Deletes the given account from the database
         /// </summary>

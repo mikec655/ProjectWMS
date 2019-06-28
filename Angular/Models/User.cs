@@ -58,6 +58,12 @@ namespace Angular.Models
         [InverseProperty("User")]
         public List<Review> Reviews { get; set; }
 
+        [InverseProperty("Target")]
+        public List<UserFollowing> Following { get; set; }
+
+        [InverseProperty("User")]
+        public List<UserFollowing> Followers { get; set; }
+
         /// <summary>
         /// Convert this to a DTO object ready for transmission
         /// </summary>
