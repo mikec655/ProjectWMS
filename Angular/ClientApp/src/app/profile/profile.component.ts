@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { ProfileService, UserProfile } from './profile.service';
+import { $ } from 'protractor';
 @Component({
   selector: 'app-profile',
   templateUrl: './profile.component.html',
@@ -13,11 +14,13 @@ export class ProfileComponent implements OnInit {
   //dus als we in de service checken of het id van de ingelodepersoon gelijkt is aand de pagina dan weergeven we dit?
   //geen idee of dit handig is tho, misschien beter om 2 componenten te maken.
   public profileview = 'loggedin';
+
   public username = "usernamevariable";
   public profiledescription = "profiledescriptionvariable";
   public newreviewgrade = document.getElementById("amount");
   //tijdelijke variable voor testen
   public posttekst = "postteskhier"
+  
   public pageProfile: UserProfile;
 
   constructor() {}
@@ -28,5 +31,15 @@ export class ProfileComponent implements OnInit {
     this.profiledescription = "profieltekst hier;"
     
     //this.pageProfile = ProfileService.getUserProfile();
+     // this.username = this.pageProfile.username;
+     // this.profiledescription = this.pageProfile.profile_description;
+      
+      //geen idee hoe ik die foto moet doen.
+      
+
+      // if(getcurrentingelogeprofiel.id)(ofzoiets) == hetid(ofzoietsvanprofielpagina){this.profielview="loggedin"}
+      // else{ this.profileview = "notloggedin";}
+
+
   }
 }
