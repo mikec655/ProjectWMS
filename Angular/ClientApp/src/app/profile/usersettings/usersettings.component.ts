@@ -16,7 +16,10 @@ export class UsersettingsComponent implements OnInit {
   closeResult: string;
   firstname: string;
   lastname: string;
-  password: string;
+    password: string;
+    street: string;
+    housenumber: string;
+    zipcode: string;
   date;
 
   constructor(private modalService: NgbModal) { }
