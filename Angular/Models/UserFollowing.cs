@@ -12,14 +12,16 @@ namespace Angular.Models
         [Key]
         public int FollowId { get; set; }
 
-        public int? FollowingUserId { get; set; }
+        [ForeignKey("User")]
+        public int FollowingUserAccountId { get; set; }
+        
+        [ForeignKey("Target")]
+        public int FollowingUserAccountTargetId { get; set; }
 
-        public int? FollowingTargetUserId { get; set; }
-
-        [ForeignKey("FollowingUserId")]
+        [ForeignKey("FollowingUserAccountId")]
         public UserAccount User { get; set; }
 
-        [ForeignKey("FollowingTargetUserId")]
+        [ForeignKey("FollowingUserAccountTargetId")]
         public UserAccount Target { get; set; }
     }
 }

@@ -11,7 +11,7 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace Angular.Migrations
 {
     [DbContext(typeof(UserContext))]
-    [Migration("20190628141751_FoodShare-V0.1")]
+    [Migration("20190628234401_FoodShare-V0.1")]
     partial class FoodShareV01
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -51,27 +51,8 @@ namespace Angular.Migrations
                             CommentPostId = 1,
                             CommentUserId = 1,
                             Content = "Hippity hoppity",
-                            PostedAt = new DateTime(2019, 6, 28, 16, 17, 50, 872, DateTimeKind.Local).AddTicks(7004)
+                            PostedAt = new DateTime(2019, 6, 29, 1, 44, 1, 44, DateTimeKind.Local).AddTicks(9283)
                         });
-                });
-
-            modelBuilder.Entity("Angular.Models.Following", b =>
-                {
-                    b.Property<int>("FollowId")
-                        .ValueGeneratedOnAdd()
-                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
-
-                    b.Property<int?>("FollowingTargetUserId");
-
-                    b.Property<int?>("FollowingUserId");
-
-                    b.HasKey("FollowId");
-
-                    b.HasIndex("FollowingTargetUserId");
-
-                    b.HasIndex("FollowingUserId");
-
-                    b.ToTable("Followings");
                 });
 
             modelBuilder.Entity("Angular.Models.Guest", b =>
@@ -127,6 +108,7 @@ namespace Angular.Migrations
                         {
                             InvitationId = 1,
                             InvitationPostId = 1,
+                            LocationPoint = (NetTopologySuite.Geometries.Point)new NetTopologySuite.IO.WKTReader().Read("SRID=4326;POINT (52.9825827 6.9540359)"),
                             NumberOfGuests = 1,
                             PostedAt = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified)
                         });
@@ -217,7 +199,7 @@ namespace Angular.Migrations
                             Message = "Kaas",
                             PostMediaId = 0,
                             PostUserId = 1,
-                            PostedAt = new DateTime(2019, 6, 28, 16, 17, 50, 872, DateTimeKind.Local).AddTicks(3829)
+                            PostedAt = new DateTime(2019, 6, 29, 1, 44, 1, 44, DateTimeKind.Local).AddTicks(5331)
                         });
                 });
 
@@ -251,7 +233,7 @@ namespace Angular.Migrations
                         {
                             ReviewId = 1,
                             Description = "Lekkere kaas wel.",
-                            PostedAt = new DateTime(2019, 6, 28, 14, 17, 50, 878, DateTimeKind.Utc).AddTicks(9551),
+                            PostedAt = new DateTime(2019, 6, 28, 23, 44, 1, 53, DateTimeKind.Utc).AddTicks(2821),
                             Rating = (short)5,
                             ReviewTargetId = 1,
                             ReviewUserId = 1
@@ -301,7 +283,7 @@ namespace Angular.Migrations
                         new
                         {
                             UserId = 1,
-                            BirthDate = new DateTime(2019, 6, 28, 16, 17, 50, 870, DateTimeKind.Local).AddTicks(5607),
+                            BirthDate = new DateTime(2019, 6, 29, 1, 44, 1, 42, DateTimeKind.Local).AddTicks(2453),
                             City = "Stadskanaal",
                             Firstname = "Jans",
                             Gender = "M",
@@ -316,6 +298,25 @@ namespace Angular.Migrations
                         });
                 });
 
+            modelBuilder.Entity("Angular.Models.UserFollowing", b =>
+                {
+                    b.Property<int>("FollowId")
+                        .ValueGeneratedOnAdd()
+                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+
+                    b.Property<int>("FollowingUserAccountId");
+
+                    b.Property<int>("FollowingUserAccountTargetId");
+
+                    b.HasKey("FollowId");
+
+                    b.HasIndex("FollowingUserAccountId");
+
+                    b.HasIndex("FollowingUserAccountTargetId");
+
+                    b.ToTable("Followings");
+                });
+
             modelBuilder.Entity("Angular.Models.Comment", b =>
                 {
                     b.HasOne("Angular.Models.Post", "Post")
@@ -326,19 +327,6 @@ namespace Angular.Migrations
                         .WithMany()
                         .HasForeignKey("CommentUserId")
                         .OnDelete(DeleteBehavior.Cascade);
-                });
-
-            modelBuilder.Entity("Angular.Models.Following", b =>
-                {
-                    b.HasOne("Angular.Models.UserAccount", "Target")
-                        .WithMany()
-                        .HasForeignKey("FollowingTargetUserId")
-                        .OnDelete(DeleteBehavior.SetNull);
-
-                    b.HasOne("Angular.Models.UserAccount", "User")
-                        .WithMany()
-                        .HasForeignKey("FollowingUserId")
-                        .OnDelete(DeleteBehavior.Restrict);
                 });
 
             modelBuilder.Entity("Angular.Models.Guest", b =>
@@ -400,6 +388,19 @@ namespace Angular.Migrations
                     b.HasOne("Angular.Models.Media", "ProfilePicture")
                         .WithMany()
                         .HasForeignKey("UserMediaId");
+                });
+
+            modelBuilder.Entity("Angular.Models.UserFollowing", b =>
+                {
+                    b.HasOne("Angular.Models.UserAccount", "User")
+                        .WithMany("Following")
+                        .HasForeignKey("FollowingUserAccountId")
+                        .OnDelete(DeleteBehavior.Restrict);
+
+                    b.HasOne("Angular.Models.UserAccount", "Target")
+                        .WithMany("Followers")
+                        .HasForeignKey("FollowingUserAccountTargetId")
+                        .OnDelete(DeleteBehavior.Restrict);
                 });
 #pragma warning restore 612, 618
         }

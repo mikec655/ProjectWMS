@@ -43,8 +43,9 @@ namespace Angular.Models
                 {
                     InvitationId = 1,
                     NumberOfGuests = 1,
-                    InvitationPostId = 1
-                });
+                    InvitationPostId = 1,
+                    LocationPoint = new Point(52.9825827, 6.9540359) { SRID = 4326 }
+                }); ;
             modelBuilder.Entity<Location>().HasData(
                 new Location()
                 {
@@ -85,6 +86,16 @@ namespace Angular.Models
                 .HasOne(p => p.User)
                 .WithMany()
                 .OnDelete(DeleteBehavior.Restrict);
+            _ = modelBuilder.Entity<UserFollowing>()
+                .HasOne(p => p.User)
+                .WithMany(p => p.Following)
+                .OnDelete(DeleteBehavior.Restrict)
+                .HasForeignKey(p => p.FollowingUserAccountId);
+            _ = modelBuilder.Entity<UserFollowing>()
+                .HasOne(p => p.Target)
+                .WithMany(p => p.Followers)
+                .OnDelete(DeleteBehavior.Restrict)
+                .HasForeignKey(p => p.FollowingUserAccountTargetId);
         }
     }
 }

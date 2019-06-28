@@ -7,6 +7,9 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using Angular.Models;
 using Microsoft.AspNetCore.Authorization;
+using NetTopologySuite.Geometries;
+using System.Dynamic;
+using Newtonsoft.Json.Linq;
 
 namespace Angular.Controllers
 {
@@ -23,11 +26,26 @@ namespace Angular.Controllers
         }
 
         // GET: api/users/5/invitations
+        /// <summary>
+        /// Gets the invitations sorted on distance
+        /// </summary>
+        /// <param name="userId"></param>
+        /// <param name="expandoObject">JSON object containing long and lat</param>
+        /// <returns></returns>
         [Route("/api/users/{userId}/invitations")]
         [HttpGet]
-        public async Task<ActionResult<IEnumerable<InvitationDto>>> GetUserInvitations([FromRoute] int userId)
+        public async Task<ActionResult<IEnumerable<InvitationDto>>> GetUserInvitations([FromRoute] int userId, [FromBody] JObject expandoObject)
         {
-            return await _context.Invitations.Include(p => p.Post).Where(p => p.Post.PostUserId == userId).Select(InvitationDto.Projection).ToListAsync();
+            var longitude = expandoObject.Value<double>("long");
+            var latitude = expandoObject.Value<double>("lat");
+            Console.WriteLine($"longitude: {longitude}; latitude: {latitude}");
+            var location = new Point(longitude, latitude) { SRID = 4326 };
+            return await _context.Invitations
+                .Include(p => p.Post)
+                .Where(p => p.Post.PostUserId == userId)
+                .OrderBy(p => p.LocationPoint.Distance(location))
+                .Select(InvitationDto.Projection)
+                .ToListAsync();
         }
 
         // GET: api/Posts/5/Invitation

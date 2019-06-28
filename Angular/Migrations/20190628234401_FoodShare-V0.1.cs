@@ -61,21 +61,21 @@ namespace Angular.Migrations
                 {
                     FollowId = table.Column<int>(nullable: false)
                         .Annotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn),
-                    FollowingUserId = table.Column<int>(nullable: true),
-                    FollowingTargetUserId = table.Column<int>(nullable: true)
+                    FollowingUserAccountId = table.Column<int>(nullable: false),
+                    FollowingUserAccountTargetId = table.Column<int>(nullable: false)
                 },
                 constraints: table =>
                 {
                     table.PrimaryKey("PK_Followings", x => x.FollowId);
                     table.ForeignKey(
-                        name: "FK_Followings_Users_FollowingTargetUserId",
-                        column: x => x.FollowingTargetUserId,
+                        name: "FK_Followings_Users_FollowingUserAccountId",
+                        column: x => x.FollowingUserAccountId,
                         principalTable: "Users",
                         principalColumn: "UserId",
-                        onDelete: ReferentialAction.SetNull);
+                        onDelete: ReferentialAction.Restrict);
                     table.ForeignKey(
-                        name: "FK_Followings_Users_FollowingUserId",
-                        column: x => x.FollowingUserId,
+                        name: "FK_Followings_Users_FollowingUserAccountTargetId",
+                        column: x => x.FollowingUserAccountTargetId,
                         principalTable: "Users",
                         principalColumn: "UserId",
                         onDelete: ReferentialAction.Restrict);
@@ -248,27 +248,27 @@ namespace Angular.Migrations
             migrationBuilder.InsertData(
                 table: "Users",
                 columns: new[] { "UserId", "BirthDate", "City", "Firstname", "Gender", "Lastname", "Number", "Password", "ProfileDescription", "Street", "UserMediaId", "Username", "ZipCode" },
-                values: new object[] { 1, new DateTime(2019, 6, 28, 16, 17, 50, 870, DateTimeKind.Local).AddTicks(5607), "Stadskanaal", "Jans", "M", "Jansen", "155", "6sNsu+pxGtzIoQmNHq2nX5KFbemuNM10tzdUuL5E8Zo=.xygrNhDB6A8KLH8QilMWkw==", "Kaas", "Hoofdkade", 1, "Test", "9503HH" });
+                values: new object[] { 1, new DateTime(2019, 6, 29, 1, 44, 1, 42, DateTimeKind.Local).AddTicks(2453), "Stadskanaal", "Jans", "M", "Jansen", "155", "6sNsu+pxGtzIoQmNHq2nX5KFbemuNM10tzdUuL5E8Zo=.xygrNhDB6A8KLH8QilMWkw==", "Kaas", "Hoofdkade", 1, "Test", "9503HH" });
 
             migrationBuilder.InsertData(
                 table: "Posts",
                 columns: new[] { "PostId", "MediaId", "Message", "PostMediaId", "PostUserId", "PostedAt", "Title" },
-                values: new object[] { 1, null, "Kaas", 0, 1, new DateTime(2019, 6, 28, 16, 17, 50, 872, DateTimeKind.Local).AddTicks(3829), null });
+                values: new object[] { 1, null, "Kaas", 0, 1, new DateTime(2019, 6, 29, 1, 44, 1, 44, DateTimeKind.Local).AddTicks(5331), null });
 
             migrationBuilder.InsertData(
                 table: "Reviews",
                 columns: new[] { "ReviewId", "Description", "PostedAt", "Rating", "ReviewTargetId", "ReviewUserId" },
-                values: new object[] { 1, "Lekkere kaas wel.", new DateTime(2019, 6, 28, 14, 17, 50, 878, DateTimeKind.Utc).AddTicks(9551), (short)5, 1, 1 });
+                values: new object[] { 1, "Lekkere kaas wel.", new DateTime(2019, 6, 28, 23, 44, 1, 53, DateTimeKind.Utc).AddTicks(2821), (short)5, 1, 1 });
 
             migrationBuilder.InsertData(
                 table: "Comments",
                 columns: new[] { "CommentId", "CommentPostId", "CommentUserId", "Content", "PostedAt" },
-                values: new object[] { 1, 1, 1, "Hippity hoppity", new DateTime(2019, 6, 28, 16, 17, 50, 872, DateTimeKind.Local).AddTicks(7004) });
+                values: new object[] { 1, 1, 1, "Hippity hoppity", new DateTime(2019, 6, 29, 1, 44, 1, 44, DateTimeKind.Local).AddTicks(9283) });
 
             migrationBuilder.InsertData(
                 table: "Invitations",
                 columns: new[] { "InvitationId", "Address", "InvitationPostId", "LocationPoint", "Number", "NumberOfGuests", "PostedAt", "Type", "ZipCode" },
-                values: new object[] { 1, null, 1, null, null, 1, new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), null, null });
+                values: new object[] { 1, null, 1, (NetTopologySuite.Geometries.Point)new NetTopologySuite.IO.WKTReader().Read("SRID=4326;POINT (52.9825827 6.9540359)"), null, 1, new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), null, null });
 
             migrationBuilder.InsertData(
                 table: "Locations",
@@ -286,14 +286,14 @@ namespace Angular.Migrations
                 column: "CommentUserId");
 
             migrationBuilder.CreateIndex(
-                name: "IX_Followings_FollowingTargetUserId",
+                name: "IX_Followings_FollowingUserAccountId",
                 table: "Followings",
-                column: "FollowingTargetUserId");
+                column: "FollowingUserAccountId");
 
             migrationBuilder.CreateIndex(
-                name: "IX_Followings_FollowingUserId",
+                name: "IX_Followings_FollowingUserAccountTargetId",
                 table: "Followings",
-                column: "FollowingUserId");
+                column: "FollowingUserAccountTargetId");
 
             migrationBuilder.CreateIndex(
                 name: "IX_Guests_GuestInvitationId",

@@ -49,7 +49,7 @@ namespace Angular.Migrations
                             CommentPostId = 1,
                             CommentUserId = 1,
                             Content = "Hippity hoppity",
-                            PostedAt = new DateTime(2019, 6, 28, 23, 2, 16, 13, DateTimeKind.Local).AddTicks(1882)
+                            PostedAt = new DateTime(2019, 6, 29, 1, 44, 1, 44, DateTimeKind.Local).AddTicks(9283)
                         });
                 });
 
@@ -106,6 +106,7 @@ namespace Angular.Migrations
                         {
                             InvitationId = 1,
                             InvitationPostId = 1,
+                            LocationPoint = (NetTopologySuite.Geometries.Point)new NetTopologySuite.IO.WKTReader().Read("SRID=4326;POINT (52.9825827 6.9540359)"),
                             NumberOfGuests = 1,
                             PostedAt = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified)
                         });
@@ -196,7 +197,7 @@ namespace Angular.Migrations
                             Message = "Kaas",
                             PostMediaId = 0,
                             PostUserId = 1,
-                            PostedAt = new DateTime(2019, 6, 28, 23, 2, 16, 12, DateTimeKind.Local).AddTicks(7436)
+                            PostedAt = new DateTime(2019, 6, 29, 1, 44, 1, 44, DateTimeKind.Local).AddTicks(5331)
                         });
                 });
 
@@ -230,7 +231,7 @@ namespace Angular.Migrations
                         {
                             ReviewId = 1,
                             Description = "Lekkere kaas wel.",
-                            PostedAt = new DateTime(2019, 6, 28, 21, 2, 16, 22, DateTimeKind.Utc).AddTicks(9704),
+                            PostedAt = new DateTime(2019, 6, 28, 23, 44, 1, 53, DateTimeKind.Utc).AddTicks(2821),
                             Rating = (short)5,
                             ReviewTargetId = 1,
                             ReviewUserId = 1
@@ -280,7 +281,7 @@ namespace Angular.Migrations
                         new
                         {
                             UserId = 1,
-                            BirthDate = new DateTime(2019, 6, 28, 23, 2, 16, 9, DateTimeKind.Local).AddTicks(9911),
+                            BirthDate = new DateTime(2019, 6, 29, 1, 44, 1, 42, DateTimeKind.Local).AddTicks(2453),
                             City = "Stadskanaal",
                             Firstname = "Jans",
                             Gender = "M",
@@ -301,23 +302,15 @@ namespace Angular.Migrations
                         .ValueGeneratedOnAdd()
                         .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
-                    b.Property<int?>("FollowingTargetUserId");
+                    b.Property<int>("FollowingUserAccountId");
 
-                    b.Property<int?>("FollowingUserId");
-
-                    b.Property<int?>("UserAccountUserId");
-
-                    b.Property<int?>("UserAccountUserId1");
+                    b.Property<int>("FollowingUserAccountTargetId");
 
                     b.HasKey("FollowId");
 
-                    b.HasIndex("FollowingTargetUserId");
+                    b.HasIndex("FollowingUserAccountId");
 
-                    b.HasIndex("FollowingUserId");
-
-                    b.HasIndex("UserAccountUserId");
-
-                    b.HasIndex("UserAccountUserId1");
+                    b.HasIndex("FollowingUserAccountTargetId");
 
                     b.ToTable("Followings");
                 });
@@ -397,23 +390,15 @@ namespace Angular.Migrations
 
             modelBuilder.Entity("Angular.Models.UserFollowing", b =>
                 {
-                    b.HasOne("Angular.Models.UserAccount", "Target")
-                        .WithMany()
-                        .HasForeignKey("FollowingTargetUserId")
-                        .OnDelete(DeleteBehavior.SetNull);
-
                     b.HasOne("Angular.Models.UserAccount", "User")
-                        .WithMany()
-                        .HasForeignKey("FollowingUserId")
+                        .WithMany("Following")
+                        .HasForeignKey("FollowingUserAccountId")
                         .OnDelete(DeleteBehavior.Restrict);
 
-                    b.HasOne("Angular.Models.UserAccount")
-                        .WithMany("Following")
-                        .HasForeignKey("UserAccountUserId");
-
-                    b.HasOne("Angular.Models.UserAccount")
+                    b.HasOne("Angular.Models.UserAccount", "Target")
                         .WithMany("Followers")
-                        .HasForeignKey("UserAccountUserId1");
+                        .HasForeignKey("FollowingUserAccountTargetId")
+                        .OnDelete(DeleteBehavior.Restrict);
                 });
 #pragma warning restore 612, 618
         }
