@@ -41,7 +41,7 @@ namespace Angular.Models
                 new Invitation()
                 {
                     InvitationId = 1,
-                    NumberOfGuest = 1,
+                    NumberOfGuests = 1,
                     InvitationPostId = 1
                 });
             modelBuilder.Entity<Location>().HasData(

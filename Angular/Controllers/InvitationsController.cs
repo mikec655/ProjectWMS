@@ -25,14 +25,14 @@ namespace Angular.Controllers
         // GET: api/users/5/invitations
         [Route("/api/users/{userId}/invitations")]
         [HttpGet]
-        public async Task<ActionResult<IEnumerable<Invitation>>> GetUserInvitations([FromRoute] int userId)
+        public async Task<ActionResult<IEnumerable<InvitationDto>>> GetUserInvitations([FromRoute] int userId)
         {
-            return await _context.Invitations.Include(p => p.Post).Where(p => p.Post.PostUserId == userId).ToListAsync();
+            return await _context.Invitations.Include(p => p.Post).Where(p => p.Post.PostUserId == userId).Select(InvitationDto.Projection).ToListAsync();
         }
 
         // GET: api/Posts/5/Invitation
         [HttpGet]
-        public async Task<ActionResult<Invitation>> GetInvitation([FromRoute] int postId)
+        public async Task<ActionResult<InvitationDto>> GetInvitation([FromRoute] int postId)
         {
             var invitation = await _context.Invitations.Where(p => p.InvitationPostId == postId).FirstOrDefaultAsync();
 
@@ -41,7 +41,7 @@ namespace Angular.Controllers
                 return NotFound();
             }
 
-            return invitation;
+            return InvitationDto.ToDto(invitation);
         }
 
         // POST: api/posts/5/Invitation/accept
@@ -58,7 +58,7 @@ namespace Angular.Controllers
                 return NotFound();
             }
 
-            if (invitation.Guests.Any(p => p.GuestUserId.ToString() == User.Identity.Name) && invitation.NumberOfGuest >= invitation.Guests.Count)
+            if (invitation.Guests.Any(p => p.GuestUserId.ToString() == User.Identity.Name) && invitation.NumberOfGuests >= invitation.Guests.Count)
             {
                 return BadRequest();
             }
@@ -131,14 +131,14 @@ namespace Angular.Controllers
 
         // PUT: api/posts/1/Invitations
         [HttpPut]
-        public async Task<IActionResult> PutInvitation([FromRoute] int postId, [FromBody] Invitation invitation)
+        public async Task<IActionResult> PutInvitation([FromRoute] int postId, [FromBody] InvitationDto invitation)
         {
             if (postId != invitation.InvitationPostId)
             {
                 return BadRequest();
             }
 
-            _context.Entry(invitation).State = EntityState.Modified;
+            _context.Entry(invitation.ToEntity()).State = EntityState.Modified;
 
             try
             {
@@ -161,14 +161,14 @@ namespace Angular.Controllers
 
         // POST: api/Posts/5/Invitations
         [HttpPost]
-        public async Task<ActionResult<Invitation>> PostInvitation(int postId, Invitation invitation)
+        public async Task<ActionResult<Invitation>> PostInvitation(int postId, InvitationDto invitation)
         {
             if (postId != invitation.InvitationPostId)
             {
                 return BadRequest();
             }
 
-            _context.Invitations.Add(invitation);
+            _context.Invitations.Add(invitation.ToEntity());
             await _context.SaveChangesAsync();
 
             return CreatedAtAction("GetInvitation", new { postId = invitation.InvitationPostId }, invitation);
@@ -176,7 +176,7 @@ namespace Angular.Controllers
 
         // DELETE: api/posts/5/Invitation
         [HttpDelete]
-        public async Task<ActionResult<Invitation>> DeleteInvitation(int postId)
+        public async Task<ActionResult<InvitationDto>> DeleteInvitation(int postId)
         {
             var invitation = await _context.Invitations.Where(p => p.InvitationPostId == postId).FirstOrDefaultAsync();
             if (invitation == null)
@@ -187,7 +187,7 @@ namespace Angular.Controllers
             _context.Invitations.Remove(invitation);
             await _context.SaveChangesAsync();
 
-            return invitation;
+            return InvitationDto.ToDto(invitation);
         }
 
         private bool InvitationExists(int id)

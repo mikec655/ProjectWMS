@@ -173,10 +173,12 @@ namespace Angular.Controllers
             var user = userDto.ToEntity();
 
             user = await _userService.RegisterAsync(user);
+
             if (user == null)
             {
                 return Conflict();
             }
+
             userDto = UserAccountDto.FromEntity(user);
 
             return CreatedAtAction("GetUser", new { id = userDto.UserId.GetValueOrDefault() }, userDto);
