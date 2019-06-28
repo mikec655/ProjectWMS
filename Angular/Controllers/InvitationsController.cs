@@ -52,14 +52,13 @@ namespace Angular.Controllers
                 .Where(p => p.InvitationPostId == postId)
                 .Include(p => p.Guests)
                 .FirstOrDefaultAsync();
+
             if (invitation == null)
             {
                 return NotFound();
             }
 
-            Console.WriteLine(invitation.Guests.Count);
-
-            if (invitation.Guests.Any(p => p.GuestUserId.ToString() == User.Identity.Name))
+            if (invitation.Guests.Any(p => p.GuestUserId.ToString() == User.Identity.Name) && invitation.NumberOfGuest >= invitation.Guests.Count)
             {
                 return BadRequest();
             }
@@ -160,10 +159,15 @@ namespace Angular.Controllers
             return NoContent();
         }
 
-        // POST: api/Invitations
+        // POST: api/Posts/5/Invitations
         [HttpPost]
-        public async Task<ActionResult<Invitation>> PostInvitation(Invitation invitation)
+        public async Task<ActionResult<Invitation>> PostInvitation(int postId, Invitation invitation)
         {
+            if (postId != invitation.InvitationPostId)
+            {
+                return BadRequest();
+            }
+
             _context.Invitations.Add(invitation);
             await _context.SaveChangesAsync();
 
