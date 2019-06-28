@@ -7,6 +7,7 @@ using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
+using System.Text;
 
 namespace Angular.Models
 {
@@ -60,6 +61,13 @@ namespace Angular.Models
                     Description = "Lekkere kaas wel.",
                     PostedAt = DateTime.UtcNow,
                     Rating = 5,
+                });
+            modelBuilder.Entity<Media>().HasData(
+                new Media()
+                {
+                    MediaId = 1,
+                    Type = "image/jpg",
+                    ImageData = Encoding.UTF8.GetBytes("Nee")
                 });
             _ = modelBuilder.Entity<Following>()
                 .HasOne<UserAccount>(p => p.Target)

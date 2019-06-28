@@ -37,6 +37,11 @@ namespace Angular.Migrations
                 column: "PostedAt",
                 value: new DateTime(2019, 6, 27, 18, 23, 6, 696, DateTimeKind.Utc).AddTicks(366));
 
+            migrationBuilder.InsertData(
+                table: "Medias",
+                column: "Type",
+                value: "image/png");
+
             migrationBuilder.UpdateData(
                 table: "Users",
                 keyColumn: "UserId",
