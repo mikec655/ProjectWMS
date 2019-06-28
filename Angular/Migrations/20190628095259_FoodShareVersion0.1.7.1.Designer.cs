@@ -5,14 +5,16 @@ using GeoAPI.Geometries;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 namespace Angular.Migrations
 {
     [DbContext(typeof(UserContext))]
-    partial class BloggingContextModelSnapshot : ModelSnapshot
+    [Migration("20190628095259_FoodShareVersion0.1.7.1")]
+    partial class FoodShareVersion0171
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -49,7 +51,7 @@ namespace Angular.Migrations
                             CommentPostId = 1,
                             CommentUserId = 1,
                             Content = "Hippity hoppity",
-                            PostedAt = new DateTime(2019, 6, 28, 11, 55, 41, 401, DateTimeKind.Local).AddTicks(6098)
+                            PostedAt = new DateTime(2019, 6, 28, 11, 52, 59, 221, DateTimeKind.Local).AddTicks(122)
                         });
                 });
 
@@ -183,8 +185,6 @@ namespace Angular.Migrations
 
                     b.Property<DateTime?>("PostedAt");
 
-                    b.Property<string>("Title");
-
                     b.HasKey("PostId");
 
                     b.HasIndex("MediaId");
@@ -200,7 +200,7 @@ namespace Angular.Migrations
                             Message = "Kaas",
                             PostMediaId = 0,
                             PostUserId = 1,
-                            PostedAt = new DateTime(2019, 6, 28, 11, 55, 41, 401, DateTimeKind.Local).AddTicks(2874)
+                            PostedAt = new DateTime(2019, 6, 28, 11, 52, 59, 220, DateTimeKind.Local).AddTicks(6876)
                         });
                 });
 
@@ -234,7 +234,7 @@ namespace Angular.Migrations
                         {
                             ReviewId = 1,
                             Description = "Lekkere kaas wel.",
-                            PostedAt = new DateTime(2019, 6, 28, 9, 55, 41, 407, DateTimeKind.Utc).AddTicks(8441),
+                            PostedAt = new DateTime(2019, 6, 28, 9, 52, 59, 230, DateTimeKind.Utc).AddTicks(1550),
                             Rating = (short)5,
                             ReviewTargetId = 1,
                             ReviewUserId = 1
@@ -284,7 +284,7 @@ namespace Angular.Migrations
                         new
                         {
                             UserId = 1,
-                            BirthDate = new DateTime(2019, 6, 28, 11, 55, 41, 399, DateTimeKind.Local).AddTicks(4447),
+                            BirthDate = new DateTime(2019, 6, 28, 11, 52, 59, 218, DateTimeKind.Local).AddTicks(7050),
                             City = "Stadskanaal",
                             Firstname = "Jans",
                             Gender = "M",

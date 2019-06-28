@@ -32,7 +32,7 @@ namespace Angular.Models
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
             modelBuilder.Entity<UserAccount>().HasData(
-                new UserAccount() { UserId = 1, Username = "Test", Password = "6sNsu+pxGtzIoQmNHq2nX5KFbemuNM10tzdUuL5E8Zo=.xygrNhDB6A8KLH8QilMWkw==", Firstname = "Jans", Lastname = "Jansen", Gender = "M", BirthDate = DateTime.Now, Number = 0611992103, City = "Stadskanaal", Street = "Hoofdkade", ZipCode = "9503HH", ProfileDescription = "Kaas", UserMediaId = 1 });
+                new UserAccount() { UserId = 1, Username = "Test", Password = "6sNsu+pxGtzIoQmNHq2nX5KFbemuNM10tzdUuL5E8Zo=.xygrNhDB6A8KLH8QilMWkw==", Firstname = "Jans", Lastname = "Jansen", Gender = "M", BirthDate = DateTime.Now, Number = "155", City = "Stadskanaal", Street = "Hoofdkade", ZipCode = "9503HH", ProfileDescription = "Kaas", UserMediaId = 1 });
             modelBuilder.Entity<Post>().HasData(
                 new Post() { PostUserId = 1, Message = "Kaas", PostedAt = DateTime.Now, PostId = 1 });
             modelBuilder.Entity<Comment>().HasData(

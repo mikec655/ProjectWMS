@@ -19,6 +19,8 @@ namespace Angular.Models
         [ForeignKey("PostUserId")]
         public UserAccount User { get; set; }
 
+        public string Title { get; set; }
+
         public DateTime? PostedAt { get; set; }
 
         [NotMapped]
@@ -53,6 +55,8 @@ namespace Angular.Models
 
         public long PostedAtUnix { get; set; }
 
+        public string Title { get; set; }
+
         public string Message { get; set; }
 
         public int PostMediaId { get; set; }
@@ -71,6 +75,8 @@ namespace Angular.Models
                     UserFirstName = p.User == null ? null : p.User.Firstname,
                     UserLastName = p.User == null ? null : p.User.Lastname,
                     Message = p.Message,
+                    Title = p.Title,
+                    PostMediaId = p.PostMediaId,
                     PostedAtUnix = new DateTimeOffset(p.PostedAt.HasValue ? p.PostedAt.Value : DateTime.UtcNow).ToUnixTimeMilliseconds()
                 };
             }
@@ -85,6 +91,8 @@ namespace Angular.Models
                     PostId = p.PostId,
                     PostUserId = p.PostUserId,
                     Message = p.Message,
+                    Title = p.Title,
+                    PostMediaId = p.PostMediaId,
                     PostedAt = DateTimeOffset.FromUnixTimeMilliseconds(p.PostedAtUnix).UtcDateTime
                 };
             }
@@ -111,6 +119,7 @@ namespace Angular.Models
                 PostUserId = 1,
                 UserFirstName = "Jans",
                 UserLastName = "Jansen",
+                Title = "Rasp",
                 Message = "KAAS",
                 PostedAtUnix = 1561511612134
             };

@@ -38,7 +38,7 @@ namespace Angular.Models
 
         public string Street { get; set; }
 
-        public int Number { get; set; }
+        public string Number { get; set; }
 
         public string ZipCode { get; set; }
 
@@ -96,7 +96,7 @@ namespace Angular.Models
 
         public string Street { get; set; }
 
-        public int? Number { get; set; }
+        public string Number { get; set; }
 
         public string ZipCode { get; set; }
 
@@ -146,7 +146,7 @@ namespace Angular.Models
                     Gender = p.Gender,
                     BirthDate = DateTimeOffset.FromUnixTimeMilliseconds(p.BirthDateUnix.GetValueOrDefault()).UtcDateTime,
                     Street = p.Street,
-                    Number = p.Number.GetValueOrDefault(),
+                    Number = p.Number,
                     ZipCode = p.ZipCode,
                     City = p.City,
                     UserMediaId = p.UserMediaId,
@@ -180,7 +180,7 @@ namespace Angular.Models
                 Gender = "M",
                 BirthDateUnix = 1561511612130,
                 Street = "Hoofdkade",
-                Number = 0611992103,
+                Number = "155",
                 ZipCode = "9503HH",
                 City = "Stadskanaal",
                 UserMediaId = 1,
