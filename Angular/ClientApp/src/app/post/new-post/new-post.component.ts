@@ -7,13 +7,18 @@ import { NgbModal, ModalDismissReasons } from '@ng-bootstrap/ng-bootstrap';
   styleUrls: ['./new-post.component.css']
 })
 export class NewPostComponent implements OnInit {
+    public ischecked: string = "false";
+    title: any;
 
-    message: string;
+    message: any;
     closeResult: string;
-    firstname: string;
-    lastname: string;
+
     password: string;
-    date;
+    street: any;
+    housenumber: any;
+    zipcode: any;
+    city: any;
+
 
     constructor(private modalService: NgbModal) { }
 
@@ -37,18 +42,69 @@ export class NewPostComponent implements OnInit {
         }
     }
 
-    close() {
 
-        //hier iets mee doen vanuit response van database ofzo?
-        if (this.firstname == null || this.lastname == null || this.password == null || this.date == null) {
-            this.message = "saving failed";
-        }
-        else {
-            //hier pushen naar db
-            console.log(this.firstname + "-" + this.lastname + "-" + this.password + "-" + this.date);
-            this.message = "saving succesfull";
-            //shijt jquery werkt niet $('#content').modal('hide'); dus kan hem nniet automatisch sluiten
-        }
+    streetPost(value: any) {
+        this.street = value;
+        console.log(1)
+        console.log(value)
+    }
+
+
+    zipCode(value: any) {
+        this.zipcode= value;
+        console.log(2)
+        console.log(value)
+    }
+
+    filePost(value: any) {
+        this.zipcode = value;
+        console.log(3)
+        console.log(value)
+    }
+
+    titlePost(value: any) {
+        this.title = value;
+        console.log(this.title)
+    }
+
+    houseNumber(value: any) {
+        this.housenumber = value;
+        console.log(4)
+        console.log(this.housenumber)
+        console.log(value)
+    }
+
+    postText(value: any) {
+        this.message = value;
+        console.log(5)
+        console.log(value)
+    }
+
+    cityPost(value: any) {
+        this.city = value;
+        console.log(this.city);
+    }
+
+
+    //method to post post to database;
+    createpost() {
+        console.log(1938293)
+        console.log(this.message);
+        console.log(this.street);
+        console.log(this.housenumber);
+        console.log(this.zipcode);
+        console.log(this.title);
+        console.log(this.city);
+
+
+    }
+
+
+    FieldsChange() {
+        console.log(this.ischecked);
+        if (this.ischecked === "false") { this.ischecked = "true"; }
+        else { this.ischecked = "false";}
+        
     }
 
     ngOnInit() {

@@ -7,27 +7,33 @@
   </div>
   <div class="modal-body">
     <form>
-      <div class="form-group">
         <div class="form-group">
-          <label for="usr">FirstName:</label>
-          <input  [(ngModel)]="firstname" name ="fistname"type="text" class="form-control" id="usrfirstname">
-        
-        
-          <label for="usr">LastName:</label>
-          <input  [(ngModel)]="lastname" name ="lastname" type="text" class="form-control" id="usrlastname">
-        
-        
-          <label for="pwd">Password:</label>
-          <input  [(ngModel)]="password" name ="password" type="password" class="form-control" id="pwd">
+            <div class="form-group">
+                <label for="usr">FirstName:</label>
+                <input [(ngModel)]="firstname" name="fistname" type="text" class="form-control" id="usrfirstname">
+
+
+                <label for="usr">LastName:</label>
+                <input [(ngModel)]="lastname" name="lastname" type="text" class="form-control" id="usrlastname">
+
+
+                <label for="usr">Password:</label>
+                <input [(ngModel)]="password" name="password" type="password" class="form-control" id="pwd">
+            </div>
+
+            <label for="usr">street and Housenumber:</label><br>
+            <input type="text"  [(ngModel)]="street" name="street" id="streetinput"><input  [(ngModel)]="housenumber" type="text" name="housenumber" maxlength="10" size="4"><br>
+            <label for="usr">zipcode:</label><br>
+            <input type="text" [(ngModel)]="zipcode" name="zipcode"><br>
+
+            <label for="dateOfBirth">Date of birth</label>
+            <div class="input-group">
+                <input id="dateOfBirth" class="form-control" [(ngModel)]="date" placeholder="yyyy-mm-dd" name="dp" ngbDatepicker #dp="ngbDatepicker">
+                <div class="input-group-append">
+                    <button class="btn btn-outline-secondary calendar" (click)="dp.toggle()" type="button"></button>
+                </div>
+            </div>
         </div>
-        <label for="dateOfBirth">Date of birth</label>
-        <div class="input-group">
-          <input id="dateOfBirth" class="form-control" [(ngModel)]="date" placeholder="yyyy-mm-dd" name="dp" ngbDatepicker #dp="ngbDatepicker">
-          <div class="input-group-append">
-            <button class="btn btn-outline-secondary calendar" (click)="dp.toggle()" type="button"></button>
-          </div>
-        </div>
-      </div>
     </form>
   </div>
   <div class="modal-footer">
