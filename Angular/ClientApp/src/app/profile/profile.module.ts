@@ -8,6 +8,7 @@ import { PostModule } from '../post/post.module';
 import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 import { FormsModule } from '@angular/forms';
 import { UsersettingsComponent } from './usersettings/usersettings.component';
+import { AuthenticationService } from '../authentication.service';
 
 
 
@@ -21,7 +22,7 @@ import { UsersettingsComponent } from './usersettings/usersettings.component';
     NgbModule.forRoot(),
     CommonModule,
     RouterModule.forChild([
-      { path: '', component: ProfileComponent, /*canActivate: [AuthGuardService]*/ }
+      { path: '', component: ProfileComponent, canActivate: [AuthenticationService] }
     ])
   ]
 })

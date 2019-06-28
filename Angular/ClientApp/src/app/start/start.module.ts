@@ -6,6 +6,7 @@ import { StartComponent } from './start/start.component';
 import { RouterModule } from '@angular/router';
 import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 import { PostModule } from '../post/post.module';
+import { AuthenticationService } from '../authentication.service';
 
 @NgModule({
   declarations: [ProfileSideBarComponent, MapSideBarComponent, StartComponent],
@@ -13,7 +14,7 @@ import { PostModule } from '../post/post.module';
       CommonModule,
       PostModule,
     RouterModule.forChild([
-      { path: '', component: StartComponent, /*canActivate: [AuthGuardService]*/ }
+      { path: '', component: StartComponent, canActivate: [AuthenticationService] }
     ])
   ]
 })

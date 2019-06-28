@@ -1,5 +1,6 @@
 import { Component } from '@angular/core';
 import { trigger, state, style, animate, transition } from '@angular/animations';
+import { AuthenticationService } from '../authentication.service';
 
 @Component({
   selector: 'app-nav-menu',
@@ -24,7 +25,11 @@ import { trigger, state, style, animate, transition } from '@angular/animations'
 })
 export class NavMenuComponent {
   isExpanded = true;
-  maxHeight = 70;
+    maxHeight = 70;
+
+    constructor(private authenticationService: AuthenticationService) {
+
+    }
 
   close() {
     this.isExpanded = false;
@@ -42,4 +47,13 @@ export class NavMenuComponent {
     this.isExpanded = this.collapse == "open" ? true : false;
     this.maxHeight = this.isExpanded ? 500 : 65;
   }
+
+  logout() {
+      this.authenticationService.logout();
+  }
+
+  isLoggedIn() {
+      return this.authenticationService.isLoggedIn();
+  }
+
 }
