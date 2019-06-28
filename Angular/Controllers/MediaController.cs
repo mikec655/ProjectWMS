@@ -24,10 +24,10 @@ namespace Angular.Controllers
         [HttpPost]
         public async Task<IActionResult> PostFile(IFormFile file)
         {
-            Console.WriteLine(file.ContentType);
             Media media;
             using (var fileStream = new MemoryStream())
             {
+                Console.WriteLine(file.ContentType);
                 await file.CopyToAsync(fileStream);
                 var fileBytes = fileStream.ToArray();
                 media = new Media()
