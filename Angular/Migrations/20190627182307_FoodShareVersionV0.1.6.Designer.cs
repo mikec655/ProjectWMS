@@ -5,14 +5,16 @@ using GeoAPI.Geometries;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 namespace Angular.Migrations
 {
     [DbContext(typeof(UserContext))]
-    partial class BloggingContextModelSnapshot : ModelSnapshot
+    [Migration("20190627182307_FoodShareVersionV0.1.6")]
+    partial class FoodShareVersionV016
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -49,7 +51,7 @@ namespace Angular.Migrations
                             CommentPostId = 1,
                             CommentUserId = 1,
                             Content = "Hippity hoppity",
-                            PostedAt = new DateTime(2019, 6, 28, 13, 22, 8, 574, DateTimeKind.Local).AddTicks(1479)
+                            PostedAt = new DateTime(2019, 6, 27, 20, 23, 6, 687, DateTimeKind.Local).AddTicks(979)
                         });
                 });
 
@@ -78,9 +80,11 @@ namespace Angular.Migrations
                         .ValueGeneratedOnAdd()
                         .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
-                    b.Property<int>("GuestInvitationId");
+                    b.Property<int?>("GuestInvitationId");
 
                     b.Property<int>("GuestUserId");
+
+                    b.Property<int>("InvitationId");
 
                     b.HasKey("GuestId");
 
@@ -101,14 +105,13 @@ namespace Angular.Migrations
 
                     b.Property<int>("NumberOfGuest");
 
-                    b.Property<DateTime>("PostedAt");
+                    b.Property<DateTime>("Time");
 
                     b.Property<string>("Type");
 
                     b.HasKey("InvitationId");
 
-                    b.HasIndex("InvitationPostId")
-                        .IsUnique();
+                    b.HasIndex("InvitationPostId");
 
                     b.ToTable("Invitations");
 
@@ -118,7 +121,7 @@ namespace Angular.Migrations
                             InvitationId = 1,
                             InvitationPostId = 1,
                             NumberOfGuest = 1,
-                            PostedAt = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified)
+                            Time = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified)
                         });
                 });
 
@@ -172,21 +175,13 @@ namespace Angular.Migrations
                         .ValueGeneratedOnAdd()
                         .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
-                    b.Property<int?>("MediaId");
-
                     b.Property<string>("Message");
-
-                    b.Property<int>("PostMediaId");
 
                     b.Property<int>("PostUserId");
 
                     b.Property<DateTime?>("PostedAt");
 
-                    b.Property<string>("Title");
-
                     b.HasKey("PostId");
-
-                    b.HasIndex("MediaId");
 
                     b.HasIndex("PostUserId");
 
@@ -197,9 +192,8 @@ namespace Angular.Migrations
                         {
                             PostId = 1,
                             Message = "Kaas",
-                            PostMediaId = 0,
                             PostUserId = 1,
-                            PostedAt = new DateTime(2019, 6, 28, 13, 22, 8, 573, DateTimeKind.Local).AddTicks(8267)
+                            PostedAt = new DateTime(2019, 6, 27, 20, 23, 6, 686, DateTimeKind.Local).AddTicks(5930)
                         });
                 });
 
@@ -233,7 +227,7 @@ namespace Angular.Migrations
                         {
                             ReviewId = 1,
                             Description = "Lekkere kaas wel.",
-                            PostedAt = new DateTime(2019, 6, 28, 11, 22, 8, 580, DateTimeKind.Utc).AddTicks(3328),
+                            PostedAt = new DateTime(2019, 6, 27, 18, 23, 6, 696, DateTimeKind.Utc).AddTicks(366),
                             Rating = (short)5,
                             ReviewTargetId = 1,
                             ReviewUserId = 1
@@ -257,7 +251,7 @@ namespace Angular.Migrations
 
                     b.Property<string>("Lastname");
 
-                    b.Property<string>("Number");
+                    b.Property<int>("Number");
 
                     b.Property<string>("Password")
                         .HasColumnType("nvarchar(255)");
@@ -283,12 +277,12 @@ namespace Angular.Migrations
                         new
                         {
                             UserId = 1,
-                            BirthDate = new DateTime(2019, 6, 28, 13, 22, 8, 571, DateTimeKind.Local).AddTicks(9825),
+                            BirthDate = new DateTime(2019, 6, 27, 20, 23, 6, 684, DateTimeKind.Local).AddTicks(1356),
                             City = "Stadskanaal",
                             Firstname = "Jans",
                             Gender = "M",
                             Lastname = "Jansen",
-                            Number = "155",
+                            Number = 611992103,
                             Password = "6sNsu+pxGtzIoQmNHq2nX5KFbemuNM10tzdUuL5E8Zo=.xygrNhDB6A8KLH8QilMWkw==",
                             ProfileDescription = "Kaas",
                             Street = "Hoofdkade",
@@ -326,9 +320,8 @@ namespace Angular.Migrations
             modelBuilder.Entity("Angular.Models.Guest", b =>
                 {
                     b.HasOne("Angular.Models.Invitation", "Invitation")
-                        .WithMany("Guests")
-                        .HasForeignKey("GuestInvitationId")
-                        .OnDelete(DeleteBehavior.Cascade);
+                        .WithMany()
+                        .HasForeignKey("GuestInvitationId");
 
                     b.HasOne("Angular.Models.UserAccount", "User")
                         .WithMany()
@@ -339,8 +332,8 @@ namespace Angular.Migrations
             modelBuilder.Entity("Angular.Models.Invitation", b =>
                 {
                     b.HasOne("Angular.Models.Post", "Post")
-                        .WithOne("Invitation")
-                        .HasForeignKey("Angular.Models.Invitation", "InvitationPostId")
+                        .WithMany()
+                        .HasForeignKey("InvitationPostId")
                         .OnDelete(DeleteBehavior.Cascade);
                 });
 
@@ -354,10 +347,6 @@ namespace Angular.Migrations
 
             modelBuilder.Entity("Angular.Models.Post", b =>
                 {
-                    b.HasOne("Angular.Models.Media", "Media")
-                        .WithMany()
-                        .HasForeignKey("MediaId");
-
                     b.HasOne("Angular.Models.UserAccount", "User")
                         .WithMany()
                         .HasForeignKey("PostUserId")

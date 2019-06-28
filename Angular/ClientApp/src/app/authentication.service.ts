@@ -4,14 +4,17 @@ import { Observable, BehaviorSubject } from 'rxjs';
 import { map } from 'rxjs/operators';
 import { environment } from '../environments/environment';
 import { User } from './_models/user';
+import { CanActivate, RouterModule, Router } from '@angular/router';
 
 @Injectable({
   providedIn: 'root'
 })
-export class AuthenticationService {
+export class AuthenticationService implements CanActivate {
+
     private currentUserSubject: BehaviorSubject<User>;
     public currentUser: Observable<User>;
-    constructor(private http: HttpClient) {
+
+    constructor(private http: HttpClient, private router: Router) {
         this.currentUserSubject = new BehaviorSubject<User>(JSON.parse(localStorage.getItem('currentUser')));
         this.currentUser = this.currentUserSubject.asObservable();
     }
@@ -25,6 +28,7 @@ export class AuthenticationService {
             .pipe(map(user => {
                 localStorage.setItem('currentUser', JSON.stringify(user));
                 this.currentUserSubject.next(user)
+                this.router.navigate(["/"])
                 return user;
             }));
     }
@@ -32,6 +36,7 @@ export class AuthenticationService {
     logout() {
         localStorage.removeItem('currentUser');
         this.currentUserSubject.next(null);
+        this.router.navigate(["/login"])
     }
 
     isLoggedIn() {
@@ -44,5 +49,13 @@ export class AuthenticationService {
         }
 
         return true;
+    }
+
+    canActivate(): boolean {
+        if (this.isLoggedIn()) return true
+        else {
+            this.router.navigate(["/login"])
+            return false
+        }
     }
 }

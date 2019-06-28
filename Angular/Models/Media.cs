@@ -17,10 +17,7 @@ namespace Angular.Models
 
         [Column(TypeName = "nvarchar(max)")]
         public string Source { get; set; }
-
-        public int MediaPostId { get; set; }
-
-        [ForeignKey("MediaPostId")]
-        public Post Post { get; set; }
+        
+        public byte[] ImageData { get; set; }
     }
 }

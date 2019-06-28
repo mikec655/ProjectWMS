@@ -8,6 +8,7 @@ using Microsoft.EntityFrameworkCore;
 using Angular.Models;
 using Microsoft.AspNetCore.Authorization;
 using System.Linq.Expressions;
+using Swashbuckle.AspNetCore.Examples;
 
 namespace Angular.Controllers
 {
@@ -41,6 +42,8 @@ namespace Angular.Controllers
         }
 
         // GET: api/posts/1/Comments/5
+        [SwaggerRequestExample(typeof(CommentDto), typeof(CommentDto))]
+        [SwaggerResponseExample(200, typeof(CommentDto))]
         [AllowAnonymous]
         [HttpGet("{id}")]
         public async Task<ActionResult<CommentDto>> GetComment(int id)
@@ -56,6 +59,7 @@ namespace Angular.Controllers
         }
 
         // PUT: api/posts/5/comments/1
+        [SwaggerRequestExample(typeof(CommentDto), typeof(CommentDto))]
         [HttpPut("{id}")]
         public async Task<IActionResult> PutComment(int id, int postId, CommentDto comment)
         {
@@ -105,7 +109,9 @@ namespace Angular.Controllers
             return NoContent();
         }
 
-        // POST: api/posts/5/comments
+        // POST: api/posts/5/commentss
+        [SwaggerRequestExample(typeof(CommentDto), typeof(CommentPostExample))]
+        [SwaggerResponseExample(200, typeof(CommentPostExample))]
         [HttpPost]
         public async Task<ActionResult<Comment>> PostComment(int postId, CommentDto comment)
         {
@@ -136,6 +142,7 @@ namespace Angular.Controllers
         }
 
         // DELETE: api/posts/5/Comments/5
+        [SwaggerResponseExample(200, typeof(CommentDto))]
         [HttpDelete("{id}")]
         public async Task<ActionResult<Comment>> DeleteComment(int id)
         {
@@ -154,6 +161,22 @@ namespace Angular.Controllers
         private bool CommentExists(int id)
         {
             return _context.Comments.Any(e => e.CommentId == id);
+        }
+    }
+
+    public class CommentPostExample : IExamplesProvider
+    {
+        public virtual object GetExamples()
+        {
+            return new CommentDto()
+            {
+                CommentPostId = 1,
+                CommentUserId = 1,
+                UserFirstName = "Jans",
+                UserLastName = "Jansen",
+                Content = "Kaas",
+                PostedAtUnix = 1561511612134
+            };
         }
     }
 }

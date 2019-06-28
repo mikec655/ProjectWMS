@@ -12,6 +12,10 @@ using Microsoft.IdentityModel.Tokens;
 using MemoryGame.Services;
 using Newtonsoft.Json;
 using Swashbuckle.AspNetCore.Swagger;
+using System.Reflection;
+using System;
+using System.IO;
+using Swashbuckle.AspNetCore.Examples;
 
 namespace Angular
 {
@@ -45,6 +49,10 @@ namespace Angular
             services.AddSwaggerGen(c =>
             {
                 c.SwaggerDoc("v1", new Info { Title = "My API", Version = "v1" });
+                var xmlFile = $"{Assembly.GetExecutingAssembly().GetName().Name}.xml";
+                var xmlPath = Path.Combine(AppContext.BaseDirectory, xmlFile);
+                c.IncludeXmlComments(xmlPath);
+                c.OperationFilter<ExamplesOperationFilter>();
             });
 
             // configure strongly typed settings objects
