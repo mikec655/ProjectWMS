@@ -24,14 +24,19 @@ namespace Angular.Controllers
         [HttpPost]
         public async Task<IActionResult> PostFile(IFormFile file)
         {
+            if(file.ContentType != "image/png" && file.ContentType != "image/jpg")
+            {
+                return BadRequest();
+            }
+
             Media media;
             using (var fileStream = new MemoryStream())
             {
-                Console.WriteLine(file.ContentType);
                 await file.CopyToAsync(fileStream);
                 var fileBytes = fileStream.ToArray();
                 media = new Media()
                 {
+                    Type = file.ContentType,
                     ImageData = fileBytes
                 };
                 _context.Medias.Add(media);
@@ -46,7 +51,7 @@ namespace Angular.Controllers
         }
 
         [HttpGet("{fileId}")]
-        [Produces("image/png")]
+        [Produces("image/png", "image/jpg")]
         public async Task<IActionResult> GetFile([FromRoute] int fileId)
         {
             var file = await _context.Medias.FindAsync(fileId);
@@ -55,7 +60,7 @@ namespace Angular.Controllers
                 return NotFound();
             }
 
-            return File(file.ImageData, "image/png");
+            return File(file.ImageData, file.Type);
         }
     }
 }
