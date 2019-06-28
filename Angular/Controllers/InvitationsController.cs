@@ -95,7 +95,10 @@ namespace Angular.Controllers
         [HttpGet("guests/{guestId}")]
         public async Task<ActionResult<Guest>> GetGuest([FromRoute] int postId, [FromRoute] int guestId)
         {
-            var guest = await _context.Guests.Where(p => p.GuestId == guestId).Include(p => p.GuestInvitationId).FirstOrDefaultAsync();
+            var guest = await _context.Guests.Where(p => p.GuestId == guestId)
+                .Include(p => p.Invitation)
+                .Include(p => p.User)
+                .FirstOrDefaultAsync();
             
             if (guest == null)
             {
@@ -116,6 +119,7 @@ namespace Angular.Controllers
             var invitation = await _context.Invitations
                 .Where(p => p.InvitationPostId == postId)
                 .Include(p => p.Guests)
+                .ThenInclude(j => j.User)
                 .FirstOrDefaultAsync();
 
             if (invitation == null)
