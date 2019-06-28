@@ -7,23 +7,10 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using Angular.Models;
 using Microsoft.AspNetCore.Authorization;
+using Swashbuckle.AspNetCore.Examples;
 
 namespace Angular.Controllers
 {
-    public class PostVM
-    {
-        public int PostId { get; set; }
-
-        public int PostUserId { get; set; }
-
-        public string UserFirstName { get; set; }
-
-        public string UserLastName { get; set; }
-
-        public long PostedAtUnix { get; set; }
-
-        public string Message { get; set; }
-    }
 
     [Route("api/[controller]")]
     [ApiController]
@@ -36,40 +23,26 @@ namespace Angular.Controllers
             _context = context;
         }
 
-        // GET: api/Posts
-        [HttpGet]
-        public async Task<ActionResult<IEnumerable<PostVM>>> GetPosts()
+        // GET: api/Users/5/posts
+        [HttpGet("/api/users/{userId}/posts")]
+        [ProducesResponseType(typeof(IEnumerable<PostDto>), 200)]
+        public async Task<ActionResult<IEnumerable<PostDto>>> GetPosts(int userId)
         {
             return await _context.Posts
-                .Include(p => p.User)
-                .Select(p => new PostVM
-                {
-                    PostId = p.PostId,
-                    PostUserId = p.PostUserId,
-                    PostedAtUnix = new DateTimeOffset(p.PostedAt.Value.ToUniversalTime()).ToUnixTimeMilliseconds(),
-                    Message = p.Message,
-                    UserFirstName = p.User.Firstname,
-                    UserLastName = p.User.Lastname
-                })
+                .Where(p => p.PostUserId == userId)
+                .Select(PostDto.Projection)
                 .ToListAsync();
         }
 
         // GET: api/Posts/5
+        [ProducesResponseType(typeof(PostDto), 200)]
         [HttpGet("{id}")]
-        public async Task<ActionResult<PostVM>> GetPost(int id)
+        public async Task<ActionResult<PostDto>> GetPost(int id)
         {
             var post = await _context.Posts
                 .Where(p => p.PostId == id)
                 .Include(p => p.User)
-                .Select(p => new PostVM
-                {
-                    PostId = p.PostId,
-                    PostUserId = p.PostUserId,
-                    PostedAtUnix = new DateTimeOffset(p.PostedAt.Value.ToUniversalTime()).ToUnixTimeMilliseconds(),
-                    Message = p.Message,
-                    UserFirstName = p.User.Firstname,
-                    UserLastName = p.User.Lastname
-                })
+                .Select(PostDto.Projection)
                 .FirstOrDefaultAsync();
 
             if (post == null)
@@ -83,7 +56,7 @@ namespace Angular.Controllers
         // PUT: api/Posts/5
         [Authorize]
         [HttpPut("{id}")]
-        public async Task<IActionResult> PutPost(int id, Post post)
+        public async Task<IActionResult> PutPost(int id, PostDto post)
         {
             if (id != post.PostId)
             {
@@ -123,11 +96,12 @@ namespace Angular.Controllers
         }
 
         // POST: api/Posts
+        [SwaggerResponseExample(200, typeof(PostDto))]
         [Authorize]
         [HttpPost]
-        public async Task<ActionResult<Post>> PostPost(Post post)
+        public async Task<ActionResult<Post>> PostPost(PostDto postDto)
         {
-            post.ToEntity();
+            var post = postDto.ToEntity();
 
             post.PostedAt = DateTime.UtcNow;
 
@@ -135,19 +109,13 @@ namespace Angular.Controllers
 
             await _context.SaveChangesAsync();
 
-            return CreatedAtAction("GetPost", new { id = post.PostId }, new PostVM
-                {
-                    PostId = post.PostId,
-                    PostUserId = post.PostUserId,
-                    PostedAtUnix = new DateTimeOffset(post.PostedAt.Value.ToUniversalTime()).ToUnixTimeMilliseconds(),
-                    Message = post.Message,
-                });
+            return CreatedAtAction("GetPost", new { id = post.PostId }, post);
         }
 
         // DELETE: api/Posts/5
         [Authorize]
         [HttpDelete("{id}")]
-        public async Task<ActionResult<Post>> DeletePost(int id)
+        public async Task<ActionResult<PostDto>> DeletePost(int id)
         {
             var post = await _context.Posts.FindAsync(id);
             if (post == null)
@@ -163,7 +131,7 @@ namespace Angular.Controllers
             _context.Posts.Remove(post);
             await _context.SaveChangesAsync();
 
-            return post;
+            return PostDto.FromEntity(post);
         }
 
         private bool PostExists(int id)
