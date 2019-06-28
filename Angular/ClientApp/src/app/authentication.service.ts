@@ -24,7 +24,7 @@ export class AuthenticationService implements CanActivate {
     }
 
     login(username: string, password: string) {
-        return this.http.post<any>(`/api/login`, { username, password })
+        return this.http.post<any>(`${environment.apiUrl}/api/login`, { username, password })
             .pipe(map(user => {
                 localStorage.setItem('currentUser', JSON.stringify(user));
                 this.currentUserSubject.next(user)

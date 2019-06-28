@@ -5,6 +5,7 @@ import { MustMatch } from '../_utils/password-match.validator'
 import { AuthenticationService } from '../authentication.service';
 import { HttpClient } from '@angular/common/http';
 import { environment } from '../../environments/environment';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-register',
@@ -20,7 +21,8 @@ export class RegisterComponent implements OnInit {
   constructor(
     private formBuilder: FormBuilder,
     private authenticationService: AuthenticationService,
-    private http: HttpClient) { }
+    private http: HttpClient,
+    private router: Router) { }
 
   ngOnInit() {
       this.registerForm = this.formBuilder.group({
@@ -41,19 +43,12 @@ export class RegisterComponent implements OnInit {
     });
   }
 
-  onClick() {
-    this.email = "hoi";
-  }
-
   // Shorthand to get the controls of the form
   get f() { return this.registerForm.controls; }
 
   onSubmit() {
-    console.log(this.registerForm.controls.password.errors)
     this.submitted = true;
-    // TODO: Use EventEmitter with form value
-    console.warn(this.registerForm.value);
-      var test = {
+       var profile = {
           "firstname": this.registerForm.controls.firstname.value,
           "lastname": this.registerForm.controls.lastname.value,
           "gender": this.registerForm.controls.gender.value,
@@ -62,14 +57,17 @@ export class RegisterComponent implements OnInit {
           "number": this.registerForm.controls.number.value,
           "zipCode": this.registerForm.controls.zipCode.value,
           "city": this.registerForm.controls.city.value,
-          "username": this.registerForm.controls.password.value,
-          "password": this.registerForm.controls.email.value,
+          "username": this.registerForm.controls.email.value,
+          "password": this.registerForm.controls.password.value,
           "profileDescription": this.registerForm.controls.profileDescription.value
     }
-    let data = JSON.stringify(test);
       this.http
-        .post<string>(`${environment.apiUrl}/api/Users`, test)
-        .subscribe(result => { this.result = result; console.log(result); });
+        .post<string>(`${environment.apiUrl}/api/Users`, profile)
+          .subscribe(result => {
+              this.result = result;
+              console.log(result);
+              this.router.navigate(["/login"]);
+          });
   }
 
 }
