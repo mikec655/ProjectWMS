@@ -18,7 +18,7 @@ namespace MemoryGame.Services
         UserAccount Authenticate(string username, string password);
         void Register(string username, string password);
 
-        Task RegisterAsync(UserAccount user);
+        Task<UserAccount> RegisterAsync(UserAccount user);
 
         IEnumerable<UserAccount> GetAll();
     }
@@ -81,19 +81,20 @@ namespace MemoryGame.Services
             _context.SaveChangesAsync();;
         }
 
-        public async Task RegisterAsync(UserAccount user)
+        public async Task<UserAccount> RegisterAsync(UserAccount user)
         {
 
             var existingUser = _context.Users.FirstOrDefault(x => x.Username == user.Username);
             if (existingUser != null)
             {
-                return;
+                return null;
             }
 
             user.Password = Hash.GenerateHash(user.Password);
 
             _context.Users.Add(user);
             await _context.SaveChangesAsync();
+            return user;
         }
 
         public IEnumerable<UserAccount> GetAll()

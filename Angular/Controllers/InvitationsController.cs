@@ -22,12 +22,12 @@ namespace Angular.Controllers
             _context = context;
         }
 
-        // GET: api/Invitations
-        [Route("/api/invitations")]
+        // GET: api/users/5/invitations
+        [Route("/api/users/{userId}/invitations")]
         [HttpGet]
-        public async Task<ActionResult<IEnumerable<Invitation>>> GetInvitations()
+        public async Task<ActionResult<IEnumerable<Invitation>>> GetUserInvitations([FromRoute] int userId)
         {
-            return await _context.Invitations.ToListAsync();
+            return await _context.Invitations.Include(p => p.Post).Where(p => p.Post.PostUserId == userId).ToListAsync();
         }
 
         // GET: api/Posts/5/Invitation
