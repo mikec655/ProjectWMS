@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 using System.Linq;
+using System.Linq.Expressions;
 using System.Threading.Tasks;
 
 namespace Angular.Models
@@ -17,7 +18,7 @@ namespace Angular.Models
         [ForeignKey("GuestUserId")]
         public UserAccount User { get; set; }
 
-        public int InvitationId { get; set; }
+        public int GuestInvitationId { get; set; }
 
         [ForeignKey("GuestInvitationId")]
         public Invitation Invitation { get; set; }
