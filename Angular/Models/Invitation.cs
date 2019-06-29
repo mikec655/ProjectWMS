@@ -1,4 +1,6 @@
-﻿using Newtonsoft.Json;
+﻿using GeoAPI.Geometries;
+using NetTopologySuite.Geometries;
+using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
@@ -32,19 +34,50 @@ namespace Angular.Models
 
         public string Type { get; set; }
 
-        public int NumberOfGuest { get; set; }
+        public int NumberOfGuests { get; set; }
 
-        public void ToDto()
+        public IPoint LocationPoint { get; set; }
+
+        public string Address { get; set; }
+
+        public string Number { get; set; }
+
+        public string ZipCode { get; set; }
+    }
+
+    public class InvitationDto
+    {
+        public int InvitationId { get; set; }
+
+        public int InvitationPostId { get; set; }
+
+        public long PostedAtUnix { get; set; }
+
+        public string Type { get; set; }
+
+        public int NumberOfGuests { get; set; }
+
+        public double Longitude { get; set; }
+
+        public double Latitude { get; set; }
+
+        public string Address { get; set; }
+
+        public string ZipCode { get; set; }
+
+        public string Number { get; set; }
+
+        public static InvitationDto ToDto(Invitation invitation)
         {
-            PostedAtUnix = new DateTimeOffset(PostedAt).ToUnixTimeMilliseconds();
+            return Projection.Compile().Invoke(invitation);
         }
 
-        public void ToEntity()
+        public Invitation ToEntity()
         {
-            PostedAt = DateTimeOffset.FromUnixTimeMilliseconds(PostedAtUnix).UtcDateTime;
+            return ReverseProjection.Compile().Invoke(this);
         }
 
-        public static Expression<Func<Invitation, Invitation>> ReverseProjection
+        public static Expression<Func<InvitationDto, Invitation>> ReverseProjection
         {
             get
             {
@@ -55,27 +88,32 @@ namespace Angular.Models
                     PostedAt = DateTimeOffset.FromUnixTimeMilliseconds(p.PostedAtUnix).UtcDateTime,
                     PostedAtUnix = p.PostedAtUnix,
                     Type = p.Type,
-                    NumberOfGuest = p.NumberOfGuest,
-                    Post = p.Post
+                    NumberOfGuests = p.NumberOfGuests,
+                    ZipCode = p.ZipCode,
+                    Address = p.Address,
+                    Number = p.Number,
+                    LocationPoint = new Point(p.Longitude, p.Latitude)
                 };
             }
         }
 
-        public static Expression<Func<Invitation, Invitation>> Projection
+        public static Expression<Func<Invitation, InvitationDto>> Projection
         {
             get
             {
-                return p => new Invitation()
+                return p => new InvitationDto()
                 {
                     InvitationId = p.InvitationId,
                     InvitationPostId = p.InvitationPostId,
                     PostedAtUnix = new DateTimeOffset(p.PostedAt).ToUnixTimeMilliseconds(),
                     Type = p.Type,
-                    NumberOfGuest = p.NumberOfGuest,
-                    Guests = p.Guests,
-                    Post = p.Post,
-                    PostedAt = p.PostedAt
-            };
+                    NumberOfGuests = p.NumberOfGuests,
+                    ZipCode = p.ZipCode,
+                    Address = p.Address,
+                    Number = p.Number,
+                    Latitude = p.LocationPoint == null ? 0.00: p.LocationPoint.Coordinate.Y,
+                    Longitude = p.LocationPoint == null ? 0.00 : p.LocationPoint.Coordinate.X
+                };
             }
         }
     }

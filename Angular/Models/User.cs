@@ -58,6 +58,12 @@ namespace Angular.Models
         [InverseProperty("User")]
         public List<Review> Reviews { get; set; }
 
+        [InverseProperty("User")]
+        public List<UserFollowing> Following { get; set; }
+
+        [InverseProperty("Target")]
+        public List<UserFollowing> Followers { get; set; }
+
         /// <summary>
         /// Convert this to a DTO object ready for transmission
         /// </summary>
@@ -105,6 +111,10 @@ namespace Angular.Models
         public int? UserMediaId { get; set; }
 
         public string ProfileDescription { get; set; }
+
+        public int Followers { get; set; }
+
+        public int Following { get; set; }
 
         public string Token { get; set; }
 

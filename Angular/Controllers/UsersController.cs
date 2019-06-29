@@ -21,6 +21,7 @@ namespace Angular.Controllers
     {
         private readonly UserContext _context;
         private readonly IUserService _userService;
+        private const int _pageSize = 50;
 
         public UsersController(UserContext context, IUserService userService)
         {
@@ -31,12 +32,38 @@ namespace Angular.Controllers
         /// <summary>
         /// Gets list of all UserAccounts
         /// </summary>
+        /// <remarks>
+        ///     Accepts Pagination header with: Pagination: {page},{pageSize}
+        /// </remarks>
         /// <returns>Array with UserAccounts</returns>
         // GET: api/Users
         [HttpGet]
         public IEnumerable<UserAccountDto> GetUsers()
         {
-            return _context.Users.Select(UserAccountDto.Projection);
+            var page = Request.Headers["Pagination"];
+            Console.WriteLine($"currentPage: {page}");
+            var currentPage = 1;
+            var pageSize = _pageSize;
+            if (!string.IsNullOrEmpty(page))
+            {
+                string[] vals = page.ToString().Split(',');
+                if (vals.Length > 1)
+                {
+                    int.TryParse(vals[0], out currentPage);
+                    int.TryParse(vals[1], out pageSize);
+                }
+                else
+                {
+                    int.TryParse(vals[0], out currentPage);
+                }
+
+                Console.WriteLine($"parsed: {currentPage}, {pageSize}");
+            }
+            return _context.Users
+                .Select(UserAccountDto.Projection)
+                .OrderBy(p => p.Firstname)
+                .Skip((currentPage - 1) * pageSize)
+                .Take(pageSize);
         }
 
         /// <summary>
@@ -174,13 +201,92 @@ namespace Angular.Controllers
             var user = userDto.ToEntity();
 
             user = await _userService.RegisterAsync(user);
+
             if (user == null)
             {
                 return Conflict();
             }
+
             userDto = UserAccountDto.FromEntity(user);
 
             return CreatedAtAction("GetUser", new { id = userDto.UserId.GetValueOrDefault() }, userDto);
+        }
+
+        [HttpPost("{id}/follow")]
+        public async Task<IActionResult> FollowUser([FromRoute] int id)
+        {
+            if (User.Identity.Name == id.ToString())
+            {
+                return BadRequest();
+            }
+
+            var target = await _context.Users.FindAsync(id);
+
+            if (target == null)
+            {
+                return NotFound();
+            }
+
+            var user = await _context.Users.Include(p => p.Following).FirstOrDefaultAsync(p => p.UserId.ToString() == User.Identity.Name);
+
+            if (user == null)
+            {
+                // Should be impossible
+                return BadRequest();
+            }
+
+            if (user.Following.Any(p => p.FollowingUserAccountTargetId == id))
+            {
+                return Conflict();
+            }
+
+            var userFollowing = new UserFollowing()
+            {
+                FollowingUserAccountTargetId = id,
+                FollowingUserAccountId = int.Parse(User.Identity.Name)
+            };
+
+            user.Following.Add(userFollowing);
+            await _context.SaveChangesAsync();
+
+            return Ok();
+        }
+
+        [HttpPost("{id}/unfollow")]
+        public async Task<IActionResult> UnfollowUser([FromRoute] int id)
+        {
+            if (User.Identity.Name == id.ToString())
+            {
+                return BadRequest();
+            }
+
+            var target = await _context.Users.FindAsync(id);
+
+            if (target == null)
+            {
+                return NotFound();
+            }
+
+            var user = await _context.Users.Include(p => p.Following).FirstOrDefaultAsync(p => p.UserId.ToString() == User.Identity.Name);
+
+            if (user == null)
+            {
+                // Should be impossible
+                return BadRequest();
+            }
+
+            var userFollowing = user.Following.FirstOrDefault(p => p.FollowingUserAccountTargetId == id);
+
+            if (userFollowing == null)
+            {
+                return NotFound();
+            }
+
+            user.Following.Remove(userFollowing);
+
+            await _context.SaveChangesAsync();
+
+            return Ok();
         }
 
         /// <summary>

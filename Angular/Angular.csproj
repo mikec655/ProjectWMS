@@ -44,6 +44,8 @@
   <ItemGroup>
     <Compile Remove="Migrations\20190617130306_FoodShareInitial.cs" />
     <Compile Remove="Migrations\20190617130306_FoodShareInitial.Designer.cs" />
+    <Compile Remove="Migrations\20190628141157_FoodShare-V0.1.cs" />
+    <Compile Remove="Migrations\20190628141157_FoodShare-V0.1.Designer.cs" />
   </ItemGroup>
 
   <ItemGroup>
