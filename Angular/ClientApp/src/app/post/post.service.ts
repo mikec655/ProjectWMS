@@ -1,16 +1,19 @@
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { environment } from '../../environments/environment';
+import { AuthenticationService } from '../authentication.service';
 
 @Injectable({
   providedIn: 'root'
 })
 export class PostService {
 
-    constructor(private http: HttpClient) { }
+    constructor(private http: HttpClient,
+        private authenticationService: AuthenticationService) { }
 
     getPosts(time: number) {
-        return this.http.get<any>(`${environment.apiUrl}/api/Posts/`)
+        let userId = this.authenticationService.currentUserId
+        return this.http.get<any>(`${environment.apiUrl}/api/Users/${userId}/Posts`)
     }
 
     getPost(id: number) {
@@ -48,6 +51,23 @@ export class PostService {
     deleteComment(postId: number, commentId: number) {
         return this.http.delete<any>(`${environment.apiUrl}/api/Posts/` + postId + "/comments/" + commentId)
     }
+
+    getInvitation(postId: number) {
+        return this.http.get<any>(`${environment.apiUrl}/api/Posts/` + postId + "/invitationupdate")
+    }
+
+    createInvitation(postId: number, invitation) {
+        return this.http.post<any>(`${environment.apiUrl}/api/Posts/` + postId + "/invitation", invitation)
+    }
+
+    editInvitation(postId: number, invitation) {
+        return this.http.put<any>(`${environment.apiUrl}/api/Posts/` + postId + "/invitation", invitation)
+    }
+
+    deleteInvitation(postId: number) {
+        return this.http.delete<any>(`${environment.apiUrl}/api/Posts/` + postId + "/invitation")
+    }
+
 
 }
 

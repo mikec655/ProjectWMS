@@ -19,8 +19,12 @@ export class AuthenticationService implements CanActivate {
         this.currentUser = this.currentUserSubject.asObservable();
     }
 
-    public get currentUserValue(): User {
+    public get currentUserValue() {
         return this.currentUserSubject.value;
+    }
+
+    public get currentUserId() {
+        return this.currentUserValue.userId
     }
 
     login(username: string, password: string) {

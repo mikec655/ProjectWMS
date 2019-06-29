@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { PostService } from '../post/post.service';
 declare let L;
 
 @Component({
@@ -9,34 +10,9 @@ declare let L;
 export class MapComponent implements OnInit {
 
     private map
-    private locations: Position[] = [
-        {
-           timestamp: 0,
-           coords: {
-                latitude: 52.1271700,
-                longitude: 5.1809676,
-                altitude: 0,
-                heading: 0,
-                speed: 0,
-                accuracy: 0,
-                altitudeAccuracy: 0
-            },
-        },
-        {
-            timestamp: 0,
-            coords: {
-                latitude: 52.1271700,
-                longitude: 5.1809676,
-                altitude: 0,
-                heading: 0,
-                speed: 0,
-                accuracy: 0,
-                altitudeAccuracy: 0
-            }
-        }
-    ]
+    private posts = []
 
-    constructor() { }
+    constructor(private postService: PostService) { }
 
     ngOnInit() {
 
@@ -48,9 +24,10 @@ export class MapComponent implements OnInit {
 
     }
 
-    showPosition(position: Position) {
+    showInvitation(invitation) {
+        console.log(invitation);
 
-        var coords = L.latLng(position.coords.latitude, position.coords.longitude, position.coords.altitude);
+        var coords = L.latLng(invitation.latitude, invitation.longitude, 0);
 
         var customIcon = L.icon({
             iconUrl: 'assets/leaflet/images/marker-icon-2x.png',
@@ -68,7 +45,14 @@ export class MapComponent implements OnInit {
     }
 
     updateMap(): void {
-        this.locations.forEach(location => this.showPosition(location));
+        this.postService.getPosts(-1).subscribe(posts => {
+            console.log(posts)
+            this.posts = posts
+            this.posts.forEach(post => {
+                console.log("XXX")
+                this.postService.getInvitation(post.postId).subscribe(invitation => this.showInvitation(invitation))
+            });
+        });
     }
 
 }
