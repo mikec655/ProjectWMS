@@ -1,15 +1,21 @@
 import { Component, OnInit } from '@angular/core';
 import { NgbModal, ModalDismissReasons } from '@ng-bootstrap/ng-bootstrap';
 import * as bootstrap from '@ng-bootstrap/ng-bootstrap';
+
+import { NgModel, FormGroup, FormBuilder, Validators } from '@angular/forms';
+import { MustMatch } from '../../_utils/password-match.validator'
+import { AuthenticationService } from '../../authentication.service';
+import { HttpClient } from '@angular/common/http';
+import { environment } from '../../../environments/environment';
 //import * as $ from 'jquery';
-declare var $: any;
+
 
 
 
 @Component({
   selector: 'app-usersettings',
   templateUrl: './usersettings.component.html',
-  styleUrls: ['./usersettings.component.css']
+    styleUrls: ['./usersettings.component.css']
 })
 export class UsersettingsComponent implements OnInit {
   message: string;
@@ -20,10 +26,65 @@ export class UsersettingsComponent implements OnInit {
     street: string;
     housenumber: string;
     zipcode: string;
-  date;
+    date;
 
-  constructor(private modalService: NgbModal) { }
+    profileForm: FormGroup;
+    result: any;
+    submitted = false;
 
+    constructor(
+        private modalService: NgbModal,
+        private formBuilder: FormBuilder,
+        private authenticationService: AuthenticationService,
+        private http: HttpClient) { }
+
+
+    ngOnInit() {
+        this.profileForm = this.formBuilder.group({
+            firstname: ['', [Validators.required]],
+            lastname: ['', [Validators.required]],
+            street: ['', [Validators.required]],
+            number: ['', [Validators.required]],
+            zipCode: ['', [Validators.required]],
+            city: ['', [Validators.required]],
+            email: ['', [Validators.required]],
+            password: ['', [Validators.required, Validators.minLength(6)]],
+            repeatPassword: ['', [Validators.required]],
+            profileDescription: ['', [Validators.required]]
+        }, {
+                validator: MustMatch('password', 'repeatPassword')
+            })}
+
+    get f() { return this.profileForm.controls; }
+    //hier nog uid ophalen
+    onSubmit() {
+        this.submitted = true;
+        var profile = {
+            "firstname": this.profileForm.controls.firstname.value,
+            "lastname": this.profileForm.controls.lastname.value,
+            "street": this.profileForm.controls.street.value,
+            "number": this.profileForm.controls.number.value,
+            "zipCode": this.profileForm.controls.zipCode.value,
+            "city": this.profileForm.controls.city.value,
+            "username": this.profileForm.controls.email.value,
+            "password": this.profileForm.controls.password.value,
+            "profileDescription": this.profileForm.controls.profileDescription.value
+        }
+        console.log(profile);
+        //weghalen
+    }
+/*
+        this.http
+            .post<string>(`${environment.apiUrl}/api/Users`, profile)
+            .subscribe(result => {
+                this.result = result;
+                console.log(result);
+                
+            });
+    }
+*/
+
+//methods for opening and closing the modal.
   open(content) {
     this.modalService.open(content, { ariaLabelledBy: 'modal-basic-title' }).result.then((result) => {
       this.closeResult = ` ${result}`;
@@ -44,6 +105,7 @@ export class UsersettingsComponent implements OnInit {
     }
   }
 
+  //submit function
   close() {
     
     //hier iets mee doen vanuit response van database ofzo?
@@ -58,7 +120,9 @@ export class UsersettingsComponent implements OnInit {
     }
   }
 
-  ngOnInit() {
+ 
+
+
   }
   
-}
+

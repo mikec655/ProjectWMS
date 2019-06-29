@@ -14,6 +14,7 @@ import { RegisterComponent } from './register/register.component';
 import { StartComponent } from './start/start/start.component';
 import { PostModule } from './post/post.module';
 
+
 @NgModule({
   declarations: [
     
@@ -27,7 +28,8 @@ import { PostModule } from './post/post.module';
     BrowserModule.withServerTransition({ appId: 'ng-cli-universal' }),
     BrowserAnimationsModule,
     HttpClientModule,
-    //PostModule,
+      //PostModule,
+  
     FormsModule,
     ReactiveFormsModule,
     RouterModule.forRoot([
@@ -38,7 +40,7 @@ import { PostModule } from './post/post.module';
       { path: 'register', component: RegisterComponent }
     ])
   ],
-  providers: [{ provide: HTTP_INTERCEPTORS, useClass: AuthInterceptor, multi: true }],
-  bootstrap: [AppComponent]
+    providers: [{ provide: HTTP_INTERCEPTORS, useClass: AuthInterceptor, multi: true }],
+    bootstrap: [AppComponent]
 })
 export class AppModule { }
