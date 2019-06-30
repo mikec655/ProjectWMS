@@ -26,8 +26,8 @@ export class ProfileService {
     }
 
   
-
-  editUserProfile(id: number, profile: UserProfile) {
+    //tijdelijk omgezet naar any omdat ik fotos uploaden nog niet werkend heb.
+  editUserProfile(id: number, profile:any) {
       return this.http.put<any>(`${environment.apiUrl}/api/Users/` + id, profile)
 
   }
@@ -41,7 +41,7 @@ export class ProfileService {
   }
 
 }
-
+1
 export class UserProfile {
   username: string
   firstname: string

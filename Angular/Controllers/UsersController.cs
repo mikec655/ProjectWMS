@@ -187,7 +187,7 @@ namespace Angular.Controllers
                 }
             }
 
-            return NoContent();
+            return Ok(user);
         }
 
         /// <summary>
