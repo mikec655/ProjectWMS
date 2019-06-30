@@ -138,7 +138,7 @@ namespace Angular.Models
                     UserMediaId = p.UserMediaId,
                     ProfileDescription = p.ProfileDescription,
                     Token = p.Token
-            };
+                };
             }
         }
 
