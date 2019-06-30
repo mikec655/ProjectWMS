@@ -5,14 +5,16 @@ using GeoAPI.Geometries;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 namespace Angular.Migrations
 {
     [DbContext(typeof(UserContext))]
-    partial class UserContextModelSnapshot : ModelSnapshot
+    [Migration("20190630165100_Invitation-V2")]
+    partial class InvitationV2
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -49,7 +51,7 @@ namespace Angular.Migrations
                             CommentPostId = 1,
                             CommentUserId = 1,
                             Content = "Hippity hoppity",
-                            PostedAt = new DateTime(2019, 6, 29, 22, 45, 32, 173, DateTimeKind.Local).AddTicks(3889)
+                            PostedAt = new DateTime(2019, 6, 30, 18, 50, 59, 706, DateTimeKind.Local).AddTicks(2634)
                         });
                 });
 
@@ -196,7 +198,7 @@ namespace Angular.Migrations
                             Message = "Kaas",
                             PostMediaId = 0,
                             PostUserId = 1,
-                            PostedAt = new DateTime(2019, 6, 29, 22, 45, 32, 173, DateTimeKind.Local).AddTicks(569)
+                            PostedAt = new DateTime(2019, 6, 30, 18, 50, 59, 705, DateTimeKind.Local).AddTicks(8945)
                         });
                 });
 
@@ -280,7 +282,7 @@ namespace Angular.Migrations
                         new
                         {
                             UserId = 1,
-                            BirthDate = new DateTime(2019, 6, 29, 22, 45, 32, 171, DateTimeKind.Local).AddTicks(19),
+                            BirthDate = new DateTime(2019, 6, 30, 18, 50, 59, 703, DateTimeKind.Local).AddTicks(3263),
                             City = "Stadskanaal",
                             Firstname = "Jans",
                             Gender = "M",
