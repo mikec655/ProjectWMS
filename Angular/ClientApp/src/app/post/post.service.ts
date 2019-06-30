@@ -33,7 +33,7 @@ export class PostService {
     }
 
     getComments(postId: number) {
-        return this.http.get<any>(`${environment.apiUrl}/api/Posts` + postId + "/comments")
+        return this.http.get<any>(`${environment.apiUrl}/api/Posts/` + postId + "/comments")
     }
 
     getComment(postId: number, commentId: number) {
@@ -53,7 +53,7 @@ export class PostService {
     }
 
     getInvitation(postId: number) {
-        return this.http.get<any>(`${environment.apiUrl}/api/Posts/` + postId + "/invitationupdate")
+        return this.http.get<any>(`${environment.apiUrl}/api/Posts/` + postId + "/invitation")
     }
 
     createInvitation(postId: number, invitation) {
