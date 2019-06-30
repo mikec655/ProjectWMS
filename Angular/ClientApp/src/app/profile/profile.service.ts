@@ -16,8 +16,8 @@ export class ProfileService {
       return this.http.get<any>(`${environment.apiUrl}/api/Users/` + id)
   }
     //return this.result; */
-    sub() {
-        this.getUserProfile(4).subscribe(data => {
+    sub(id: number) {
+        this.getUserProfile(id).subscribe(data => {
             console.log(data);
             this.data = data;
         })
@@ -31,6 +31,11 @@ export class ProfileService {
       return this.http.put<any>(`${environment.apiUrl}/api/Users/` + id, profile)
 
   }
+
+    /*   hier uiteindelijk een fotopost
+    uploadProfilePicture() {
+        return this.http.post<>
+    }*/ 
 
   follow() {
 
