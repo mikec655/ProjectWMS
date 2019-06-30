@@ -146,6 +146,15 @@ namespace Angular.Controllers
                 return BadRequest(ModelState);
             }
 
+            if (int.TryParse(User.Identity.Name, out var i))
+            {
+                userDto.UserId = i;
+            }
+            else
+            {
+                return Unauthorized();
+            }
+
             if (id != userDto.UserId)
             {
                 return BadRequest();

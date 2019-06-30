@@ -28,6 +28,9 @@ export class UsersettingsComponent implements OnInit {
     zipcode: string;
     date;
 
+    user;
+    userid;
+
     profileForm: FormGroup;
     result: any;
     submitted = false;
@@ -53,7 +56,13 @@ export class UsersettingsComponent implements OnInit {
             profileDescription: ['', [Validators.required]]
         }, {
                 validator: MustMatch('password', 'repeatPassword')
-            })}
+            })
+
+        //get userobject and id for posts.
+        this.user = this.authenticationService.currentUserValue;
+        this.userid = this.user.userId //this.authenticationService.currentUserId();
+
+    }
 
     get f() { return this.profileForm.controls; }
     //hier nog uid ophalen
@@ -71,18 +80,17 @@ export class UsersettingsComponent implements OnInit {
             "profileDescription": this.profileForm.controls.profileDescription.value
         }
         console.log(profile);
-        //weghalen
-    }
-/*
+        console.log(this.user);
+        console.log(this.userid);
+
         this.http
-            .post<string>(`${environment.apiUrl}/api/Users`, profile)
+            .put<string>(`${environment.apiUrl}/api/Users/` + this.userid, profile)
             .subscribe(result => {
                 this.result = result;
                 console.log(result);
-                
+
             });
     }
-*/
 
 //methods for opening and closing the modal.
   open(content) {
