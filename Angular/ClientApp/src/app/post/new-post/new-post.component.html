@@ -43,7 +43,7 @@
                     <input type="submit">
 
                     <label for="usr">amount of guests:</label><br>
-                    <input type="text" [name]="guests" size="2"><br>
+                    <input #guests type="text" (keyup)="guestPost(guests.value)" [name]="guests" size="2"><br>
 
 
                 </div>

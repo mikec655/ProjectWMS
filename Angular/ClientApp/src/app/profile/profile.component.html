@@ -4,34 +4,36 @@
       <div class="col-lg-4 ">
         <!-- show dit stuk alleen als er niet is ingelogd op het account van het profiel zie variable in profile.component-->
         <div *ngIf="profileview == 'notloggedin'">
-          <div id="userblock">
-            <img class="img-fluid" id="profilephoto" src="http://simpleicon.com/wp-content/uploads/account.png" alt="Card image cap" style="border-width: 2px;">
-            <h1 class="align-self-start" style="font-size:18px">{{username}}</h1>
+            <div id="userblock">
+                <img class="img-fluid" id="profilephoto" src="http://simpleicon.com/wp-content/uploads/account.png" alt="Card image cap" style="border-width: 2px;">
+                <h1 class="align-self-start" style="font-size:18px">{{username}}</h1>
 
-            <div id="userdescriptionblock">
-              <p class="align-self-start">{{profile_description}}.</p>
-            </div>
-            <!-- VAK voor het posten van een review-->
-            <div id="postreviewblock">
-              <h1 class="align-self-start" style="font-size:18px">Review this user:</h1>
-              <p style="font-size:12px">
-                Titel:
-                <textarea class="form-control" id="reviewtitle" rows="1"></textarea>
-              </p>
-              <textarea class="form-control" id="reviewtext" rows="3"></textarea>
+                <div id="userdescriptionblock">
+                    <p class="align-self-start">{{profile_description}}.</p>
+                </div>
 
-              <div class="slidecontainer">
-                <input type="range" id="rangeInput" name="rangeInput" min="0" max="10" value="0" class="slider" oninput="amount.value=rangeInput.value">
-                <h1 class="align-self-start" style="font-size:18px"> Grade: <output id="amount" align="bottom" name="amount" for="rangeInput">0</output></h1>
-              </div>
-              <button class="btn btn-primary" type="submit">post a review</button>
+                <button class="btn btn-primary" (click)="follow($event, item)">Follow</button>
+                <!-- VAK voor het posten van een review-->
+                <div id="postreviewblock">
+                    <h1 class="align-self-start" style="font-size:18px">Review this user:</h1>
+                    <p style="font-size:12px">
+                        Titel:
+                        <textarea class="form-control" id="reviewtitle" rows="1"></textarea>
+                    </p>
+                    <textarea class="form-control" id="reviewtext" rows="3"></textarea>
+
+                    <div class="slidecontainer">
+                        <input type="range" id="rangeInput" name="rangeInput" min="0" max="10" value="0" class="slider" oninput="amount.value=rangeInput.value">
+                        <h1 class="align-self-start" style="font-size:18px"> Grade: <output id="amount" align="bottom" name="amount" for="rangeInput">0</output></h1>
+                    </div>
+                    <button class="btn btn-primary" type="submit">post a review</button>
+                </div>
+                <!-- Hier komt ene lijst van reviews-->
+                <div id="readreviewblock">
+                    <h1 for="exampleFormControlTextarea1" style="font-size:18px">User Reviews:</h1>
+                    <app-review></app-review>
+                </div>
             </div>
-            <!-- Hier komt ene lijst van reviews-->
-            <div id="readreviewblock">
-              <h1 for="exampleFormControlTextarea1" style="font-size:18px">User Reviews:</h1>
-              <app-review></app-review>
-            </div>
-          </div>
         </div>
         <!-- show dit stuk alleen als wel is ingelogd op het account van het profiel, zie variable in profile.component-------------->
         <div *ngIf="profileview == 'loggedin'">
@@ -43,14 +45,16 @@
             </div>
             <!-- VAK voor het posten van een profielfoto-->
             <div id="postreviewblock">
+
               <!--uploaden van nieuwe profielfoto (moet nog gefixt worden)-->
               <h1 class="align-self-start" style="font-size:18px">Upload a profilepicture</h1>
-              <form action="/action_page.php">
-                <input type="file" name="pic" accept="image/*">
+              <form [formGroup] = "uploadForm" (ngSubmit)="uploadprofilepicture()">
+                <input type="file" name="pic" accept="image/*" ngModel (change)="getPhoto($event)"> >
                 <input type="submit">
               </form>
               <app-usersettings></app-usersettings>
             </div>
+
             <!-- Hier komt ene lijst van reviews-->
             <div id="readreviewblock">
               <h1 class="align-self-start" style="font-size:18px">User Reviews:</h1>
@@ -71,6 +75,7 @@
           <!-- Hier moeten de post van het profiel worden geladen als er Wel is ingelogd op het account van het profiel hierbij moet er een delete knop bijgevoegd worden -->
           <div *ngIf="profileview == 'loggedin'">
             <div id="posts">
+                <button (click)="print(event,value )">sdf</button> 
                 <app-newpost></app-newpost>
               <h1 class="align-self-start" id="postlist">Posts:</h1>
               <app-post></app-post>

@@ -24,7 +24,7 @@ namespace Angular.Controllers
         [HttpPost]
         public async Task<IActionResult> PostFile(IFormFile file)
         {
-            if(file.ContentType != "image/png" && file.ContentType != "image/jpg")
+            if(file?.ContentType != "image/png" && file?.ContentType != "image/jpg")
             {
                 return BadRequest();
             }

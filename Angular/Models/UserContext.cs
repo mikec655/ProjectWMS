@@ -45,7 +45,7 @@ namespace Angular.Models
                     NumberOfGuests = 1,
                     InvitationPostId = 1,
                     LocationPoint = new Point(52.9825827, 6.9540359) { SRID = 4326 }
-                }); ;
+                });
             modelBuilder.Entity<Location>().HasData(
                 new Location()
                 {
