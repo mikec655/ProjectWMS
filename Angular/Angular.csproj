@@ -50,10 +50,12 @@
 
   <ItemGroup>
     <None Remove="ClientApp\src\app\hello-world\hello-world.component.ts" />
+    <None Remove="ClientApp\src\app\_models\useraccount.ts" />
   </ItemGroup>
 
   <ItemGroup>
     <TypeScriptCompile Include="ClientApp\src\app\hello-world\hello-world.component.ts" />
+    <TypeScriptCompile Include="ClientApp\src\app\_models\useraccount.ts" />
   </ItemGroup>
 
   <Target Name="DebugEnsureNodeEnv" BeforeTargets="Build" Condition=" '$(Configuration)' == 'Debug' And !Exists('$(SpaRoot)node_modules') ">
