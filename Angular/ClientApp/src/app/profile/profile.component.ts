@@ -3,7 +3,7 @@ import { ProfileService, UserProfile } from './profile.service';
 import { timeout, catchError } from 'rxjs/operators';
 import { $ } from 'protractor';
 import { environment } from '../../environments/environment';
-import { AuthenticationService } from '../../authentication.service';
+import { AuthenticationService } from '../authentication.service';
 import { FormBuilder, FormGroup } from '@angular/forms';
 import { HttpClient } from '@angular/common/http';
 @Component({
@@ -47,7 +47,7 @@ export class ProfileComponent implements OnInit {
         this.userid = this.user.userId
 
         //hier roep ik iets aan om een userobject te halen,
-        this.pageProfile = this.profileservice.sub();
+        this.pageProfile = this.profileservice.sub(this.userid);
     }
 
     ngOnInit() {
