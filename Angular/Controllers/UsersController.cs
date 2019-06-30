@@ -146,6 +146,15 @@ namespace Angular.Controllers
                 return BadRequest(ModelState);
             }
 
+            if (int.TryParse(User.Identity.Name, out var i))
+            {
+                userDto.UserId = i;
+            }
+            else
+            {
+                return Unauthorized();
+            }
+
             if (id != userDto.UserId)
             {
                 return BadRequest();
@@ -202,6 +211,7 @@ namespace Angular.Controllers
         // POST: api/Users
         [SwaggerRequestExample(typeof(UserAccountDto), typeof(UserPostRequestExample))]
         [SwaggerResponseExample(201, typeof(UserAccountDto))]
+        [AllowAnonymous]
         [HttpPost]
         public async Task<IActionResult> PostUser([FromBody] UserAccountDto userDto)
         {

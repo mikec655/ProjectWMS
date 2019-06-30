@@ -49,7 +49,7 @@ namespace Angular.Migrations
                             CommentPostId = 1,
                             CommentUserId = 1,
                             Content = "Hippity hoppity",
-                            PostedAt = new DateTime(2019, 6, 30, 18, 50, 59, 706, DateTimeKind.Local).AddTicks(2634)
+                            PostedAt = new DateTime(2019, 6, 29, 22, 45, 32, 173, DateTimeKind.Local).AddTicks(3889)
                         });
                 });
 
@@ -196,7 +196,7 @@ namespace Angular.Migrations
                             Message = "Kaas",
                             PostMediaId = 0,
                             PostUserId = 1,
-                            PostedAt = new DateTime(2019, 6, 30, 18, 50, 59, 705, DateTimeKind.Local).AddTicks(8945)
+                            PostedAt = new DateTime(2019, 6, 29, 22, 45, 32, 173, DateTimeKind.Local).AddTicks(569)
                         });
                 });
 
@@ -280,7 +280,7 @@ namespace Angular.Migrations
                         new
                         {
                             UserId = 1,
-                            BirthDate = new DateTime(2019, 6, 30, 18, 50, 59, 703, DateTimeKind.Local).AddTicks(3263),
+                            BirthDate = new DateTime(2019, 6, 29, 22, 45, 32, 171, DateTimeKind.Local).AddTicks(19),
                             City = "Stadskanaal",
                             Firstname = "Jans",
                             Gender = "M",

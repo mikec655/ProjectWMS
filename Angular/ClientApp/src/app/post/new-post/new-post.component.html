@@ -1,0 +1,65 @@
+<ng-template #content let-modal id="modal">
+    <div class="modal-header" >
+        <h4 class="modal-title" id="modal-basic-title">New Post</h4>
+        <button type="button" class="close" aria-label="Close" (click)="modal.dismiss('Cross click')">
+            <span aria-hidden="true">&times;</span>
+        </button>
+    </div>
+    <div class="modal-body">
+        <form>
+            <div class="form-group">
+                <div class="form-group">
+                    <label for="usr">Title:</label><br>
+                    <input #title (keyup)="titlePost(title.value)" type = "text" [name]="posttitle"><br>
+
+                    <label for="usr">PostText:</label><br>
+                    <textarea #posttekst (keyup)="postText(posttekst.value)" rows="4" placeholder="fill in posttext.">
+
+                    </textarea><br>
+
+                    <div>
+                        Use registered adress: <input (change)="FieldsChange()" value="angular" type="checkbox" />
+                        <br>
+                    </div>
+                    <div *ngIf="ischecked == 'false' ">
+                        <div class="form-group" [id]="adressblock">
+                            <label for="usr">street and Housenumber:</label><br>
+                            <input #street (keyup)="streetPost(street.value)" type="text" [name]="street" id="streetinput"><input type="text" #hous (keyup)="houseNumber(hous.value)" [name]="housenumber" maxlength="10" size="4"><br>
+                            <label for="usr">zipcode:</label><br>
+                            <input #zip (keyup)="zipCode(zip.value)" type="text" [name]="zipcode"><br>
+                            <label for="usr">City:</label><br>
+                            <input #city (keyup)="cityPost(city.value)" type="text" [name]="zipcode"><br>
+
+                        </div>
+                    </div>
+                    <label class="image-upload-container btn btn-bwm">
+                        <input #imageInput
+                               type="file"
+                               accept="image/*"
+                               (change)="processFile(imageInput)">
+                    </label>
+
+
+                    <input type="submit">
+
+                    <label for="usr">amount of guests:</label><br>
+                    <input type="text" [name]="guests" size="2"><br>
+
+
+                </div>
+                </div>
+        </form>
+    </div>
+    <div class="modal-footer">
+        <B> {{message}} </B>
+        <button type="button" class="btn btn-outline-dark" (click)="createpost()">Save</button>
+        <!-- modal.dismiss('Values saved')-->
+    </div>
+</ng-template>
+
+<button class="btn btn-lg btn-outline-primary" (click)="open(content)" id="newpostbutton">New Post</button>
+
+
+<!--- {{CloseResult}}--->
+
+

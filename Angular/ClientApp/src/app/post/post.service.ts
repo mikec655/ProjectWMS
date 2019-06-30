@@ -1,72 +1,84 @@
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
+import { environment } from '../../environments/environment';
+import { AuthenticationService } from '../authentication.service';
 
 @Injectable({
   providedIn: 'root'
 })
 export class PostService {
 
-    constructor(private http: HttpClient) { }
+    constructor(private http: HttpClient,
+        private authenticationService: AuthenticationService) { }
 
     getPosts(time: number) {
-        return this.http.get<any>("api/Posts/")
+        let userId = this.authenticationService.currentUserId
+        return this.http.get<any>(`${environment.apiUrl}/api/Users/${userId}/Posts`)
     }
 
     getPost(id: number) {
-        return this.http.get<Post>("api/Posts/" + id)
+        return this.http.get<Post>(`${environment.apiUrl}/api/Posts/` + id)
     }
 
-    createPost(post: Post) {
-        return this.http.post<any>("api/Posts/", post)
+    createPost(post) {
+        return this.http.post<any>(`${environment.apiUrl}/api/Posts/`, post)
     }
 
     editPost(id: number, post: Post) {
-        return this.http.put<any>("api/Users/" + id, post)
+        return this.http.put<any>(`${environment.apiUrl}/api/Posts/` + id, post)
     }
 
     deletePost(id: number) {
-        return this.http.delete<any>("api/Posts/" + id)
+        return this.http.delete<any>(`${environment.apiUrl}/api/Posts/` + id)
     }
 
     getComments(postId: number) {
-        return this.http.get<Post>("api/Posts/" + postId + "/comment")
+        return this.http.get<any>(`${environment.apiUrl}/api/Posts/` + postId + "/comments")
     }
 
     getComment(postId: number, commentId: number) {
-        return this.http.get<Post>("api/Posts/" + postId + "/comment/" + commentId)
+        return this.http.get<any>(`${environment.apiUrl}/api/Posts/` + postId + "/comments/" + commentId)
     }
 
     createComment(postId: number, comment: Comment) {
-        return this.http.post<any>("api/Posts/" + postId + "/comment", comment)
+        return this.http.post<any>(`${environment.apiUrl}/api/Posts/` + postId + "/comments", comment)
     }
 
     editComment(postId: number, commentId: number, comment: Comment) {
-        return this.http.put<any>("api/Posts/" + postId + "/comment/" + commentId, comment)
+        return this.http.put<any>(`${environment.apiUrl}/api/Posts/` + postId + "/comments/" + commentId, comment)
     }
 
     deleteComment(postId: number, commentId: number) {
-        return this.http.delete<any>("api/Posts/" + postId + "/comment/" + commentId)
+        return this.http.delete<any>(`${environment.apiUrl}/api/Posts/` + postId + "/comments/" + commentId)
     }
+
+    getInvitation(postId: number) {
+        return this.http.get<any>(`${environment.apiUrl}/api/Posts/` + postId + "/invitation")
+    }
+
+    createInvitation(postId: number, invitation) {
+        return this.http.post<any>(`${environment.apiUrl}/api/Posts/` + postId + "/invitation", invitation)
+    }
+
+    editInvitation(postId: number, invitation) {
+        return this.http.put<any>(`${environment.apiUrl}/api/Posts/` + postId + "/invitation", invitation)
+    }
+
+    deleteInvitation(postId: number) {
+        return this.http.delete<any>(`${environment.apiUrl}/api/Posts/` + postId + "/invitation")
+    }
+
+    acceptInvitation(postId: number) {
+        return this.http.post<any>(`${environment.apiUrl}/api/Posts/` + postId + "/invitation/accept", {})
+    }
+
 
 }
 
 export class Post {
-    postId: number
-    username: string
-    userId: number
-    time: number
+    postId:number
+    postUserId: number
     message: string
-    comment: PostComment[]
-    invitation: {
-        invitationId: number
-        postId: number
-        time: number
-        type: string
-        number_of_guests: number
-        guests: any
-        location: any
-    }
-    media: string[]
 }
 
 export class PostComment {

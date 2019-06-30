@@ -9,13 +9,11 @@ import { AuthInterceptor } from './authentication/auth.interceptor';
 import { AppComponent } from './app.component';
 import { NavMenuComponent } from './nav-menu/nav-menu.component';
 import { HomeComponent } from './home/home.component';
-import { CounterComponent } from './counter/counter.component';
-import { FetchDataComponent } from './fetch-data/fetch-data.component';
-import { HelloWorldComponent } from './hello-world/hello-world.component';
 import { AuthenticationComponent } from './authentication/authentication.component';
 import { RegisterComponent } from './register/register.component';
 import { StartComponent } from './start/start/start.component';
 import { PostModule } from './post/post.module';
+
 
 @NgModule({
   declarations: [
@@ -23,9 +21,6 @@ import { PostModule } from './post/post.module';
     AppComponent,
     NavMenuComponent,
     HomeComponent,
-    CounterComponent,
-    FetchDataComponent,
-    HelloWorldComponent,
     AuthenticationComponent,
     RegisterComponent
   ],
@@ -33,7 +28,8 @@ import { PostModule } from './post/post.module';
     BrowserModule.withServerTransition({ appId: 'ng-cli-universal' }),
     BrowserAnimationsModule,
     HttpClientModule,
-    //PostModule,
+      //PostModule,
+  
     FormsModule,
     ReactiveFormsModule,
     RouterModule.forRoot([
@@ -44,7 +40,7 @@ import { PostModule } from './post/post.module';
       { path: 'register', component: RegisterComponent }
     ])
   ],
-  providers: [{ provide: HTTP_INTERCEPTORS, useClass: AuthInterceptor, multi: true }],
-  bootstrap: [AppComponent]
+    providers: [{ provide: HTTP_INTERCEPTORS, useClass: AuthInterceptor, multi: true }],
+    bootstrap: [AppComponent]
 })
 export class AppModule { }

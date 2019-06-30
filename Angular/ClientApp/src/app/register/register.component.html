@@ -3,6 +3,82 @@
     <h1 class="h3 mb-3 font-weight-normal">Register</h1>
 
     <div class="form-label-group">
+        <input formControlName="firstname" id="inputFirstname" class="form-control" type="text" placeholder="firstname" required="" autofocus="" [ngClass]="{ 'is-invalid': f.email.dirty && f.email.errors }"
+               name="firstname" minLength="2" pattern="^[A-Za-z-. ]+$" (focus)="focusEmail=true" (blur)="focusEmail=false" />
+        <label for="inputFirstname">Firstname</label>
+        <div *ngIf="f.firstname.dirty && f.firstname.errors" class="invalid-feedback">
+            <div *ngIf="f.firstname.errors.required">This field is required</div>
+        </div>
+    </div>
+
+    <div class="form-label-group">
+        <input formControlName="lastname" id="inputLastname" class="form-control" type="text" placeholder="lastname" required="" autofocus="" [ngClass]="{ 'is-invalid': f.email.dirty && f.email.errors }"
+               name="lastname" minLength="2" pattern="^[A-Za-z-. ]+$" (focus)="focusEmail=true" (blur)="focusEmail=false" />
+        <label for="inputLastname">Lastname</label>
+        <div *ngIf="f.lastname.dirty && f.lastname.errors" class="invalid-feedback">
+            <div *ngIf="f.lastname.errors.required">This field is required</div>
+        </div>
+    </div>
+
+    <div class="form-label-group">
+        <select formControlName="gender" id="inputGender" class="form-control" placeholder="Geslacht" required="" autofocus="" [ngClass]="{ 'is-invalid': f.email.dirty && f.email.errors }"
+                name="gender" minLength="2" pattern="" (focus)="focusEmail=true" (blur)="focusEmail=false">
+            <option value="M" selected>Man</option>
+            <option value="V">Vrouw</option>
+            <option value="O">Overig</option>
+        </select>
+
+        <div *ngIf="f.gender.dirty && f.gender.errors" class="invalid-feedback">
+            <div *ngIf="f.gender.errors.required">This field is required</div>
+        </div>
+    </div>
+
+    <div class="form-label-group">
+        <input formControlName="birthDate" id="inputBirthDate" class="form-control" type="date" placeholder="" required="" autofocus="" [ngClass]="{ 'is-invalid': f.email.dirty && f.email.errors }"
+               name="lastname" minLength="2" pattern="" (focus)="focusEmail=true" (blur)="focusEmail=false" />
+        <label for="inputLastname">Birth Date</label>
+        <div *ngIf="f.lastname.dirty && f.lastname.errors" class="invalid-feedback">
+            <div *ngIf="f.lastname.errors.required">This field is required</div>
+        </div>
+    </div>
+
+    <div class="form-label-group">
+        <input formControlName="street" id="inputStreet" class="form-control" type="text" placeholder="Street" required="" autofocus="" [ngClass]="{ 'is-invalid': f.email.dirty && f.email.errors }"
+               name="street" minLength="3" pattern="^[A-Za-z-. ]+$" (focus)="focusEmail=true" (blur)="focusEmail=false" />
+        <label for="inputStreet">Street</label>
+        <div *ngIf="f.street.dirty && f.street.errors" class="invalid-feedback">
+            <div *ngIf="f.street.errors.required">This field is required</div>
+        </div>
+    </div>
+
+    <div class="form-label-group">
+        <input formControlName="number" id="inputNumber" class="form-control" type="text" placeholder="Number" required="" autofocus="" [ngClass]="{ 'is-invalid': f.email.dirty && f.email.errors }"
+               name="lastname" minLength="2" pattern="^[0-9A-Za-b- ]+$" (focus)="focusEmail=true" (blur)="focusEmail=false" />
+        <label for="inputNumber">Number</label>
+        <div *ngIf="f.number.dirty && f.number.errors" class="invalid-feedback">
+            <div *ngIf="f.number.errors.required">This field is required</div>
+        </div>
+    </div>
+
+    <div class="form-label-group">
+        <input formControlName="zipCode" id="inputZipCode" class="form-control" type="text" placeholder="Zip Code" required="" autofocus="" [ngClass]="{ 'is-invalid': f.email.dirty && f.email.errors }"
+               name="zipCode" minLength="2" pattern="^[0-9]{4}[A-Z]{2}$" (focus)="focusEmail=true" (blur)="focusEmail=false" />
+        <label for="inputZipCode">Zip Code</label>
+        <div *ngIf="f.zipCode.dirty && f.zipCode.errors" class="invalid-feedback">
+            <div *ngIf="f.zipCode.errors.required">This field is required</div>
+        </div>
+    </div>
+
+    <div class="form-label-group">
+        <input formControlName="city" id="inputCity" class="form-control" type="text" placeholder="City" required="" autofocus="" [ngClass]="{ 'is-invalid': f.email.dirty && f.email.errors }"
+               name="city" minLength="2" pattern="^[A-Za-z-. ]+$" (focus)="focusEmail=true" (blur)="focusEmail=false" />
+        <label for="inputCity">City</label>
+        <div *ngIf="f.city.dirty && f.city.errors" class="invalid-feedback">
+            <div *ngIf="f.city.errors.required">This field is required</div>
+        </div>
+    </div>
+
+    <div class="form-label-group">
         <input formControlName="email" id="inputEmail" class="form-control" type="email" placeholder="Email address" required="" autofocus="" [ngClass]="{ 'is-invalid': f.email.dirty && f.email.errors }"
                name="email" minLength="12" pattern="^[A-Za-z0-9._%+-]+@[A-Za-z0-9.-]+.[A-Za-z]{2,}$" (focus)="focusEmail=true" (blur)="focusEmail=false" />
         <label for="inputEmail">Email address</label>
@@ -33,6 +109,17 @@
         </div>
     </div>
 
+    <div class="form-label-group">
+        <textarea rows="3" formControlName="profileDescription" id="inputProfileDescription" class="form-control" type="password" placeholder="Profile Description" required=""
+               name="profileDescription" [ngClass]="{ 'is-invalid': f.repeatPassword.dirty && f.repeatPassword.errors }">
+
+        </textarea>
+        <div class="invalid-feedback" *ngIf="f.repeatPassword.dirty && f.repeatPassword.errors">
+            <div *ngIf="f.repeatPassword.errors.required">This field is required</div>
+            
+        </div>
+    </div>
+
     <div class="checkbox mb-3">
         <label>
             <input type="checkbox" value="remember me" />
@@ -41,6 +128,6 @@
     </div>
 
     <p>Already have an account <a [routerLink]="['/login']">signin</a></p>
-    <button class="btn btn-lg btn-primary btn-block" type="submit" (click)="onClick(registerForm)">Create Account</button>
+    <button class="btn btn-lg btn-primary btn-block" type="submit" style="margin-bottom: 10px">Create Account</button>
 </form>
 
