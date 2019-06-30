@@ -7,6 +7,7 @@ import { MustMatch } from '../../_utils/password-match.validator'
 import { AuthenticationService } from '../../authentication.service';
 import { HttpClient } from '@angular/common/http';
 import { environment } from '../../../environments/environment';
+import { ProfileService } from '../profile.service';
 //import * as $ from 'jquery';
 
 
@@ -39,6 +40,7 @@ export class UsersettingsComponent implements OnInit {
         private modalService: NgbModal,
         private formBuilder: FormBuilder,
         private authenticationService: AuthenticationService,
+        private profileservice: ProfileService,
         private http: HttpClient) { }
 
 
@@ -79,17 +81,13 @@ export class UsersettingsComponent implements OnInit {
             "password": this.profileForm.controls.password.value,
             "profileDescription": this.profileForm.controls.profileDescription.value
         }
-        console.log(profile);
-        console.log(this.user);
-        console.log(this.userid);
 
-        this.http
-            .put<string>(`${environment.apiUrl}/api/Users/` + this.userid, profile)
-            .subscribe(result => {
-                this.result = result;
-                console.log(result);
+        //post new usersettings
+        this.profileservice.editUserProfile(this.userid, profile).subscribe(result => {
+            this.result = result;
+            console.log(result);
 
-            });
+        });
     }
 
 //methods for opening and closing the modal.

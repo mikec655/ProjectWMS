@@ -16,8 +16,8 @@ export class ProfileService {
       return this.http.get<any>(`${environment.apiUrl}/api/Users/` + id)
   }
     //return this.result; */
-    sub() {
-        this.getUserProfile(4).subscribe(data => {
+    sub(id: number) {
+        this.getUserProfile(id).subscribe(data => {
             console.log(data);
             this.data = data;
         })
@@ -26,11 +26,16 @@ export class ProfileService {
     }
 
   
-
-  editUserProfile(id: number, profile: UserProfile) {
+    //tijdelijk omgezet naar any omdat ik fotos uploaden nog niet werkend heb.
+  editUserProfile(id: number, profile:any) {
       return this.http.put<any>(`${environment.apiUrl}/api/Users/` + id, profile)
 
   }
+
+    /*   hier uiteindelijk een fotopost
+    uploadProfilePicture() {
+        return this.http.post<>
+    }*/ 
 
   follow() {
 
@@ -41,7 +46,7 @@ export class ProfileService {
   }
 
 }
-
+1
 export class UserProfile {
   username: string
   firstname: string

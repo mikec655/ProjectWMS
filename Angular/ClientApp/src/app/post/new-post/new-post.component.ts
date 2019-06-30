@@ -1,6 +1,12 @@
 import { Component, OnInit } from '@angular/core';
 import { NgbModal, ModalDismissReasons } from '@ng-bootstrap/ng-bootstrap';
 
+import { PostService} from '../post.service';
+
+import { NgModel, FormGroup, FormBuilder, Validators } from '@angular/forms';
+import { HttpClient } from '@angular/common/http';
+import { environment } from '../../../environments/environment';
+
 @Component({
   selector: 'app-newpost',
   templateUrl: './new-post.component.html',
@@ -18,9 +24,14 @@ export class NewPostComponent implements OnInit {
     housenumber: any;
     zipcode: any;
     city: any;
+    guests: any;
 
+    result: any;
 
-    constructor(private modalService: NgbModal) { }
+    
+
+    constructor(private modalService: NgbModal,
+        private postservice: PostService, private http: HttpClient) { }
 
     open(content) {
         this.modalService.open(content, { ariaLabelledBy: 'modal-basic-title' }).result.then((result) => {
@@ -45,58 +56,78 @@ export class NewPostComponent implements OnInit {
 
     streetPost(value: any) {
         this.street = value;
-        console.log(1)
-        console.log(value)
+  
     }
 
+    guestPost(value: any) {
+        this.guests = value;
+    }
 
     zipCode(value: any) {
         this.zipcode= value;
-        console.log(2)
-        console.log(value)
+
     }
 
     filePost(value: any) {
         this.zipcode = value;
-        console.log(3)
-        console.log(value)
+
     }
 
     titlePost(value: any) {
         this.title = value;
-        console.log(this.title)
+     
     }
 
     houseNumber(value: any) {
         this.housenumber = value;
-        console.log(4)
-        console.log(this.housenumber)
-        console.log(value)
+
     }
 
     postText(value: any) {
         this.message = value;
-        console.log(5)
-        console.log(value)
+ 
     }
 
     cityPost(value: any) {
         this.city = value;
-        console.log(this.city);
+     
     }
 
 
     //method to post post to database;
     createpost() {
-        console.log(1938293)
+        console.log(this.title);
         console.log(this.message);
         console.log(this.street);
         console.log(this.housenumber);
         console.log(this.zipcode);
         console.log(this.title);
         console.log(this.city);
+        console.log(this.guests);
 
+        var uid: number = 4;
+        var postId: number = 2;
+        let post = {
+            postUserId: uid,
+            message: this.message};
 
+        console.log(post);
+        
+        
+        
+
+        //hier post object bouwen.
+        this.postservice.createPost(post).subscribe(x => console.log(x));
+
+        /*
+        this.http
+            .post<string>(`${environment.apiUrl}/api/Posts/`, post)
+            .subscribe(result => {
+                this.result = result;
+                console.log(result);
+
+            });
+            */
     }
 
 

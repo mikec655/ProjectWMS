@@ -45,14 +45,16 @@
             </div>
             <!-- VAK voor het posten van een profielfoto-->
             <div id="postreviewblock">
+
               <!--uploaden van nieuwe profielfoto (moet nog gefixt worden)-->
               <h1 class="align-self-start" style="font-size:18px">Upload a profilepicture</h1>
-              <form action="/action_page.php">
-                <input type="file" name="pic" accept="image/*">
+              <form [formGroup] = "uploadForm" (ngSubmit)="uploadprofilepicture()">
+                <input type="file" name="pic" accept="image/*" ngModel (change)="getPhoto($event)"> >
                 <input type="submit">
               </form>
               <app-usersettings></app-usersettings>
             </div>
+
             <!-- Hier komt ene lijst van reviews-->
             <div id="readreviewblock">
               <h1 class="align-self-start" style="font-size:18px">User Reviews:</h1>
