@@ -19,15 +19,19 @@ export class MapComponent implements OnInit {
 
         L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {}).addTo(this.map);
 
+        this.map.setView([52.1092717, 5.1809676], 7);
+
         if (navigator.geolocation) {
             navigator.geolocation.getCurrentPosition(position => {
                 this.map.setView([position.coords.latitude, position.coords.longitude], 11)
             });
         } else {
-            this.map.setView([52.1092717, 5.1809676], 11);
+            this.map.setView([52.1092717, 5.1809676], 7);
         }
 
         this.updateMap();
+
+        console.log(this.Unix_timestamp(1561883114))
 
     }
 
@@ -45,11 +49,29 @@ export class MapComponent implements OnInit {
             popupAnchor: [0, -38]
         });
 
+        var acceptInvitation = this.acceptInvitation;
+
+        var container = L.DomUtil.create('div');
+        var btn = L.DomUtil.create('button', '', container);
+        btn.setAttribute('type', 'button');
+        btn.setAttribute('class', 'btn btn-primary btn-sm')
+        btn.setAttribute('style', 'width: 100%');
+        btn.innerHTML = "Aanmelden";
+        container.innerHTML = btn;
+
+        //console.log(btn);
+
         L.marker(coords, { icon: customIcon }).addTo(this.map)
-            .bindPopup(`<h6><a href='#'>${post.userFirstName} ${post.userLastName}</a></h6>${post.message}<br/><br/><span>0/${invitation.numberOfGuests} personen</span><button style='float: right'>Aanmelden</button>`, {
-                minWidth: 180
+            .bindPopup("<script></script><h6><a href='#'>" + post.userFirstName + " " + post.userLastName + "</a></h6><span class='badge badge-info'>" + invitation.type + "</span> - <span class='badge badge-light'>0 / " + invitation.numberOfGuests + " personen</span><br/><br/>" + this.Unix_timestamp(invitation.postedAtUnix) + "<br/>" + invitation.address + "<br/><br/>" + post.message + "<br/><br/>" + btn.outerHTML, {
+                minWidth: 180,
+                maxWidth: 360
             })
             .openPopup();
+
+        L.DomEvent.on(container, 'click', () => {
+            console.log("ZZ")
+            //this.acceptInvitation(post.postId);
+        });
     }
 
     updateMap(): void {
@@ -61,4 +83,23 @@ export class MapComponent implements OnInit {
         });
     }
 
+    acceptInvitation(postId) {
+        console.log("inv");
+        //this.postService.acceptInvitation(postId);
+    }
+
+    Unix_timestamp(t) {
+        const monthNames = ["januari", "februari", "maart", "april", "mei", "juni",
+            "juli", "augustus", "september", "oktober", "november", "december"
+        ];
+        var dt = new Date(t);
+        var y = dt.getFullYear();
+        var mth = dt.getMonth();
+        var d = "0" + dt.getDate();
+        var hr = "0" + dt.getHours();
+        var m = "0" + dt.getMinutes();
+
+        return d.substr(-2) + ' ' + monthNames[mth] + ' ' + y + ' ' +
+            hr.substr(-2) + ':' + m.substr(-2);
+    }
 }

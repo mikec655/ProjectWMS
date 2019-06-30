@@ -68,6 +68,10 @@ export class PostService {
         return this.http.delete<any>(`${environment.apiUrl}/api/Posts/` + postId + "/invitation")
     }
 
+    acceptInvitation(postId: number) {
+        return this.http.post<any>(`${environment.apiUrl}/api/Posts/` + postId + "/invitation/accept", {})
+    }
+
 
 }
 
