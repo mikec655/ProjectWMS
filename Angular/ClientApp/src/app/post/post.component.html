@@ -4,8 +4,8 @@
   <div class="card" >
     <img class="card-img-top" src="..." alt="Card image cap">
     <div class="card-body">
-      <a href="#" class="card-link">{{ post.userFirstName }} {{ post.userLastName }}</a>
-      <p class="card-text">{{ post.message }}</p>
+      <!--<a href="#" class="card-link">{{ post.userFirstName }} {{ post.userLastName }}</a>
+      <p class="card-text">{{ post.message }}</p>-->
     </div>
     <!-- hier een ng for alle opgehaalde posts-->
     <div class="card-body">
@@ -15,11 +15,11 @@
       </button>
 
       <div id="collapseExample" [ngbCollapse]="isCollapsed">
-        <div class="card" *ngFor="let comment of comments">
+      <!--  <div class="card" *ngFor="let comment of comments"> -->
           <p id="posttekst">
-            {{comment.content}}
-          </p>
-        </div>
+            <!--{{comment.content}}-->
+         <!-- </p>-->
+      
       </div>
     </div>
   </div>

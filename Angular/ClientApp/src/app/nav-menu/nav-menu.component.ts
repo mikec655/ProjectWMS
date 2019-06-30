@@ -26,6 +26,7 @@ import { AuthenticationService } from '../authentication.service';
 export class NavMenuComponent {
   isExpanded = true;
     maxHeight = 70;
+    display: 'block';
 
     constructor(private authenticationService: AuthenticationService) {
 

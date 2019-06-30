@@ -9,10 +9,12 @@ import { AuthInterceptor } from './authentication/auth.interceptor';
 import { AppComponent } from './app.component';
 import { NavMenuComponent } from './nav-menu/nav-menu.component';
 import { HomeComponent } from './home/home.component';
-import { AuthenticationComponent } from './authentication/authentication.component';
+import { AuthenticationComponent } from './Authentication/authentication.component';
 import { RegisterComponent } from './register/register.component';
-import { StartComponent } from './start/start/start.component';
+import { StartComponent } from './start/startContent/start.component';
 import { PostModule } from './post/post.module';
+import { ServiceWorkerModule } from '@angular/service-worker';
+import { environment } from '../environments/environment';
 
 
 @NgModule({
@@ -38,7 +40,8 @@ import { PostModule } from './post/post.module';
       { path: 'profile', loadChildren: () => import('./profile/profile.module').then(m => m.ProfileModule) },
       { path: 'login', component: AuthenticationComponent },
       { path: 'register', component: RegisterComponent }
-    ])
+    ]),
+    ServiceWorkerModule.register('ngsw-worker.js', { enabled: environment.production })
   ],
     providers: [{ provide: HTTP_INTERCEPTORS, useClass: AuthInterceptor, multi: true }],
     bootstrap: [AppComponent]

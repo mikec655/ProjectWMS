@@ -18,6 +18,7 @@ export class RegisterComponent implements OnInit {
   profileForm: FormGroup;
   submitted = false;
   result: any;
+  focusEmail:boolean;
   constructor(
     private formBuilder: FormBuilder,
     private authenticationService: AuthenticationService,
@@ -35,6 +36,7 @@ export class RegisterComponent implements OnInit {
           zipCode: ['', [Validators.required]],
           city: ['', [Validators.required]],
           email: ['', [Validators.required]],
+          mail: ['', [Validators.required]],
           password: ['', [Validators.required, Validators.minLength(6)]],
           repeatPassword: ['', [Validators.required]],
           profileDescription: ['', [Validators.required]]
