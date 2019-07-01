@@ -21,6 +21,7 @@ export class PostService {
     }
 
     createPost(post) {
+        console.log("Creating Post");
         return this.http.post<any>(`${environment.apiUrl}/api/Posts/`, post)
     }
 
