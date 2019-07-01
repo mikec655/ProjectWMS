@@ -24,6 +24,7 @@ export class AuthenticationService implements CanActivate {
             errMsg = error.message ? error.message : error.toString();
         }
         console.error(errMsg);
+        console.error(error);
     }
 
     constructor(private http: HttpClient, private router: Router) {
