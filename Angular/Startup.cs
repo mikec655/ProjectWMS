@@ -34,6 +34,14 @@ namespace Angular
         public void ConfigureServices(IServiceCollection services)
         {
             services.AddCors();
+
+            services.AddResponseCaching();
+            services.AddResponseCompression(options => {
+                options.Providers.Add<BrotliCompressionProvider>();
+                options.Providers.Add<GzipCompressionProvider>();
+                options.EnableForHttps = true;
+            });
+
             services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_2_2);
 
             services.AddMvc().AddJsonOptions(options =>
@@ -82,18 +90,6 @@ namespace Angular
                 };
             });
 
-            services.AddResponseCaching();
-            services.AddResponseCompression(options => {
-                options.EnableForHttps = true;
-                options.Providers.Add<GzipCompressionProvider>();
-                options.Providers.Add<BrotliCompressionProvider>();
-            });
-
-            services.Configure<GzipCompressionProviderOptions>(options =>
-            {
-                options.Level = CompressionLevel.Optimal;
-            });
-
             var connection = @"Data Source=(LocalDb)\MSSQLLocalDB;Initial Catalog=FoodShare;Integrated Security=SSPI;";
             //var connection = @"Server=54.37.88.136;Database=EFGetStarted.AspNetCore.NewDb;User ID=SA;Password=LantaarnPaalLampje1234;ConnectRetryCount=0;TrustServerCertificate=true;Encrypt=true;";
             services.AddDbContext<UserContext>
@@ -112,8 +108,11 @@ namespace Angular
             else
             {
                 app.UseExceptionHandler("/Error");
-                //app.UseHsts();
+                app.UseHsts();
             }
+
+            app.UseResponseCaching();
+            app.UseResponseCompression();
 
             // Enable middleware to serve generated Swagger as a JSON endpoint.
             app.UseSwagger();
@@ -135,8 +134,6 @@ namespace Angular
             app.UseHttpsRedirection();
             app.UseStaticFiles();
             app.UseSpaStaticFiles();
-            app.UseResponseCaching();
-            app.UseResponseCompression();
 
             app.UseMvc(routes =>
             {
