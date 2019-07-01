@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { Observable, BehaviorSubject } from 'rxjs';
-import { map } from 'rxjs/operators';
+import { map, catchError } from 'rxjs/operators';
 import { environment } from '../environments/environment';
 import { User } from './_models/user';
 import { CanActivate, RouterModule, Router } from '@angular/router';
@@ -13,6 +13,18 @@ export class AuthenticationService implements CanActivate {
 
     private currentUserSubject: BehaviorSubject<User>;
     public currentUser: Observable<User>;
+
+    protected async handleError(error: Response | any) {
+        let errMsg: string;
+        if (error instanceof Response) {
+            const body = await error.json() || '';
+            const err = body.error || JSON.stringify(body);
+            errMsg = `${error.status} - ${error.statusText || ''} ${err}`;
+        } else {
+            errMsg = error.message ? error.message : error.toString();
+        }
+        console.error(errMsg);
+    }
 
     constructor(private http: HttpClient, private router: Router) {
         this.currentUserSubject = new BehaviorSubject<User>(JSON.parse(localStorage.getItem('currentUser')));
@@ -34,7 +46,7 @@ export class AuthenticationService implements CanActivate {
                 this.currentUserSubject.next(user)
                 this.router.navigate(["/"])
                 return user;
-            }));
+            }), catchError(this.handleError));
     }
 
     logout() {

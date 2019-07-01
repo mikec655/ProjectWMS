@@ -10,7 +10,8 @@ import { RouterModule } from '@angular/router';
       CommonModule,
       FormsModule,
       ReactiveFormsModule,
-      RouterModule
+      RouterModule.forChild([
+          { path: '', component: AuthenticationComponent }])
   ]
 })
 export class AuthenticationModule { }

@@ -16,6 +16,8 @@ using System.Reflection;
 using System;
 using System.IO;
 using Swashbuckle.AspNetCore.Examples;
+using Microsoft.AspNetCore.ResponseCompression;
+using System.IO.Compression;
 
 namespace Angular
 {
@@ -80,6 +82,18 @@ namespace Angular
                 };
             });
 
+            services.AddResponseCaching();
+            services.AddResponseCompression(options => {
+                options.EnableForHttps = true;
+                options.Providers.Add<GzipCompressionProvider>();
+                options.Providers.Add<BrotliCompressionProvider>();
+            });
+
+            services.Configure<GzipCompressionProviderOptions>(options =>
+            {
+                options.Level = CompressionLevel.Optimal;
+            });
+
 #if DEBUG
             //services.AddRouteAnalyzer();
 #endif
@@ -125,6 +139,8 @@ namespace Angular
             app.UseHttpsRedirection();
             app.UseStaticFiles();
             app.UseSpaStaticFiles();
+            app.UseResponseCaching();
+            app.UseResponseCompression();
 
             app.UseMvc(routes =>
             {

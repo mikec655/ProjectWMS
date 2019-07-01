@@ -31,7 +31,7 @@ import { environment } from '../environments/environment';
             { path: 'profile', loadChildren: './profile/profile.module#ProfileModule' },
             { path: 'register', loadChildren: './register/register.module#RegisterModule' },
             { path: 'login', loadChildren: './authentication/authentication.module#AuthenticationModule' }
-        ]),
+        ], {enableTracing: true}),
         ServiceWorkerModule.register('ngsw-worker.js', { enabled: environment.production })
     ],
     providers: [{ provide: HTTP_INTERCEPTORS, useClass: AuthInterceptor, multi: true }],

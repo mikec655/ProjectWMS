@@ -28,7 +28,6 @@
         "@angular/service-worker": "^7.2.15",
         "@ng-bootstrap/ng-bootstrap": "^4.2.1",
         "@nguniversal/module-map-ngfactory-loader": "^7.1.1",
-        "Leaflet.GreatCircle": "^0.1.0",
         "aspnet-prerendering": "^3.0.1",
         "selenium-webdriver": "3.6.0",
         "bootstrap": "^4.3.1",
