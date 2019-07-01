@@ -146,6 +146,15 @@ namespace Angular.Controllers
                 return BadRequest(ModelState);
             }
 
+            if (int.TryParse(User.Identity.Name, out var i))
+            {
+                userDto.UserId = i;
+            }
+            else
+            {
+                return Unauthorized();
+            }
+
             if (id != userDto.UserId)
             {
                 return BadRequest();
@@ -156,9 +165,22 @@ namespace Angular.Controllers
                 return Unauthorized();
             }
 
-            var user = userDto.ToEntity();
+            var user = await _context.FindAsync<UserAccount>(id);
 
-            user.Password = Hash.GenerateHash(user.Password);
+            var newUser = userDto.ToEntity();
+
+            user.BirthDate = userDto.BirthDateUnix.HasValue ? newUser.BirthDate : user.BirthDate;
+            user.Password = newUser.Password == null ? user.Password : Hash.GenerateHash(newUser.Password);
+            user.Lastname = newUser.Lastname ?? user.Lastname;
+            user.Firstname = newUser.Firstname ?? user.Firstname;
+            user.City = newUser.City ?? user.City;
+            user.Gender = newUser.Gender ?? user.Gender;
+            user.Number = newUser.Number ?? user.Gender;
+            user.ProfileDescription = newUser.ProfileDescription ?? user.ProfileDescription;
+            user.Street = newUser.Street ?? user.Street;
+            user.UserMediaId = newUser.UserMediaId.HasValue ? newUser.UserMediaId : user.UserMediaId;
+            user.Username = newUser.Username ?? user.Username;
+            user.ZipCode = newUser.ZipCode ?? user.ZipCode;
 
             _context.Entry(user).State = EntityState.Modified;
 
@@ -178,7 +200,7 @@ namespace Angular.Controllers
                 }
             }
 
-            return NoContent();
+            return Ok(user);
         }
 
         /// <summary>

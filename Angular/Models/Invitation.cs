@@ -23,10 +23,7 @@ namespace Angular.Models
         public Post Post { get; set; }
 
         [JsonIgnore]
-        public DateTime PostedAt { get; set; }
-
-        [NotMapped]
-        public long PostedAtUnix { get; set; }
+        public DateTime? InvitationDate { get; set; }
 
         [JsonIgnore]
         [InverseProperty("Invitation")]
@@ -51,15 +48,15 @@ namespace Angular.Models
 
         public int InvitationPostId { get; set; }
 
-        public long PostedAtUnix { get; set; }
+        public long? InvitationDataUnix { get; set; }
 
         public string Type { get; set; }
 
         public int NumberOfGuests { get; set; }
 
-        public double Longitude { get; set; }
+        public double? Longitude { get; set; }
 
-        public double Latitude { get; set; }
+        public double? Latitude { get; set; }
 
         public string Address { get; set; }
 
@@ -85,14 +82,13 @@ namespace Angular.Models
                 {
                     InvitationId = p.InvitationId,
                     InvitationPostId = p.InvitationPostId,
-                    PostedAt = DateTimeOffset.FromUnixTimeMilliseconds(p.PostedAtUnix).UtcDateTime,
-                    PostedAtUnix = p.PostedAtUnix,
+                    InvitationDate = DateTimeOffset.FromUnixTimeMilliseconds(p.InvitationDataUnix.GetValueOrDefault()).UtcDateTime,
                     Type = p.Type,
                     NumberOfGuests = p.NumberOfGuests,
                     ZipCode = p.ZipCode,
                     Address = p.Address,
                     Number = p.Number,
-                    LocationPoint = new Point(p.Longitude, p.Latitude)
+                    LocationPoint = new Point(p.Longitude.GetValueOrDefault(), p.Latitude.GetValueOrDefault())
                 };
             }
         }
@@ -105,7 +101,7 @@ namespace Angular.Models
                 {
                     InvitationId = p.InvitationId,
                     InvitationPostId = p.InvitationPostId,
-                    PostedAtUnix = new DateTimeOffset(p.PostedAt).ToUnixTimeMilliseconds(),
+                    InvitationDataUnix = new DateTimeOffset(p.InvitationDate.GetValueOrDefault()).ToUnixTimeMilliseconds(),
                     Type = p.Type,
                     NumberOfGuests = p.NumberOfGuests,
                     ZipCode = p.ZipCode,

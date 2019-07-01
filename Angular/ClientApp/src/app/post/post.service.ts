@@ -83,6 +83,8 @@ export class Post {
     message: string
 }
 
+
+
 export class PostComment {
     commentId: number
     userId: number
