@@ -16,8 +16,7 @@ export class AuthenticationComponent {
     result: string;
     constructor(
         private formBuilder: FormBuilder,
-        private authenticationService: AuthenticationService,
-        private http: HttpClient
+        private authenticationService: AuthenticationService
     ) { }
 
     ngOnInit() {
