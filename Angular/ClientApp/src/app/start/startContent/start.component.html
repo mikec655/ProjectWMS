@@ -1,29 +1,32 @@
 <div class="container" style="margin-top:100px">
-  <div class="row">
-    <div class="col-sm-3 ">
-      <div class="span12">
-        <app-profile-side-bar></app-profile-side-bar>
-      </div>
-    </div>
-
-    
-    <div class="col-sm-6" >
-        <div class="span12" >
-            <textarea class="form-control" id="exampleFormControlTextarea1" rows="3"></textarea>
-            <button type="button" class="btn btn-outline-primary" (click)="onClickPostButton()"
-                    style="margin-top: 5px; margin-bottom: 5px" >
-                Post
-            </button>
+    <div class="row">
+        <div class="col-sm-3 ">
+            <div class="span12">
+                <app-profile-side-bar></app-profile-side-bar>
+            </div>
         </div>
-        <div style="overflow-y: scroll; height: 60vh">
-            <!--<app-post *ngFor="let post of posts" [post]="post"></app-post>-->
-        </div>
-    </div>
 
-    <div class="col-sm-3 ">
-      <app-map-side-bar></app-map-side-bar>
+
+        <div class="col-sm-6">
+            <div class="span12">
+                <textarea class="form-control" id="exampleFormControlTextarea1" rows="3"></textarea>
+                <button type="button" class="btn btn-outline-primary" (click)="onClickPostButton()"
+                        style="margin-top: 5px; margin-bottom: 5px">
+                    Post
+                </button>
+            </div>
+            <div style="overflow-y: scroll; height: 60vh">
+                <!--<app-post *ngFor="let post of posts" [post]="post"></app-post>-->
+            </div>
+        </div>
+
+        <div class="col-sm-3 ">
+            <app-map-side-bar></app-map-side-bar>
+        </div>
+        <button *ngIf="Pwa.promptEvent" (click)="installPwa()">
+            Install
+        </button>
     </div>
-  </div>
 </div>
 
 

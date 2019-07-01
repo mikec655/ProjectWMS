@@ -94,10 +94,6 @@ namespace Angular
                 options.Level = CompressionLevel.Optimal;
             });
 
-#if DEBUG
-            //services.AddRouteAnalyzer();
-#endif
-
             var connection = @"Data Source=(LocalDb)\MSSQLLocalDB;Initial Catalog=FoodShare;Integrated Security=SSPI;";
             //var connection = @"Server=54.37.88.136;Database=EFGetStarted.AspNetCore.NewDb;User ID=SA;Password=LantaarnPaalLampje1234;ConnectRetryCount=0;TrustServerCertificate=true;Encrypt=true;";
             services.AddDbContext<UserContext>
@@ -116,7 +112,7 @@ namespace Angular
             else
             {
                 app.UseExceptionHandler("/Error");
-                app.UseHsts();
+                //app.UseHsts();
             }
 
             // Enable middleware to serve generated Swagger as a JSON endpoint.

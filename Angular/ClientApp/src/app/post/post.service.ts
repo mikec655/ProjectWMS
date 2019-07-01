@@ -17,7 +17,7 @@ export class PostService {
     }
 
     getPost(id: number) {
-        return this.http.get<Post>(`${environment.apiUrl}/api/Posts/` + id)
+        return this.http.get<any>(`${environment.apiUrl}/api/Posts/` + id)
     }
 
     createPost(post) {

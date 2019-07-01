@@ -19,6 +19,8 @@ namespace Angular
 
         public static IWebHostBuilder CreateWebHostBuilder(string[] args) =>
             WebHost.CreateDefaultBuilder(args)
+                .UseSetting("https_port", "443")
+                .UseUrls("http://*:80", "https://*:443")
                 .UseStartup<Startup>();
     }
 }

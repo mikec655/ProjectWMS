@@ -3,6 +3,7 @@ import { FormBuilder, Validators, FormGroup } from '@angular/forms';
 import { AuthenticationService } from '../authentication.service';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { first } from 'rxjs/operators';
+import { PWAService } from '../pwa.service';
 
 
 @Component({
@@ -16,8 +17,13 @@ export class AuthenticationComponent {
     result: string;
     constructor(
         private formBuilder: FormBuilder,
-        private authenticationService: AuthenticationService
+        private authenticationService: AuthenticationService,
+        public Pwa: PWAService
     ) { }
+
+    installPwa(): void {
+        this.Pwa.promptEvent.prompt();
+    }
 
     ngOnInit() {
         this.loginForm = this.formBuilder.group({
