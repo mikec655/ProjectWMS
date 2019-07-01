@@ -10,6 +10,7 @@ import { NavMenuComponent } from './nav-menu/nav-menu.component';
 import { HomeComponent } from './home/home.component';
 import { ServiceWorkerModule } from '@angular/service-worker';
 import { environment } from '../environments/environment';
+import { AuthenticationModule } from './authentication/authentication.module';
 
 
 @NgModule({
@@ -22,6 +23,7 @@ import { environment } from '../environments/environment';
         BrowserModule.withServerTransition({ appId: 'ng-cli-universal' }),
         BrowserAnimationsModule,
         HttpClientModule,
+        AuthenticationModule,
         //PostModule,
         FormsModule,
         ReactiveFormsModule,

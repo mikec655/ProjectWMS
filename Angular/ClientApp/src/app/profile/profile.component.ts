@@ -6,6 +6,7 @@ import { environment } from '../../environments/environment';
 import { AuthenticationService } from '../authentication.service';
 import { FormBuilder, FormGroup } from '@angular/forms';
 import { HttpClient } from '@angular/common/http';
+import { PostService } from '../post/post.service';
 @Component({
     selector: 'app-profile',
     templateUrl: './profile.component.html',
@@ -33,12 +34,13 @@ export class ProfileComponent implements OnInit {
     public picture: File;
     public uploadForm: FormGroup;
 
-
+    public posts = []
 
     public result: any;
 
     constructor(
         public profileservice: ProfileService,
+        private postService: PostService,
         private formBuilder: FormBuilder,
         private httpClient: HttpClient,
         private authenticationService: AuthenticationService,) {
@@ -47,12 +49,15 @@ export class ProfileComponent implements OnInit {
         this.userid = this.user.userId
 
         //hier roep ik iets aan om een userobject te halen,
-        this.pageProfile = this.profileservice.sub(this.userid);
+        this.profileservice.getUserProfile(this.userid).subscribe(data => {
+            console.log(data);
+            this.pageProfile = data;
+        });
     }
 
     ngOnInit() {
         //test string voor grootes
-
+        console.log("test");
         this.uploadForm = this.formBuilder.group({
             pic: ['']
         })
@@ -69,10 +74,17 @@ export class ProfileComponent implements OnInit {
 
         // pageProfile is hier dan toch ook weer een klasse van User?
         this.pageProfile = this.profileservice.data;
+        console.log(this.userid);
+        console.log(this.pageProfile);
+        console.log(this.pageProfile.firstname);
+        console.log(this.pageProfile.lastname);
+        console.log(this.profileservice.data.firstname);
         console.log("[profile.component:53] pageProfile: " + this.pageProfile);
         //geen idee zal ff runnen maar ik moet zegmaar alle variabelen hebben hieruit.
 
+        this.username = this.pageProfile.firstname;
 
+        this.postService.getPosts(-1).subscribe(posts => { console.log(posts); this.posts = posts });
 
 
 
@@ -92,10 +104,6 @@ export class ProfileComponent implements OnInit {
 
     uploadprofilepicture() {
 
-
-        console.log("fotopushen")
-        console.log(this.picture);
-        console.log(this.uploadForm)
         const formData = new FormData();
 
         formData.append('file', this.uploadForm.get('pic').value);
@@ -106,7 +114,7 @@ export class ProfileComponent implements OnInit {
         this.httpClient.post<any>(`${environment.apiUrl}/api/Media/`, formData).subscribe(result => {
             this.result = result;
             console.log(result);
-
+            console.log("dsfsd");
             var picturechange = {
                 "UserMediaID" : "1" 
             }
