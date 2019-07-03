@@ -90,10 +90,8 @@ namespace Angular
                 };
             });
 
-            var connection = @"Data Source=(LocalDb)\MSSQLLocalDB;Initial Catalog=FoodShare;Integrated Security=SSPI;";
-            //var connection = @"Server=54.37.88.136;Database=EFGetStarted.AspNetCore.NewDb;User ID=SA;Password=LantaarnPaalLampje1234;ConnectRetryCount=0;TrustServerCertificate=true;Encrypt=true;";
             services.AddDbContext<UserContext>
-                (options => options.UseSqlServer(connection, x => x.UseNetTopologySuite()));
+                (options => options.UseSqlServer(Configuration.GetConnectionString("DefaultConnection"), x => x.UseNetTopologySuite()));
 
             services.AddScoped<IUserService, UserService>();
         }

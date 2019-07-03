@@ -9,13 +9,15 @@ RUN dotnet restore "Angular.csproj"
 COPY . .
 WORKDIR /src
 RUN dotnet build "Angular.csproj" -c Release -o /app
-RUN dotnet dev-certs https
 
 FROM build AS publish
+WORKDIR /src/ClientApp
 RUN curl -sL https://deb.nodesource.com/setup_8.x | bash - && apt-get install -yq nodejs build-essential
+RUN npm install
+WORKDIR /src
 RUN dotnet publish "Angular.csproj" -c Release -o /app
 
 FROM base AS final
 WORKDIR /app
 COPY --from=publish /app .
-ENTRYPOINT ["dotnet", "Angular.dll", "dev-certs"]
+ENTRYPOINT ["dotnet", "Angular.dll"]

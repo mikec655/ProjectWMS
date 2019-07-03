@@ -10,6 +10,8 @@ services:
      - SA_PASSWORD=LantaarnPaalLampje1234
    expose:
      - 1433
+   ports:
+    - "1433:1433"
   angular:
     image: ${DOCKER_REGISTRY-}angular
     build:

@@ -3,7 +3,7 @@ version: '3.4'
 services:
   angular:
     environment:
-      - ASPNETCORE_ENVIRONMENT=Development
+      - ASPNETCORE_ENVIRONMENT=Docker
       - ASPNETCORE_URLS=https://localhost;http://localhost
       - ASPNETCORE_HTTPS_PORT=44349
     ports:
