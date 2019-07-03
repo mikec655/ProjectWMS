@@ -1,0 +1,22 @@
+version: '3.4'
+
+services:
+  run-db:
+   image: microsoft/mssql-server-linux:latest
+   container_name: myapp.dev.db
+   environment:
+     - ACCEPT_EULA=Y
+     - MSSQL_PID=Express
+     - SA_PASSWORD=LantaarnPaalLampje1234
+   expose:
+     - 1433
+  angular:
+    image: ${DOCKER_REGISTRY-}angular
+    build:
+      context: .
+      dockerfile: Dockerfile
+    environment:
+      - ASPNETCORE_ENVIRONMENT=Docker
+    ports:
+      - "8080:80"
+      - "443:443"

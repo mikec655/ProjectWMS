@@ -69,7 +69,7 @@
           <div id="posts">
             <h1 class="align-self-start" id="postlist">Posts:</h1>
             <!--<p class="align-self-start">{{posttekst}}</p>-->
-            <app-post ngFor="let post of posts" [post]="post"></app-post>
+            <app-post *ngFor="let post of posts" [post]="post"></app-post>
           </div>
         </div>
           <!-- Hier moeten de post van het profiel worden geladen als er Wel is ingelogd op het account van het profiel hierbij moet er een delete knop bijgevoegd worden -->
@@ -78,7 +78,7 @@
                 <button (click)="print(event,value )">sdf</button> 
                 <app-newpost></app-newpost>
               <h1 class="align-self-start" id="postlist">Posts:</h1>
-              <app-post ngFor="let post of posts" [post]="post"></app-post>
+              <app-post *ngFor="let post of posts" [post]="post"></app-post>
             </div>
           </div>
         </div>

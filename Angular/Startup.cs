@@ -137,9 +137,6 @@ namespace Angular
 
             app.UseMvc(routes =>
             {
-#if DEBUG
-                //routes.MapRouteAnalyzer("/routes");
-#endif
                 routes.MapRoute(
                     name: "default",
                     template: "{controller}/{action=Index}/{id?}");
@@ -155,6 +152,7 @@ namespace Angular
                 if (env.IsDevelopment())
                 {
                     //spa.UseAngularCliServer(npmScript: "start");
+
                     spa.UseProxyToSpaDevelopmentServer("https://localhost:4200");
                 }
             });
