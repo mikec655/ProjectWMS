@@ -15,9 +15,13 @@ WORKDIR /src/ClientApp
 RUN curl -sL https://deb.nodesource.com/setup_8.x | bash - && apt-get install -yq nodejs build-essential
 RUN npm install
 WORKDIR /src
+# Build the app and make the app ready to be published
 RUN dotnet publish "Angular.csproj" -c Release -o /app
 
 FROM base AS final
 WORKDIR /app
+# Copy the binaries and static Javascript over to final docker
 COPY --from=publish /app .
+# Copy manifest.json over to the dist folder for PWA to work
+COPY ./ClientApp/src/manifest.json /app/ClientApp/dist
 ENTRYPOINT ["dotnet", "Angular.dll"]

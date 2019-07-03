@@ -17,7 +17,4 @@
     </div>
     <p>Don't have an account <a [routerLink]="['/register']">register</a> </p>
     <button class="btn btn-lg btn-primary btn-block" type="submit">Sign in</button>
-    <button *ngIf="Pwa.promptEvent" (click)="installPwa()">
-        Install
-    </button>
 </form>

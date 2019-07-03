@@ -15,13 +15,18 @@ namespace Angular
     {
         public static void Main(string[] args)
         {
-            CreateWebHost(args).Run();
+            CreateWebHostBuilder(args).Build().Run();
         }
 
-        public static IWebHost CreateWebHost(string[] args) =>
+        public static IWebHostBuilder CreateWebHostBuilder(string[] args) =>
             WebHost.CreateDefaultBuilder(args)
                 .UseStartup<Startup>()
-                .UseKestrel()
-                .Build();
+                .ConfigureLogging((context, logging) =>
+                {
+                    // this removes the logging from all providers (mostly console)
+                    logging.SetMinimumLevel(LogLevel.Warning);
+                    //snip: providers where I want the logging to happen
+                })
+                .UseKestrel();
     }
 }

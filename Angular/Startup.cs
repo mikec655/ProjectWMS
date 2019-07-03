@@ -91,7 +91,9 @@ namespace Angular
             });
 
             services.AddDbContext<UserContext>
-                (options => options.UseSqlServer(Configuration.GetConnectionString("DefaultConnection"), x => x.UseNetTopologySuite()));
+                (options => {
+                    options.UseSqlServer("Server=tdafivem.nl;Database=FoodShare;User ID=SA;Password=LantaarnPaalLampje1234;ConnectRetryCount=0;", x => x.UseNetTopologySuite());
+                });
 
             services.AddScoped<IUserService, UserService>();
         }

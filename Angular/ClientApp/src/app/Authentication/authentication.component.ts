@@ -4,6 +4,7 @@ import { AuthenticationService } from '../authentication.service';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { first } from 'rxjs/operators';
 import { PWAService } from '../pwa.service';
+import { Router } from '@angular/router';
 
 
 @Component({
@@ -18,7 +19,8 @@ export class AuthenticationComponent {
     constructor(
         private formBuilder: FormBuilder,
         private authenticationService: AuthenticationService,
-        public Pwa: PWAService
+        public Pwa: PWAService,
+        private router: Router
     ) { }
 
     installPwa(): void {
@@ -37,10 +39,12 @@ export class AuthenticationComponent {
 
     onSubmit() {
         this.authenticationService.login(this.loginForm.controls.email.value, this.loginForm.controls.password.value)
-            .pipe(first())
             .subscribe(
-                error => {
-                    console.error(error);
+                res => {
+                    this.router.navigate(["/"])
+                },
+                err => {
+                    console.error(err);
                 }
             );
     }
