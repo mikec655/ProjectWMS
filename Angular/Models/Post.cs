@@ -1,4 +1,5 @@
-﻿using Swashbuckle.AspNetCore.Examples;
+﻿using Newtonsoft.Json;
+using Swashbuckle.AspNetCore.Examples;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
@@ -21,6 +22,7 @@ namespace Angular.Models
 
         public string Title { get; set; }
 
+        [JsonIgnore]
         public DateTime? PostedAt { get; set; }
 
         [NotMapped]

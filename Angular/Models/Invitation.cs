@@ -48,7 +48,7 @@ namespace Angular.Models
 
         public int InvitationPostId { get; set; }
 
-        public long? InvitationDataUnix { get; set; }
+        public long? InvitationDateUnix { get; set; }
 
         public string Type { get; set; }
 
@@ -82,7 +82,7 @@ namespace Angular.Models
                 {
                     InvitationId = p.InvitationId,
                     InvitationPostId = p.InvitationPostId,
-                    InvitationDate = DateTimeOffset.FromUnixTimeMilliseconds(p.InvitationDataUnix.GetValueOrDefault()).UtcDateTime,
+                    InvitationDate = DateTimeOffset.FromUnixTimeMilliseconds(p.InvitationDateUnix.GetValueOrDefault()).UtcDateTime,
                     Type = p.Type,
                     NumberOfGuests = p.NumberOfGuests,
                     ZipCode = p.ZipCode,
@@ -101,7 +101,7 @@ namespace Angular.Models
                 {
                     InvitationId = p.InvitationId,
                     InvitationPostId = p.InvitationPostId,
-                    InvitationDataUnix = new DateTimeOffset(p.InvitationDate.GetValueOrDefault()).ToUnixTimeMilliseconds(),
+                    InvitationDateUnix = new DateTimeOffset(p.InvitationDate.GetValueOrDefault(DateTime.UtcNow)).ToUnixTimeMilliseconds(),
                     Type = p.Type,
                     NumberOfGuests = p.NumberOfGuests,
                     ZipCode = p.ZipCode,

@@ -18,7 +18,8 @@
             "progress": true,
             "polyfills": "src/polyfills.ts",
             "assets": [
-              "src/assets"
+              "src/assets",
+              "src/manifest.webmanifest"
             ],
             "styles": [
               "src/styles.css",
@@ -26,11 +27,10 @@
               "src/assets/leaflet/leaflet.css"
             ],
             "scripts": [
-                "src/assets/leaflet/leaflet.js",
-                "node_modules/jquery/dist/jquery.min.js",
-                "node_modules/popper.js/dist/umd/popper.min.js",
-                "node_modules/bootstrap/dist/js/bootstrap.min.js"
-
+              "src/assets/leaflet/leaflet.js",
+              "node_modules/jquery/dist/jquery.min.js",
+              "node_modules/popper.js/dist/umd/popper.min.js",
+              "node_modules/bootstrap/dist/js/bootstrap.min.js"
             ]
           },
           "configurations": {
@@ -49,7 +49,9 @@
                   "replace": "src/environments/environment.ts",
                   "with": "src/environments/environment.prod.ts"
                 }
-              ]
+              ],
+              "serviceWorker": true,
+              "ngswConfigPath": "src/ngsw-config.json"
             }
           }
         },
@@ -57,8 +59,8 @@
           "builder": "@angular-devkit/build-angular:dev-server",
           "options": {
             "browserTarget": "Angular:build",
-            "sslKey": "certificate.key",
-            "sslCert": "certificate.crt"
+            "sslKey": "device.key",
+            "sslCert": "localhost.crt"
           },
           "configurations": {
             "production": {
@@ -85,7 +87,8 @@
               "node_modules/bootstrap/dist/css/bootstrap.min.css"
             ],
             "assets": [
-              "src/assets"
+              "src/assets",
+              "src/manifest.webmanifest"
             ]
           }
         },

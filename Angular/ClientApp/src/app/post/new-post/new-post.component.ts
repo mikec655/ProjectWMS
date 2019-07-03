@@ -109,7 +109,11 @@ export class NewPostComponent implements OnInit {
         var postId: number = 2;
         let post = {
             postUserId: uid,
-            message: this.message};
+            Title: this.title,
+            message: this.message,
+            
+
+        };
 
         console.log(post);
         
@@ -117,17 +121,20 @@ export class NewPostComponent implements OnInit {
         
 
         //hier post object bouwen.
-        this.postservice.createPost(post).subscribe(x => console.log(x));
+        //this.postservice.createPost(post).subscribe(x => console.log(x));
 
-        /*
+
+        //.post<string>(`${environment.apiUrl}/api/Users`, profile)
+        
         this.http
-            .post<string>(`${environment.apiUrl}/api/Posts/`, post)
+            .post<any>(`${environment.apiUrl}/api/Posts/`, post)
             .subscribe(result => {
                 this.result = result;
                 console.log(result);
 
             });
-            */
+        console.log("after Post");
+           
     }
 
 

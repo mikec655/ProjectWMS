@@ -16,6 +16,8 @@ using System.Reflection;
 using System;
 using System.IO;
 using Swashbuckle.AspNetCore.Examples;
+using Microsoft.AspNetCore.ResponseCompression;
+using System.IO.Compression;
 
 namespace Angular
 {
@@ -32,6 +34,14 @@ namespace Angular
         public void ConfigureServices(IServiceCollection services)
         {
             services.AddCors();
+
+            services.AddResponseCaching();
+            services.AddResponseCompression(options => {
+                options.Providers.Add<BrotliCompressionProvider>();
+                options.Providers.Add<GzipCompressionProvider>();
+                options.EnableForHttps = true;
+            });
+
             services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_2_2);
 
             services.AddMvc().AddJsonOptions(options =>
@@ -80,14 +90,10 @@ namespace Angular
                 };
             });
 
-#if DEBUG
-            //services.AddRouteAnalyzer();
-#endif
-
-            var connection = @"Data Source=(LocalDb)\MSSQLLocalDB;Initial Catalog=FoodShare;Integrated Security=SSPI;";
-            //var connection = @"Server=54.37.88.136;Database=EFGetStarted.AspNetCore.NewDb;User ID=SA;Password=LantaarnPaalLampje1234;ConnectRetryCount=0;TrustServerCertificate=true;Encrypt=true;";
             services.AddDbContext<UserContext>
-                (options => options.UseSqlServer(connection, x => x.UseNetTopologySuite()));
+                (options => {
+                    options.UseSqlServer("Server=tdafivem.nl;Database=FoodShare;User ID=SA;Password=LantaarnPaalLampje1234;ConnectRetryCount=0;", x => x.UseNetTopologySuite());
+                });
 
             services.AddScoped<IUserService, UserService>();
         }
@@ -104,6 +110,9 @@ namespace Angular
                 app.UseExceptionHandler("/Error");
                 app.UseHsts();
             }
+
+            app.UseResponseCaching();
+            app.UseResponseCompression();
 
             // Enable middleware to serve generated Swagger as a JSON endpoint.
             app.UseSwagger();
@@ -128,9 +137,6 @@ namespace Angular
 
             app.UseMvc(routes =>
             {
-#if DEBUG
-                //routes.MapRouteAnalyzer("/routes");
-#endif
                 routes.MapRoute(
                     name: "default",
                     template: "{controller}/{action=Index}/{id?}");
@@ -146,6 +152,7 @@ namespace Angular
                 if (env.IsDevelopment())
                 {
                     //spa.UseAngularCliServer(npmScript: "start");
+
                     spa.UseProxyToSpaDevelopmentServer("https://localhost:4200");
                 }
             });

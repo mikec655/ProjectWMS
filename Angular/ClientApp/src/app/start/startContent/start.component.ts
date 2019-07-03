@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { PostService } from '../../post/post.service';
+import { PWAService } from '../../pwa.service';
 
 @Component({
   selector: 'app-start',
@@ -10,9 +11,13 @@ export class StartComponent implements OnInit {
 
     private posts = []
 
-    constructor(private postService: PostService) {
+    constructor(private postService: PostService, public Pwa: PWAService) {
         
 
+    }
+
+    installPwa(): void {
+        this.Pwa.promptEvent.prompt();
     }
 
     ngOnInit() {

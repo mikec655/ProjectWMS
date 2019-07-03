@@ -3,6 +3,8 @@ import { FormBuilder, Validators, FormGroup } from '@angular/forms';
 import { AuthenticationService } from '../authentication.service';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { first } from 'rxjs/operators';
+import { PWAService } from '../pwa.service';
+import { Router } from '@angular/router';
 
 
 @Component({
@@ -17,8 +19,13 @@ export class AuthenticationComponent {
     constructor(
         private formBuilder: FormBuilder,
         private authenticationService: AuthenticationService,
-        private http: HttpClient
+        public Pwa: PWAService,
+        private router: Router
     ) { }
+
+    installPwa(): void {
+        this.Pwa.promptEvent.prompt();
+    }
 
     ngOnInit() {
         this.loginForm = this.formBuilder.group({
@@ -32,10 +39,12 @@ export class AuthenticationComponent {
 
     onSubmit() {
         this.authenticationService.login(this.loginForm.controls.email.value, this.loginForm.controls.password.value)
-            .pipe(first())
             .subscribe(
-                error => {
-                    console.error(error);
+                res => {
+                    this.router.navigate(["/"])
+                },
+                err => {
+                    console.error(err);
                 }
             );
     }

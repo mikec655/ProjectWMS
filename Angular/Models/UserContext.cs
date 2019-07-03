@@ -35,7 +35,9 @@ namespace Angular.Models
             modelBuilder.Entity<UserAccount>().HasData(
                 new UserAccount() { UserId = 1, Username = "Test", Password = "6sNsu+pxGtzIoQmNHq2nX5KFbemuNM10tzdUuL5E8Zo=.xygrNhDB6A8KLH8QilMWkw==", Firstname = "Jans", Lastname = "Jansen", Gender = "M", BirthDate = DateTime.Now, Number = "155", City = "Stadskanaal", Street = "Hoofdkade", ZipCode = "9503HH", ProfileDescription = "Kaas", UserMediaId = 1 });
             modelBuilder.Entity<Post>().HasData(
-                new Post() { PostUserId = 1, Message = "Kaas", PostedAt = DateTime.Now, PostId = 1 });
+                new Post() { PostUserId = 1, Title = "Kaas", Message = "Vanavond zieke kaas maaltijd jo!", PostedAt = DateTime.UtcNow - TimeSpan.FromDays(2), PostId = 1, PostMediaId = 1 },
+                new Post() { PostUserId = 1, Title = "Kaas", Message = "Kaas van gisteren was zo goed, k doe vanavond nog zo'n zieke kaas party", PostedAt = DateTime.UtcNow - -TimeSpan.FromDays(1), PostId = 2, PostMediaId = 1 },
+                new Post() { PostUserId = 1, Title = "Kaas", Message = "Vanavond gewoon weer zieke kaas!!", PostedAt = DateTime.UtcNow, PostId = 3, PostMediaId = 1 });
             modelBuilder.Entity<Comment>().HasData(
                 new Comment() { CommentId = 1, CommentUserId = 1, CommentPostId = 1, Content = "Hippity hoppity", PostedAt = DateTime.Now });
             modelBuilder.Entity<Invitation>().HasData(

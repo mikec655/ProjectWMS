@@ -7,7 +7,9 @@
 **/*.*proj.user
 **/azds.yaml
 **/charts
-**/bin
+*/bin
+!**/cli/bin
+!**/bin/ng
 **/obj
 **/Dockerfile
 **/Dockerfile.develop
