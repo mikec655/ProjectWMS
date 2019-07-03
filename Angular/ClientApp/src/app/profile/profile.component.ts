@@ -50,7 +50,6 @@ export class ProfileComponent implements OnInit {
 
         //hier roep ik iets aan om een userobject te halen,
         this.profileservice.getUserProfile(this.userid).subscribe(data => {
-            console.log(data);
             this.pageProfile = data;
         });
     }

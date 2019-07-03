@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { PostService } from '../post/post.service';
+import { environment } from '../../environments/environment';
 declare let L;
 
 @Component({
@@ -49,29 +50,41 @@ export class MapComponent implements OnInit {
             popupAnchor: [0, -38]
         });
 
-        var acceptInvitation = this.acceptInvitation;
-
         var container = L.DomUtil.create('div');
         var btn = L.DomUtil.create('button', '', container);
         btn.setAttribute('type', 'button');
-        btn.setAttribute('class', 'btn btn-primary btn-sm')
+        btn.setAttribute('class', 'btn btn-primary btn-sm accept-button')
         btn.setAttribute('style', 'width: 100%');
-        btn.innerHTML = "Aanmelden";
-        container.innerHTML = btn;
+        btn.setAttribute('data-id', post.postId)
+        btn.innerHTML = "Accept";
+        container.innerHTML = '' + btn.outerHTML;
 
         //console.log(btn);
 
+        let popUp = L.popup()
+            .setLatLng(coords)
+            .setContent("<script></script><h6><a href='#'>" + post.userFirstName + " " + post.userLastName +
+                "</a></h6><span class='badge badge-info'>" + invitation.type + "</span> - <span class='badge badge-light'>0 / " +
+                invitation.numberOfGuests + " guests</span><br/><br/>" + this.Unix_timestamp(invitation.postedAtUnix) + "<br/>" +
+                invitation.address + "<br/><br/>" + post.message + "<br/><br/>" + container.innerHTML)
+            
+
         L.marker(coords, { icon: customIcon }).addTo(this.map)
-            .bindPopup("<script></script><h6><a href='#'>" + post.userFirstName + " " + post.userLastName + "</a></h6><span class='badge badge-info'>" + invitation.type + "</span> - <span class='badge badge-light'>0 / " + invitation.numberOfGuests + " personen</span><br/><br/>" + this.Unix_timestamp(invitation.postedAtUnix) + "<br/>" + invitation.address + "<br/><br/>" + post.message + "<br/><br/>" + btn.outerHTML, {
+            .bindPopup(popUp, {
                 minWidth: 180,
                 maxWidth: 360
             })
-            .openPopup();
 
-        L.DomEvent.on(container, 'click', () => {
-            console.log("ZZ")
-            //this.acceptInvitation(post.postId);
+        let self = this 
+
+        this.map.on('popupopen', function () {
+            $('.accept-button').click(function (e) {
+                console.log(this.getAttribute("data-id"));
+                self.postService.acceptInvitation(1)
+              
+            });
         });
+
     }
 
     updateMap(): void {
@@ -84,8 +97,9 @@ export class MapComponent implements OnInit {
     }
 
     acceptInvitation(postId) {
-        console.log("inv");
-        //this.postService.acceptInvitation(postId);
+        
+        $.post(`${environment.apiUrl}/api/Posts/${postId}/Invitation/Accept`, {})
+
     }
 
     Unix_timestamp(t) {
