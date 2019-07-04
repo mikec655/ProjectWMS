@@ -2,17 +2,20 @@
   <img class="mb-4" src="/docs/4.3/assets/brand/bootstrap-solid.svg" width="72" height="72" alt="" />
   <h1 class="h3 mb-3 font-weight-normal">Please sign in</h1>
   <div class="form-label-group">
-    <input id="inputEmail" formControlName="email" class="form-control" type="email" placeholder="Email address" required="" autofocus="" />
+    <input id="inputEmail" formControlName="email" class="form-control" type="email" placeholder="Email address" required="" autofocus="" [ngClass]="{ 'is-invalid': (f.email.dirty || submitted) && f.email.errors }" />
     <label for="inputEmail">Email address</label>
-  </div>
-  <div class="form-label-group">
-    <input id="inputPassword" formControlName="password" class="form-control" type="password" placeholder="Password" required="" />
-    <label for="inputPassword">Password</label>
-    <div *ngIf="f.password.errors" class="invalid-feedback">
-      <div *ngIf="f.password.errors.required">This field is required</div>
+    <div *ngIf="(f.email.dirty || submitted) && f.email.errors" class="invalid-feedback">
+      <div *ngIf="f.email.errors.required">This field is required</div>
     </div>
   </div>
-  Todo remove this: {{ f.password.errors }}
+  <div class="form-label-group">
+    <input id="inputPassword" formControlName="password" class="form-control" type="password" placeholder="Password" required="" [ngClass]="{ 'is-invalid': (f.password.dirty || submitted) && f.password.errors }" />
+    <label for="inputPassword">Password</label>
+    <div *ngIf="(f.password.dirty || submitted) && f.password.errors" class="invalid-feedback">
+      <div *ngIf="f.password.errors.required">This field is required</div>
+      <div *ngIf="f.password.errors.invalid">Invalid email or password</div>
+    </div>
+  </div>
   <div class="checkbox mb-3">
     <label>
       <input type="checkbox" value="remember me" />

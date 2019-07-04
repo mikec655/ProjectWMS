@@ -41,7 +41,7 @@ export class AuthenticationService implements CanActivate {
           this.router.navigate(["/"]);
           return response;
         }
-      }), catchError(this.handleError));
+      }));
   }
 
   logout() {

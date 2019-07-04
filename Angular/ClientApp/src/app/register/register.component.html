@@ -3,7 +3,7 @@
   <h1 class="h3 mb-3 font-weight-normal">Register</h1>
 
   <div class="form-label-group">
-    <input formControlName="firstname" id="inputFirstname" class="form-control" type="text" placeholder="firstname" required="" autofocus="" [ngClass]="{ 'is-invalid': f.firstname.dirty && f.firstname.errors }"
+    <input formControlName="firstname" id="inputFirstname" class="form-control" type="text" placeholder="firstname" required="" autofocus="" [ngClass]="{ 'is-invalid': (f.firstname.dirty || submitted) && f.firstname.errors }"
            name="firstname" minLength="2" pattern="^[A-Za-z-. ]+$" />
     <label for="inputFirstname">Firstname</label>
     <div *ngIf="(f.firstname.dirty || submitted) && f.firstname.errors" class="invalid-feedback">
@@ -28,7 +28,7 @@
       <option value="O">Overig</option>
     </select>
 
-    <div *ngIf="f.gender.dirty && f.gender.errors" class="invalid-feedback">
+    <div *ngIf="(f.gender.dirty || submitted) && f.gender.errors" class="invalid-feedback">
       <div *ngIf="f.gender.errors.required">This field is required</div>
     </div>
   </div>
