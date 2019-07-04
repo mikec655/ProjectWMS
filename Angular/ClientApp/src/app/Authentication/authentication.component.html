@@ -1,18 +1,13 @@
 <form class="form-signin" [formGroup]="loginForm" (ngSubmit)="onSubmit()">
-  <img class="mb-4" src="/docs/4.3/assets/brand/bootstrap-solid.svg" width="72" height="72" alt="" />
   <h1 class="h3 mb-3 font-weight-normal">Please sign in</h1>
   <mat-form-field>
     <input matInput placeholder="Enter your email" [formControl]="loginForm.controls['email']" required>
-    <mat-error *ngIf="f.email.invalid">{{getErrorMessage()}}</mat-error>
+    <mat-error *ngIf="f.email.invalid">{{getErrorMessage(f.email)}}</mat-error>
   </mat-form-field>
-  <div class="form-label-group">
-    <input id="inputPassword" formControlName="password" class="form-control" type="password" placeholder="Password" required="" [ngClass]="{ 'is-invalid': (f.password.dirty || submitted) && f.password.errors }" />
-    <label for="inputPassword">Password</label>
-    <div *ngIf="(f.password.dirty || submitted) && f.password.errors" class="invalid-feedback">
-      <div *ngIf="f.password.errors.required">This field is required</div>
-      <div *ngIf="f.password.errors.invalid">Invalid email or password</div>
-    </div>
-  </div>
+  <mat-form-field>
+    <input matInput placeholder="Enter your password" type="password" [formControl]="loginForm.controls['password']" required>
+    <mat-error *ngIf="f.password.invalid">{{getErrorMessage(f.password)}}</mat-error>
+  </mat-form-field>
   <div class="checkbox mb-3">
     <label>
       <input type="checkbox" value="remember me" />
@@ -20,5 +15,5 @@
     </label>
   </div>
   <p>Don't have an account <a [routerLink]="['/register']">register</a> </p>
-  <button class="btn btn-lg btn-primary btn-block" type="submit">Sign in</button>
+  <button mat-raised-button color="primary" type="submit">Sign in</button>
 </form>

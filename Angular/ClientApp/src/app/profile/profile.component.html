@@ -5,7 +5,7 @@
       <!-- show dit stuk alleen als er niet is ingelogd op het account van het profiel zie variable in profile.component-->
       <div *ngIf="profileview == 'notloggedin'">
         <div id="userblock">
-          <img class="img-fluid" id="profilephoto" src="http://simpleicon.com/wp-content/uploads/account.png" alt="Card image cap" style="border-width: 2px;">
+          <img class="img-fluid" id="profilephoto" src="./assets/account.png" alt="Card image cap" style="border-width: 2px;">
           <h1 class="align-self-start" style="font-size:18px">{{username}}</h1>
 
           <div id="userdescriptionblock">
@@ -38,7 +38,7 @@
       <!-- show dit stuk alleen als wel is ingelogd op het account van het profiel, zie variable in profile.component-------------->
       <div *ngIf="profileview == 'loggedin'">
         <div id="userblock">
-          <img class="img-fluid" src="http://simpleicon.com/wp-content/uploads/account.png" alt="Card image cap" style="border-width: 2px;">
+          <img class="img-fluid" src="./assets/account.png" alt="Card image cap" style="border-width: 2px;">
           <h1 class="align-self-start" style="font-size:18px">{{username}}</h1>
           <div id="userdescriptionblock">
             <p class="align-self-start"> {{profile_description}}</p>
@@ -48,9 +48,9 @@
 
             <!--uploaden van nieuwe profielfoto (moet nog gefixt worden)-->
             <h1 class="align-self-start" style="font-size:18px">Upload a profilepicture</h1>
-            <form [formGroup]="uploadForm" (ngSubmit)="uploadProfilePicture()">
-              <input type="file" name="pic" accept="image/*" formControlName="file" (change)="getPhoto($event)"> >
-              <input type="submit">
+            <form #form [formGroup]="uploadForm">
+              <input #file type="file" name="file" [hidden]="true" accept="image/*" [formControl]="uploadForm.controls['pic']" (change)="getPhoto($event)"/>
+              <button mat-raised-button (click)="file.click()" color="primary">Upload File</button>
             </form>
             <app-usersettings></app-usersettings>
           </div>

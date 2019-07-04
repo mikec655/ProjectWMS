@@ -106,8 +106,8 @@ export class ProfileComponent implements OnInit {
     console.log(this.picture.size);
     const formData = new FormData();
 
-    formData.append('file', this.uploadForm.get('pic').value);
-    console.log(`[profile.component:99] ${this.uploadForm.get('pic').value} : ${formData.get("file")}`);
+    formData.append('file', this.picture);
+    console.log(`[profile.component:99] ${this.picture} : ${formData.get("file")}`);
     console.log(formData);
 
 
@@ -120,20 +120,12 @@ export class ProfileComponent implements OnInit {
       }
       //this.profileservice.editUserProfile(this.userid);
     });
-
-
-
-
   }
 
   getPhoto(event) {
-    this.picture = event.target.files[0];
-
     if (event.target.files.length > 0) {
-      const file = event.target.files[0];
-      this.uploadForm.get('pic').setValue(file);
-
-
+      this.picture = event.target.files[0];
+      this.uploadProfilePicture();
     }
   }
 }

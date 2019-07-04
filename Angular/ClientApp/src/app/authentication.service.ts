@@ -36,7 +36,7 @@ export class AuthenticationService implements CanActivate {
     return this.http.post<UserAccount>(`${environment.apiUrl}/api/login`, { username, password }, { observe: 'response' })
       .pipe(map(response => {
         if (response.status == 200 && response.body != null && response.body.token != null) {
-          localStorage.setItem('currentUser', JSON.stringify(response));
+          localStorage.setItem('currentUser', JSON.stringify(response.body));
           this.currentUserSubject.next(response.body);
           this.router.navigate(["/"]);
           return response;
