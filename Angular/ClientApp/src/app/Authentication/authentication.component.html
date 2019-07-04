@@ -1,20 +1,24 @@
 <form class="form-signin" [formGroup]="loginForm" (ngSubmit)="onSubmit()">
-    <img class="mb-4" src="/docs/4.3/assets/brand/bootstrap-solid.svg" width="72" height="72" alt="" />
-    <h1 class="h3 mb-3 font-weight-normal">Please sign in</h1>
-    <div class="form-label-group">
-        <input id="inputEmail" formControlName="email" class="form-control" type="email" placeholder="Email address" required="" autofocus="" />
-        <label for="inputEmail">Email address</label>
+  <img class="mb-4" src="/docs/4.3/assets/brand/bootstrap-solid.svg" width="72" height="72" alt="" />
+  <h1 class="h3 mb-3 font-weight-normal">Please sign in</h1>
+  <div class="form-label-group">
+    <input id="inputEmail" formControlName="email" class="form-control" type="email" placeholder="Email address" required="" autofocus="" />
+    <label for="inputEmail">Email address</label>
+  </div>
+  <div class="form-label-group">
+    <input id="inputPassword" formControlName="password" class="form-control" type="password" placeholder="Password" required="" />
+    <label for="inputPassword">Password</label>
+    <div *ngIf="f.password.errors" class="invalid-feedback">
+      <div *ngIf="f.password.errors.required">This field is required</div>
     </div>
-    <div class="form-label-group">
-        <input id="inputPassword" formControlName="password" class="form-control" type="password" placeholder="Password" required="" />
-        <label for="inputPassword">Password</label>
-    </div>
-    <div class="checkbox mb-3">
-        <label>
-            <input type="checkbox" value="remember me" />
-            Remember me
-        </label>
-    </div>
-    <p>Don't have an account <a [routerLink]="['/register']">register</a> </p>
-    <button class="btn btn-lg btn-primary btn-block" type="submit">Sign in</button>
+  </div>
+  Todo remove this: {{ f.password.errors }}
+  <div class="checkbox mb-3">
+    <label>
+      <input type="checkbox" value="remember me" />
+      Remember me
+    </label>
+  </div>
+  <p>Don't have an account <a [routerLink]="['/register']">register</a> </p>
+  <button class="btn btn-lg btn-primary btn-block" type="submit">Sign in</button>
 </form>

@@ -111,7 +111,7 @@ namespace Angular
                 app.UseHsts();
             }
 
-            app.UseResponseCaching();
+            //app.UseResponseCaching();
             app.UseResponseCompression();
 
             // Enable middleware to serve generated Swagger as a JSON endpoint.

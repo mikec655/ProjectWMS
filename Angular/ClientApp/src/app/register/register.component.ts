@@ -12,13 +12,13 @@ import { Router } from '@angular/router';
   templateUrl: './register.component.html',
   styleUrls: ['./register.component.css']
 })
-export class RegisterComponent implements OnInit {
+export class RegisterComponent {
   email: String;
   registerForm: FormGroup;
   profileForm: FormGroup;
   submitted = false;
   result: any;
-  focusEmail:boolean;
+
   constructor(
     private formBuilder: FormBuilder,
     private authenticationService: AuthenticationService,
@@ -26,50 +26,69 @@ export class RegisterComponent implements OnInit {
     private router: Router) { }
 
   ngOnInit() {
-      this.registerForm = this.formBuilder.group({
-          firstname: ['', [Validators.required]],
-          lastname: ['', [Validators.required]],
-          gender: ['', [Validators.required]],
-          birthDate: ['', [Validators.required]],
-          street: ['', [Validators.required]],
-          number: ['', [Validators.required]],
-          zipCode: ['', [Validators.required]],
-          city: ['', [Validators.required]],
-          email: ['', [Validators.required]],
-          mail: ['', [Validators.required]],
-          password: ['', [Validators.required, Validators.minLength(6)]],
-          repeatPassword: ['', [Validators.required]],
-          profileDescription: ['', [Validators.required]]
+    this.registerForm = this.formBuilder.group({
+      firstname: ['', [Validators.required]],
+      lastname: ['', [Validators.required]],
+      gender: ['', [Validators.required]],
+      birthDate: ['', [Validators.required]],
+      street: ['', [Validators.required]],
+      number: ['', [Validators.required]],
+      zipCode: ['', [Validators.required]],
+      city: ['', [Validators.required]],
+      email: ['', [Validators.required]],
+      password: ['', [Validators.required, Validators.minLength(6)]],
+      repeatPassword: ['', [Validators.required]],
+      profileDescription: ['', [Validators.required]]
     }, {
         validator: MustMatch('password', 'repeatPassword')
-    });
+      });
   }
 
   // Shorthand to get the controls of the form
   get f() { return this.registerForm.controls; }
 
+  onClick() {
+    console.log(this.submitted);
+  }
+
   onSubmit() {
     this.submitted = true;
-       var profile = {
-          "firstname": this.registerForm.controls.firstname.value,
-          "lastname": this.registerForm.controls.lastname.value,
-          "gender": this.registerForm.controls.gender.value,
-          "birthDateUnix": Math.round(new Date(this.registerForm.controls.birthDate.value).getTime()),
-          "street": this.registerForm.controls.street.value,
-          "number": this.registerForm.controls.number.value,
-          "zipCode": this.registerForm.controls.zipCode.value,
-          "city": this.registerForm.controls.city.value,
-          "username": this.registerForm.controls.email.value,
-          "password": this.registerForm.controls.password.value,
-          "profileDescription": this.registerForm.controls.profileDescription.value
+    console.log(this.registerForm.valid);
+    if (!this.registerForm.valid) {
+      return;
     }
-      this.http
-        .post<string>(`${environment.apiUrl}/api/Users`, profile)
-          .subscribe(result => {
-              this.result = result;
-              console.log(result);
-              this.router.navigate(["/login"]);
-          });
+    var profile = {
+      "firstname": this.registerForm.controls.firstname.value,
+      "lastname": this.registerForm.controls.lastname.value,
+      "gender": this.registerForm.controls.gender.value,
+      "birthDateUnix": Math.round(new Date(this.registerForm.controls.birthDate.value).getTime()),
+      "street": this.registerForm.controls.street.value,
+      "number": this.registerForm.controls.number.value,
+      "zipCode": this.registerForm.controls.zipCode.value,
+      "city": this.registerForm.controls.city.value,
+      "username": this.registerForm.controls.email.value,
+      "password": this.registerForm.controls.password.value,
+      "profileDescription": this.registerForm.controls.profileDescription.value
+    }
+    this.http
+      .post<string>(`${environment.apiUrl}/api/Users`, profile, { observe: 'response' })
+      .subscribe(result => {
+        console.log(result);
+        if (result.status == 409) {
+          this.f.email.setErrors({ 'conflict': true });
+          return;
+        }
+        this.result = result.body;
+        console.log(result);
+        this.router.navigate(["/login"]);
+      },
+        error => {
+          if (error.status == 409) {
+            this.f.email.setErrors({ 'conflict': true });
+            return;
+          }
+          console.log(error);
+        });
   }
 
 }

@@ -11,6 +11,7 @@ import { HomeComponent } from './home/home.component';
 import { ServiceWorkerModule } from '@angular/service-worker';
 import { environment } from '../environments/environment';
 import { AuthenticationModule } from './authentication/authentication.module';
+import { AuthenticationService } from './authentication.service';
 
 
 @NgModule({
@@ -23,7 +24,6 @@ import { AuthenticationModule } from './authentication/authentication.module';
         BrowserModule.withServerTransition({ appId: 'ng-cli-universal' }),
         BrowserAnimationsModule,
         HttpClientModule,
-        AuthenticationModule,
         //PostModule,
         FormsModule,
         ReactiveFormsModule,
@@ -33,10 +33,12 @@ import { AuthenticationModule } from './authentication/authentication.module';
             { path: 'profile', loadChildren: './profile/profile.module#ProfileModule' },
             { path: 'register', loadChildren: './register/register.module#RegisterModule' },
             { path: 'login', loadChildren: './authentication/authentication.module#AuthenticationModule' }
-        ], {enableTracing: true}),
+        ], {enableTracing: false}),
         ServiceWorkerModule.register('ngsw-worker.js', { enabled: environment.production })
     ],
-    providers: [{ provide: HTTP_INTERCEPTORS, useClass: AuthInterceptor, multi: true }],
+    providers: [
+        { provide: HTTP_INTERCEPTORS, useClass: AuthInterceptor, multi: true }
+    ],
     bootstrap: [AppComponent]
 })
 export class AppModule { }

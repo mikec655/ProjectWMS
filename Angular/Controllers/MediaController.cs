@@ -1,5 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Drawing;
+using System.Drawing.Imaging;
 using System.IO;
 using System.Linq;
 using System.Net;
@@ -32,11 +34,12 @@ namespace Angular.Controllers
             Media media;
             using (var fileStream = new MemoryStream())
             {
-                await file.CopyToAsync(fileStream);
+                Image.FromStream(file.OpenReadStream()).Save(fileStream, ImageFormat.Jpeg);
                 var fileBytes = fileStream.ToArray();
+                Console.WriteLine(fileBytes.Length);
                 media = new Media()
                 {
-                    Type = file.ContentType,
+                    Type = "image/jpg",
                     ImageData = fileBytes
                 };
                 _context.Medias.Add(media);
