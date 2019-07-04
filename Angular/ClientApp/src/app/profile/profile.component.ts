@@ -122,10 +122,18 @@ export class ProfileComponent implements OnInit {
     });
   }
 
+  // Shorthand to get the controls of the form
+  get f() { return this.uploadForm.controls; }
+
   getPhoto(event) {
     if (event.target.files.length > 0) {
       this.picture = event.target.files[0];
-      this.uploadProfilePicture();
+      console.log(this.picture.size);
+      if (this.picture.size < 10000000) {
+        this.uploadProfilePicture();
+      } else {
+        this.uploadForm.controls.pic.setErrors({ 'size': true });
+      }
     }
   }
 }

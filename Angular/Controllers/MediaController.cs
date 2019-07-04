@@ -7,6 +7,7 @@ using System.Linq;
 using System.Net;
 using System.Net.Http;
 using System.Net.Http.Headers;
+using System.Text.RegularExpressions;
 using System.Threading.Tasks;
 using Angular.Models;
 using Microsoft.AspNetCore.Http;
@@ -26,7 +27,7 @@ namespace Angular.Controllers
         [HttpPost]
         public async Task<IActionResult> PostFile(IFormFile file)
         {
-            if(file?.ContentType != "image/png" && file?.ContentType != "image/jpg")
+            if(!Regex.IsMatch(file.ContentType, "image/*"))
             {
                 return BadRequest();
             }
@@ -54,7 +55,7 @@ namespace Angular.Controllers
         }
 
         [HttpGet("{fileId}")]
-        [Produces("image/png", "image/jpg")]
+        [Produces("image/jpg")]
         public async Task<IActionResult> GetFile([FromRoute] int fileId)
         {
             var file = await _context.Medias.FindAsync(fileId);
