@@ -2,6 +2,7 @@ import { Injectable } from '@angular/core';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { environment } from '../../environments/environment';
 import { map } from 'rxjs/operators';
+import { AuthenticationService } from '../authentication.service';
 
 @Injectable({
   providedIn: 'root'
@@ -9,8 +10,8 @@ import { map } from 'rxjs/operators';
 export class ProfileService {
     public result: any;
 
-    data: any = {};
-  constructor(private http: HttpClient) { }
+  data: any = {};
+  constructor(private http: HttpClient, private authentication: AuthenticationService) { }
 
   getUserProfile(id: number) {
       return this.http.get<any>(`${environment.apiUrl}/api/Users/` + id)
@@ -28,7 +29,13 @@ export class ProfileService {
   
     //tijdelijk omgezet naar any omdat ik fotos uploaden nog niet werkend heb.
   editUserProfile(id: number, profile:any) {
-      return this.http.put<any>(`${environment.apiUrl}/api/Users/` + id, profile)
+    return this.http.put<any>(`${environment.apiUrl}/api/Users/` + id, profile)
+      .subscribe(result => {
+        console.log(result.token);
+        if (result != null && result.token != null) {
+          this.authentication.updateUser(result);
+        }
+      }, error => console.error(error));
 
   }
 

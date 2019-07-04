@@ -200,7 +200,11 @@ namespace Angular.Controllers
                 }
             }
 
-            return Ok(user);
+            user.Token = _userService.GenerateToken(user.UserId.ToString());
+
+            userDto = UserAccountDto.FromEntity(user);
+
+            return Ok(userDto);
         }
 
         /// <summary>

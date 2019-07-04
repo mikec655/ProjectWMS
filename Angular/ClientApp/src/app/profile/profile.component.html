@@ -5,7 +5,7 @@
       <!-- show dit stuk alleen als er niet is ingelogd op het account van het profiel zie variable in profile.component-->
       <div *ngIf="profileview == 'notloggedin'">
         <div id="userblock">
-          <img class="img-fluid" id="profilephoto" src="./assets/account.png" alt="Card image cap" style="border-width: 2px;">
+          <img class="img-fluid" id="profilephoto" [src]="imageSrc" alt="Card image cap" style="border-width: 2px;">
           <h1 class="align-self-start" style="font-size:18px">{{username}}</h1>
 
           <div id="userdescriptionblock">
@@ -38,7 +38,7 @@
       <!-- show dit stuk alleen als wel is ingelogd op het account van het profiel, zie variable in profile.component-------------->
       <div *ngIf="profileview == 'loggedin'">
         <div id="userblock">
-          <img class="img-fluid" src="./assets/account.png" alt="Card image cap" style="border-width: 2px;">
+          <img class="img-fluid" [src]="imageSrc" alt="Card image cap" style="border-width: 2px;">
           <h1 class="align-self-start" style="font-size:18px">{{username}}</h1>
           <div id="userdescriptionblock">
             <p class="align-self-start"> {{profile_description}}</p>

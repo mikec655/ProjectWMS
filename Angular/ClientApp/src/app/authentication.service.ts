@@ -44,6 +44,11 @@ export class AuthenticationService implements CanActivate {
       }));
   }
 
+  updateUser(user: UserAccount) {
+    localStorage.setItem('currentUser', JSON.stringify(user));
+    this.currentUserSubject.next(user);
+  }
+
   logout() {
     localStorage.removeItem('currentUser');
     this.currentUserSubject.next(null);

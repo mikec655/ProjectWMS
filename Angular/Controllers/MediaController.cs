@@ -35,12 +35,12 @@ namespace Angular.Controllers
             Media media;
             using (var fileStream = new MemoryStream())
             {
-                Image.FromStream(file.OpenReadStream()).Save(fileStream, ImageFormat.Jpeg);
+                await file.CopyToAsync(fileStream);
                 var fileBytes = fileStream.ToArray();
                 Console.WriteLine(fileBytes.Length);
                 media = new Media()
                 {
-                    Type = "image/jpg",
+                    Type = file.ContentType,
                     ImageData = fileBytes
                 };
                 _context.Medias.Add(media);
@@ -55,7 +55,6 @@ namespace Angular.Controllers
         }
 
         [HttpGet("{fileId}")]
-        [Produces("image/jpg")]
         public async Task<IActionResult> GetFile([FromRoute] int fileId)
         {
             var file = await _context.Medias.FindAsync(fileId);
