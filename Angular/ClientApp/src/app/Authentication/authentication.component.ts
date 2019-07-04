@@ -34,6 +34,10 @@ export class AuthenticationComponent {
     });
   }
 
+  getErrorMessage() {
+
+  }
+
   // Shorthand to get the controls of the form
   get f() { return this.loginForm.controls; }
 
