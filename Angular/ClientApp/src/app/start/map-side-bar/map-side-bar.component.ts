@@ -9,30 +9,29 @@ declare let L;
 
 export class MapSideBarComponent implements OnInit {
     private km: any = 1;
+    private map;
 
     constructor() { }
     ngOnInit() {
 
-        navigator.geolocation.getCurrentPosition(this.showPosition);
+        const map = L.map('map').setView([51.505, -0.09], 13);
+
+        L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+            attribution: '© <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
+        }).addTo(map);
 
 
 
     }
 
 
-    onChange(event) {
-        this.km = event.target.value;
-    }
+    // onChange(event) {
+    //     // this.km = event.target.value;
+    // }
 
 
-    showPosition(position) {
+    // showPosition(position) {
 
-        var map = L.map('map').setView([52.1092717, 5.1809676], 11);
 
-        L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {}).addTo(map);
-
-        L.marker([52.1092717, 5.1809676]).addTo(map)
-            .bindPopup('A pretty CSS3 popup.<br> Easily customizable.')
-            .openPopup();
-    }
+    // }
 }
