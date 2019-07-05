@@ -87,6 +87,11 @@
               "node_modules/bootstrap/dist/css/bootstrap.min.css"
             ],
             "assets": [
+              {
+                "glob": "**/*",
+                "input": "node_modules/leaflet/dist/images",
+                "output": "leaflet/"
+              },
               "src/assets",
               "src/manifest.webmanifest"
             ]
