@@ -1,4 +1,6 @@
 import { Component, OnInit } from '@angular/core';
+import { AuthenticationService } from '../../authentication.service';
+import { environment } from '../../../environments/environment';
 
 
 @Component({
@@ -7,8 +9,8 @@ import { Component, OnInit } from '@angular/core';
   styleUrls: ['./profile-side-bar.component.css']
 })
 export class ProfileSideBarComponent implements OnInit {
-
-  constructor() { }
+  public imageSrc: any = environment.apiUrl + '/api/Media/' + this.authenticationService.currentUserValue.userMediaId;
+  constructor(private authenticationService: AuthenticationService) { }
 
   ngOnInit() {
   }

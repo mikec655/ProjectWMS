@@ -56,8 +56,6 @@ export class ProfileComponent implements OnInit {
   }
 
   ngOnInit() {
-    //test string voor grootes
-    console.log("test");
     this.uploadForm = this.formBuilder.group({
       pic: ['']
     });
@@ -66,18 +64,12 @@ export class ProfileComponent implements OnInit {
     this.profiledescription = "profieltekst hier;"
 
 
-    // IK moet een klasse hebbe nvan een user....
-
-
-    // pageProfile is hier dan toch ook weer een klasse van User?
     this.pageProfile = this.profileservice.data;
     console.log(this.userid);
     console.log(this.pageProfile);
     console.log(this.pageProfile.firstname);
     console.log(this.pageProfile.lastname);
     console.log(this.profileservice.data.firstname);
-    console.log("[profile.component:53] pageProfile: " + this.pageProfile);
-    //geen idee zal ff runnen maar ik moet zegmaar alle variabelen hebben hieruit.
 
     this.username = this.pageProfile.firstname;
 
