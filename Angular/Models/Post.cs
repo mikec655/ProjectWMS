@@ -32,7 +32,7 @@ namespace Angular.Models
 
         public string Message { get; set; }
 
-        public int PostMediaId { get; set; }
+        public int? PostMediaId { get; set; }
 
         public Media Media { get; set; }
 
@@ -53,17 +53,19 @@ namespace Angular.Models
 
         public int PostUserId { get; set; }
 
+        public int? InvitationId { get; set; }
+
         public string UserFirstName { get; set; }
 
         public string UserLastName { get; set; }
 
-        public long PostedAtUnix { get; set; }
+        public long? PostedAtUnix { get; set; }
 
         public string Title { get; set; }
 
         public string Message { get; set; }
 
-        public int PostMediaId { get; set; }
+        public int? PostMediaId { get; set; }
 
         /// <summary>
         /// Convert given Post to a DTO object. Include User for correct operation
@@ -81,7 +83,8 @@ namespace Angular.Models
                     Message = p.Message,
                     Title = p.Title,
                     PostMediaId = p.PostMediaId,
-                    PostedAtUnix = new DateTimeOffset(p.PostedAt.GetValueOrDefault()).ToUnixTimeMilliseconds()
+                    PostedAtUnix = new DateTimeOffset(p.PostedAt.GetValueOrDefault()).ToUnixTimeMilliseconds(),
+                    InvitationId = p.Invitation == null ? (int?)null : p.Invitation.InvitationId
                 };
             }
         }
@@ -97,7 +100,7 @@ namespace Angular.Models
                     Message = p.Message,
                     Title = p.Title,
                     PostMediaId = p.PostMediaId,
-                    PostedAt = DateTimeOffset.FromUnixTimeMilliseconds(p.PostedAtUnix).UtcDateTime
+                    PostedAt = DateTimeOffset.FromUnixTimeMilliseconds(p.PostedAtUnix.GetValueOrDefault()).UtcDateTime
                 };
             }
         }

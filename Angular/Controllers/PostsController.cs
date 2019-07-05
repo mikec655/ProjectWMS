@@ -30,6 +30,7 @@ namespace Angular.Controllers
         {
             return await _context.Posts
                 .Where(p => p.PostUserId == userId)
+                .Include(p => p.Invitation)
                 .Select(PostDto.Projection)
                 .ToListAsync();
         }
