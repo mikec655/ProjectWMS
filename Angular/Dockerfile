@@ -12,7 +12,7 @@ RUN dotnet build "Angular.csproj" -c Release -o /app
 
 FROM build AS publish
 WORKDIR /src/ClientApp
-RUN curl -sL https://deb.nodesource.com/setup_8.x | bash - && apt-get install -yq nodejs build-essential
+RUN curl -sL https://deb.nodesource.com/setup_12.x | bash - && apt-get install -y nodejs
 RUN npm install
 WORKDIR /src
 # Build the app and make the app ready to be published

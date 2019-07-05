@@ -1,5 +1,5 @@
 import { Component } from '@angular/core';
-import { FormBuilder, Validators, FormGroup } from '@angular/forms';
+import { FormBuilder, Validators, FormGroup, AbstractControl } from '@angular/forms';
 import { AuthenticationService } from '../authentication.service';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { first } from 'rxjs/operators';
@@ -32,6 +32,10 @@ export class AuthenticationComponent {
       email: ['', [Validators.required]],
       password: ['', [Validators.required]],
     });
+  }
+
+  getErrorMessage(control: AbstractControl) {
+    return control.hasError('invalid') ? 'Invalid email/password!' : control.hasError('required') ? 'You must enter a value' : '';
   }
 
   // Shorthand to get the controls of the form

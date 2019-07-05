@@ -83,11 +83,7 @@ export class UsersettingsComponent implements OnInit {
         }
 
         //post new usersettings
-        this.profileservice.editUserProfile(this.userid, profile).subscribe(result => {
-            this.result = result;
-            console.log(result);
-
-        });
+      this.profileservice.editUserProfile(this.userid, profile);
     }
 
 //methods for opening and closing the modal.

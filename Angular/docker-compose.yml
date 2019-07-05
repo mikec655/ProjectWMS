@@ -3,7 +3,7 @@ version: '3.4'
 services:
   run-db:
     image: microsoft/mssql-server-linux:latest
-    container_name: myapp.dev.db
+    container_name: angular.db
     environment:
       - ACCEPT_EULA=Y
       - MSSQL_PID=Express
@@ -16,6 +16,7 @@ services:
       - angular
   angular:
     image: ${DOCKER_REGISTRY-}angular
+    container_name: angular.webapp
     build:
       context: .
       dockerfile: Dockerfile
