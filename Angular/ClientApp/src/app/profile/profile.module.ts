@@ -9,15 +9,18 @@ import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { UsersettingsComponent } from './usersettings/usersettings.component';
 import { AuthenticationService } from '../authentication.service';
+import { MatInputModule } from '@angular/material/input';
+import { MatButtonModule } from '@angular/material/button';
+import { MatFormFieldModule } from '@angular/material/form-field';
 
 
 
 
 @NgModule({
   declarations: [ReviewComponent, ProfileComponent, UsersettingsComponent],
-  
+
   bootstrap: [UsersettingsComponent],
-    imports: [
+  imports: [
     ReactiveFormsModule,
     PostModule,
     FormsModule,
@@ -25,7 +28,10 @@ import { AuthenticationService } from '../authentication.service';
     CommonModule,
     RouterModule.forChild([
       { path: '', component: ProfileComponent, canActivate: [AuthenticationService] }
-    ])
+    ]),
+    MatFormFieldModule,
+    MatInputModule,
+    MatButtonModule
   ]
 })
 export class ProfileModule { }

@@ -7,6 +7,7 @@ using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
+using System.Linq;
 using System.Text;
 
 namespace Angular.Models
@@ -65,12 +66,16 @@ namespace Angular.Models
                     PostedAt = DateTime.UtcNow,
                     Rating = 5,
                 });
+            var hex = "FFD8FFE000104A46494600010101006000600000FFE100584578696600004D4D002A00000008000401310002000000110000003E5110000100000001010000005111000400000001000000005112000400000001000000000000000041646F626520496D61676552656164790000FFDB00430008060607060508070707090908";
             modelBuilder.Entity<Media>().HasData(
                 new Media()
                 {
                     MediaId = 1,
                     Type = "image/png",
-                    ImageData = Encoding.UTF8.GetBytes("BLYAT")
+                    ImageData = Enumerable.Range(0, hex.Length)
+                     .Where(x => x % 2 == 0)
+                     .Select(x => Convert.ToByte(hex.Substring(x, 2), 16))
+                     .ToArray()
                 });
             _ = modelBuilder.Entity<UserFollowing>()
                 .HasOne<UserAccount>(p => p.Target)

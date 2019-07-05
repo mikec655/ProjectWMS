@@ -95,7 +95,7 @@ namespace Angular.Controllers
             var user = _userService.Authenticate(userDto.Username, userDto.Password);
             if (user == null)
             {
-                return NotFound("User not found.");
+                return NotFound(new { Code = 1, Message = "Username/Password incorrect"});
             }
 
             return Ok(UserAccountDto.FromEntity(user));
@@ -200,7 +200,11 @@ namespace Angular.Controllers
                 }
             }
 
-            return Ok(user);
+            user.Token = _userService.GenerateToken(user.UserId.ToString());
+
+            userDto = UserAccountDto.FromEntity(user);
+
+            return Ok(userDto);
         }
 
         /// <summary>

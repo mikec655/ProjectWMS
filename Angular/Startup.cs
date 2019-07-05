@@ -92,7 +92,8 @@ namespace Angular
 
             services.AddDbContext<UserContext>
                 (options => {
-                    options.UseSqlServer("Server=tdafivem.nl;Database=FoodShare;User ID=SA;Password=LantaarnPaalLampje1234;ConnectRetryCount=0;", x => x.UseNetTopologySuite());
+                    Console.WriteLine(Configuration.GetConnectionString("DefaultConnection"));
+                    options.UseSqlServer(Configuration.GetConnectionString("DefaultConnection"), x => x.UseNetTopologySuite());
                 });
 
             services.AddScoped<IUserService, UserService>();
@@ -111,7 +112,7 @@ namespace Angular
                 app.UseHsts();
             }
 
-            app.UseResponseCaching();
+            //app.UseResponseCaching();
             app.UseResponseCompression();
 
             // Enable middleware to serve generated Swagger as a JSON endpoint.
