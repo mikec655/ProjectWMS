@@ -22,6 +22,7 @@
               <div *ngIf="(f.pic.dirty || submitted) && f.pic.errors" class="invalid-feedback" style="display: block;">
                 <div *ngIf="f.pic.errors.size">File can't be bigger than 10 MB</div>
               </div>
+
             </form>
             <app-usersettings *ngIf="ownUserProfile"></app-usersettings>
           </div>
@@ -53,7 +54,6 @@
       <!-- Posts to show if own profile -->
       <div *ngIf="ownUserProfile; else elseBlock">
         <div id="posts">
-          <button (click)="print(event,value)">sdf</button>
           <app-newpost></app-newpost>
           <h1 class="align-self-start" id="postlist">Posts:</h1>
           <app-post *ngFor="let post of posts" [post]="post"></app-post>

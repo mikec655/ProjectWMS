@@ -38,7 +38,8 @@ export class NewPostComponent implements OnInit {
 
   openDialog() {
     this.dialogRef = this.dialog.open(NewPostDialog, {
-      data: { title: '' }
+      data: { title: '' },
+      position: { top: '100px' }
     });
 
     this.dialogRef.afterClosed().subscribe(result => {
@@ -52,45 +53,6 @@ export class NewPostComponent implements OnInit {
     }, (reason) => {
       this.closeResult = ` ${this.getDismissReason(reason)}`;
     });*/
-  }
-
-  streetPost(value: any) {
-    this.street = value;
-
-  }
-
-  guestPost(value: any) {
-    this.guests = value;
-  }
-
-  zipCode(value: any) {
-    this.zipcode = value;
-
-  }
-
-  filePost(value: any) {
-    this.zipcode = value;
-
-  }
-
-  titlePost(value: any) {
-    this.title = value;
-
-  }
-
-  houseNumber(value: any) {
-    this.housenumber = value;
-
-  }
-
-  postText(value: any) {
-    this.message = value;
-
-  }
-
-  cityPost(value: any) {
-    this.city = value;
-
   }
 
   onDismiss() {
@@ -153,7 +115,13 @@ export class NewPostComponent implements OnInit {
 
 export interface DialogData {
   title: string;
-  name: string;
+  content: string;
+  useAddress: boolean;
+  street: string;
+  houseNumber: string;
+  zipCode: string;
+  city: string;
+
 }
 
 @Component({
