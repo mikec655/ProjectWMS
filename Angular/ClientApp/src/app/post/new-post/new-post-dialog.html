@@ -1,0 +1,70 @@
+  <div mat-dialog-title>
+    <h4 class="modal-title" id="modal-basic-title">New Post</h4>
+    <button type="button" class="close" aria-label="Close" (click)="onDismiss()">
+      <span aria-hidden="true">&times;</span>
+    </button>
+  </div>
+  <div mat-dialog-content>
+    <form>
+      <div class="form-group">
+        <div class="form-group">
+          <mat-form-field class="new-post" appearance="fill">
+            <mat-label>Title</mat-label>
+            <input matInput [(ngModel)]="data.title" placeholder="Title" type="text" name="title">
+          </mat-form-field>
+
+          <p class="new-post">
+            <mat-form-field class="new-post" appearance="fill">
+              <mat-label for="usr">Post Text</mat-label><br>
+              <textarea matInput [(ngModel)]="data.content" name="content" placeholder="Post Text" rows="4"></textarea>
+            </mat-form-field>
+          </p>
+
+          <div>
+            <mat-slide-toggle [(ngModel)]="data.useAddress" name="useAddress" type="checkbox">Use registered address</mat-slide-toggle>
+          </div>
+          <mat-expansion-panel [expanded]="data.useAddress" [ngClass]="{'address-expansion': data.useAddress}">
+            <mat-form-field class="street">
+              <mat-label>Street</mat-label>
+              <input matInput [(ngModel)]="data.street" name="street" placeholder="Street" type="text">
+            </mat-form-field>
+            <mat-form-field class="house-number">
+              <mat-label>Number</mat-label>
+              <input matInput type="text" [(ngModel)]="data.houseNumber" name="houseNumber" placeholder="Number" maxlength="10" size="4">
+            </mat-form-field>
+            <mat-form-field class="split-left">
+              <mat-label for="usr">Zip Code</mat-label>
+              <input matInput [(ngModel)]="data.zipCode" name="zipCode" placeholder="Zip Code" type="text">
+            </mat-form-field>
+            <mat-form-field class="split-right">
+              <mat-label>City</mat-label>
+              <input matInput [(ngModel)]="data.city" name="city" placeholder="City" type="text">
+            </mat-form-field>
+          </mat-expansion-panel>
+          <label class="image-upload-container btn btn-bwm">
+            <input #imageInput
+                   type="file"
+                   accept="image/*"
+                   (change)="processFile(imageInput)"
+                   [hidden]="true">
+            <button mat-raised-button class="btn-primary" (click)="imageInput.click()" color="primary">Upload File</button>
+          </label>
+
+          <p>
+            <mat-form-field appearance="fill">
+              <mat-label>Number of guests</mat-label>
+              <input matInput #guests placeholder="Number of guests" type="text" (keyup)="guestPost(guests.value)" [name]="guests" size="2">
+            </mat-form-field>
+          </p>
+
+
+        </div>
+      </div>
+    </form>
+  </div>
+  <div mat-dialog-actions>
+    <B> {{message}} </B>
+    <button mat-button (click)="onDismiss()">Cancel</button>
+    <button type="button" [mat-dialog-close]="data" class="btn btn-outline-dark">Save</button>
+    <!-- modal.dismiss('Values saved')-->
+  </div>

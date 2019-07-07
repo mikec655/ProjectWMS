@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, Inject } from '@angular/core';
 import { NgbModal, ModalDismissReasons } from '@ng-bootstrap/ng-bootstrap';
 
 import { PostService } from '../post.service';
@@ -6,7 +6,7 @@ import { PostService } from '../post.service';
 import { NgModel, FormGroup, FormBuilder, Validators } from '@angular/forms';
 import { HttpClient } from '@angular/common/http';
 import { environment } from '../../../environments/environment';
-import { MatDialog, MatDialogRef } from '@angular/material/dialog';
+import { MatDialog, MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
 
 @Component({
   selector: 'app-newpost',
@@ -36,8 +36,14 @@ export class NewPostComponent implements OnInit {
     private postservice: PostService, private http: HttpClient,
     public dialog: MatDialog) { }
 
-  open(content) {
-    this.dialogRef = this.dialog.open(content, { ariaLabelledBy: 'modal-basic-title' });
+  openDialog() {
+    this.dialogRef = this.dialog.open(NewPostDialog, {
+      data: { title: '' }
+    });
+
+    this.dialogRef.afterClosed().subscribe(result => {
+      console.log(result);
+    })
 
     /*.afterClosed().subscribe((result) => {
       this.closeResult = ` ${result}`;
@@ -47,17 +53,6 @@ export class NewPostComponent implements OnInit {
       this.closeResult = ` ${this.getDismissReason(reason)}`;
     });*/
   }
-
-  private getDismissReason(reason: any): string {
-    if (reason === ModalDismissReasons.ESC) {
-      return 'Closed pressing ESC';
-    } else if (reason === ModalDismissReasons.BACKDROP_CLICK) {
-      return 'Closed clicking on a backdrop';
-    } else {
-      return ` ${reason}`;
-    }
-  }
-
 
   streetPost(value: any) {
     this.street = value;
@@ -153,5 +148,30 @@ export class NewPostComponent implements OnInit {
   }
 
   ngOnInit() {
+  }
+}
+
+export interface DialogData {
+  title: string;
+  name: string;
+}
+
+@Component({
+  selector: 'new-post-dialog',
+  templateUrl: './new-post-dialog.html',
+  styleUrls: ['./new-post-dialog.css']
+})
+export class NewPostDialog {
+  newPostForm: FormGroup;
+
+  constructor(
+    public dialogRef: MatDialogRef<NewPostDialog>,
+    @Inject(MAT_DIALOG_DATA) public data: any) { }
+
+  ngOnInit() {
+  }
+
+  onDismiss(): void {
+    this.dialogRef.close();
   }
 }
