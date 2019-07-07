@@ -6,6 +6,7 @@ import { StartComponent } from './startContent/start.component';
 import { RouterModule } from '@angular/router';
 import { PostModule } from '../post/post.module';
 import { AuthenticationService } from '../authentication.service';
+import { MatButtonModule } from '@angular/material/button';
 
 @NgModule({
     declarations: [ProfileSideBarComponent, MapSideBarComponent, StartComponent],
@@ -14,7 +15,8 @@ import { AuthenticationService } from '../authentication.service';
         PostModule,
         RouterModule.forChild([
             { path: '', component: StartComponent, canActivate: [AuthenticationService] }
-        ])
+        ]),
+      MatButtonModule
     ],
 })
 export class StartModule { }
