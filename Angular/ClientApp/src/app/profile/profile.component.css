@@ -20,6 +20,10 @@
   padding-bottom: 10px !important;
 }
 
+#user-picture {
+  max-width: 300px;
+}
+
 
   #userblock.align-self-start{
     font-size-adjust: initial;

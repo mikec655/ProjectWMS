@@ -7,6 +7,7 @@ import { AuthenticationService } from '../authentication.service';
 import { FormBuilder, FormGroup } from '@angular/forms';
 import { HttpClient } from '@angular/common/http';
 import { PostService } from '../post/post.service';
+import { ActivatedRoute, Router } from '@angular/router';
 @Component({
   selector: 'app-profile',
   templateUrl: './profile.component.html',
@@ -20,6 +21,7 @@ export class ProfileComponent implements OnInit {
   //dus als we in de service checken of het id van de ingelodepersoon gelijkt is aand de pagina dan weergeven we dit?
   //geen idee of dit handig is tho, misschien beter om 2 componenten te maken.
   public profileview = 'loggedin';
+  public ownUserProfile = false;
   public imageSrc: any = environment.apiUrl + '/api/Media/' + this.authenticationService.currentUserValue.userMediaId;
 
   public username = "usernamevariable";
@@ -29,6 +31,7 @@ export class ProfileComponent implements OnInit {
   public posttekst = "postteskhier"
 
   public pageProfile: any;
+  private params: any;
   user;
   userid;
 
@@ -44,15 +47,31 @@ export class ProfileComponent implements OnInit {
     private postService: PostService,
     private formBuilder: FormBuilder,
     private httpClient: HttpClient,
-    private authenticationService: AuthenticationService, ) {
+    private authenticationService: AuthenticationService,
+    private route: ActivatedRoute,
+    private router: Router) {
+
+    this.route.params.subscribe(params => {
+      if (params != null && params['id'] != null) {
+        this.userid = params['id'];
+        this.ownUserProfile = false;
+      } else {
+        this.userid = this.authenticationService.currentUserId;
+        this.ownUserProfile = true;
+      }
+      //hier roep ik iets aan om een userobject te halen,
+      this.profileservice.getUserProfile(this.userid).subscribe(data => {
+        this.pageProfile = data;
+        this.postService.getUserPosts(-1, this.userid).subscribe(posts => { this.posts = posts });
+      },
+        error => {
+          if (error.status == 404) {
+            this.router.navigate(['/profile']);
+          }
+        });
+    });
 
     this.user = this.authenticationService.currentUserValue;
-    this.userid = this.user.userId
-
-    //hier roep ik iets aan om een userobject te halen,
-    this.profileservice.getUserProfile(this.userid).subscribe(data => {
-      this.pageProfile = data;
-    });
   }
 
   ngOnInit() {
@@ -65,18 +84,15 @@ export class ProfileComponent implements OnInit {
 
 
     this.pageProfile = this.profileservice.data;
-    console.log(this.userid);
+    console.log(this.user.userid);
     console.log(this.pageProfile);
     console.log(this.pageProfile.firstname);
     console.log(this.pageProfile.lastname);
     console.log(this.profileservice.data.firstname);
 
     this.username = this.pageProfile.firstname;
-
-    this.postService.getPosts(-1).subscribe(posts => { console.log(posts); this.posts = posts });
-
-
-
+    //this.user = this.authenticationService.currentUserValue;
+    //this.authenticationService.currentUser.subscribe(p => this.user = p);
   }
 
   //hier de follow http
@@ -97,18 +113,15 @@ export class ProfileComponent implements OnInit {
   }
 
   uploadProfilePicture() {
-    console.log(this.picture.size);
     const formData = new FormData();
 
     formData.append('file', this.picture);
-    console.log(`[profile.component:99] ${this.picture} : ${formData.get("file")}`);
-    console.log(formData);
 
 
     this.httpClient.post<any>(`${environment.apiUrl}/api/Media/`, formData).subscribe(result => {
       this.result = result;
       console.log(result);
-      this.profileservice.editUserProfile(this.userid, { 'userId': this.authenticationService.currentUserValue.userId, 'userMediaId': result.mediaId });
+      this.profileservice.editUserProfile(this.user.userid, { 'userId': this.user.userId, 'userMediaId': result.mediaId });
       this.imageSrc = environment.apiUrl + '/api/Media/' + result.mediaId;
     });
   }
