@@ -25,12 +25,15 @@ import { AuthenticationService } from '../authentication.service';
 })
 export class NavMenuComponent {
   isExpanded = true;
-    maxHeight = 70;
-    display: 'block';
+  maxHeight = 70;
+  display: 'block';
+  isLoggedIn = false;
 
-    constructor(private authenticationService: AuthenticationService) {
-
-    }
+  constructor(private authenticationService: AuthenticationService) {
+    this.authenticationService.currentUser.subscribe(p => {
+      this.isLoggedIn = this.authenticationService.isLoggedIn();
+    });
+  }
 
   close() {
     this.isExpanded = false;
@@ -50,11 +53,6 @@ export class NavMenuComponent {
   }
 
   logout() {
-      this.authenticationService.logout();
+    this.authenticationService.logout();
   }
-
-  isLoggedIn() {
-      return this.authenticationService.isLoggedIn();
-  }
-
 }
