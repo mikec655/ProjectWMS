@@ -15,6 +15,9 @@ export class MapSideBarComponent implements OnInit {
     private posts = []
     private positionLatitude;
     private positionLongtitude;
+    private invitation;
+    private circle;
+    private oldCircle;
 
     constructor(private postService: PostService) { }
     ngOnInit() {
@@ -41,23 +44,37 @@ export class MapSideBarComponent implements OnInit {
         console.log(this.Unix_timestamp(1561883114))
         console.log(this.positionLongtitude, this.positionLatitude)
 
-        var marker = L.marker([51.5, -0.09]).addTo(this.map);
-        var circle = L.circle([52.1092717, 5.1809676], {
-            color: 'red',
-            fillColor: '#f03',
-            fillOpacity: 0.5,
-            radius: 500
-        }).addTo(this.map);
+
 
     }
 
     onChange(event: any){
+
+
         console.log(event.target.value)
         this.km = event.target.value
+        var marker = L.marker([51.5, -0.09]).addTo(this.map);
+        this.circle = L.circle([this.invitation.longitude, this.invitation.latitude, 0], {
+            color: 'red',
+            fillColor: '#f03',
+            fillOpacity: 0.5,
+            radius: this.km * 1000
+        }).addTo(this.map);
+        console.log(this.oldCircle)
+        if(this.oldCircle != undefined){
+            console.log('not undifined')
+            console.log(this.oldCircle,this.circle)
+            this.map.removeLayer(this.oldCircle);
+        }
+        this.oldCircle = this.circle
+        
+  
+
+        this.updateMap()
     }
 
     showInvitation(post, invitation) {
-
+        this.invitation = invitation;
         var coords = L.latLng(invitation.longitude, invitation.latitude, 0);
 
         var customIcon = L.icon({
