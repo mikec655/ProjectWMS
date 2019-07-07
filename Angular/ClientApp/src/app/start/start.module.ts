@@ -7,9 +7,10 @@ import { RouterModule } from '@angular/router';
 import { PostModule } from '../post/post.module';
 import { AuthenticationService } from '../authentication.service';
 import { MatButtonModule } from '@angular/material/button';
+import { PostCardComponent } from './post-card/post-card.component';
 
 @NgModule({
-    declarations: [ProfileSideBarComponent, MapSideBarComponent, StartComponent],
+    declarations: [ProfileSideBarComponent, MapSideBarComponent, StartComponent, PostCardComponent],
     imports: [
         CommonModule,
         PostModule,
