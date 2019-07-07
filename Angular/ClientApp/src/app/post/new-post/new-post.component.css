@@ -1,7 +1,29 @@
-#newpostbutton {
-    margin-top: 15px;
+.address-expansion {
+  padding: 24px 8px 8px 8px;
 }
 
-#streetinput {
-    margin-right: 15px;
+.new-post {
+  flex: 1;
+  flex-direction: row;
+  align-items: stretch;
+  margin-right: 10px;
+  width: 100%;
+}
+
+.street {
+  width: 85%;
+  margin-right: 2%;
+}
+
+.house-number {
+  width: 13%;
+}
+
+.split-left {
+  width: 49%;
+  margin-right: 2%;
+}
+
+.split-right {
+  width: 49%;
 }
