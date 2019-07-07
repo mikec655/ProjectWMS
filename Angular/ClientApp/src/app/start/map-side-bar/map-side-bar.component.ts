@@ -13,6 +13,8 @@ export class MapSideBarComponent implements OnInit {
     private km: any = 1;
     private map
     private posts = []
+    private positionLatitude;
+    private positionLongtitude;
 
     constructor(private postService: PostService) { }
     ngOnInit() {
@@ -25,6 +27,10 @@ export class MapSideBarComponent implements OnInit {
         if (navigator.geolocation) {
             navigator.geolocation.getCurrentPosition(position => {
                 this.map.setView([position.coords.latitude, position.coords.longitude], 11)
+                this.positionLatitude = position.coords.latitude;
+                this.positionLongtitude = position.coords.longitude;
+                console.log(position.coords.longitude)
+                console.log(this.positionLongtitude)
             });
         } else {
             this.map.setView([52.1092717, 5.1809676], 7);
@@ -33,6 +39,15 @@ export class MapSideBarComponent implements OnInit {
         this.updateMap();
 
         console.log(this.Unix_timestamp(1561883114))
+        console.log(this.positionLongtitude, this.positionLatitude)
+
+        var marker = L.marker([51.5, -0.09]).addTo(this.map);
+        var circle = L.circle([52.1092717, 5.1809676], {
+            color: 'red',
+            fillColor: '#f03',
+            fillOpacity: 0.5,
+            radius: 500
+        }).addTo(this.map);
 
     }
 
