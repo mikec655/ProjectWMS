@@ -82,6 +82,7 @@ export class Post {
     postId:number
     postUserId: number
     message: string
+    postedAtUnix: number
 }
 
 

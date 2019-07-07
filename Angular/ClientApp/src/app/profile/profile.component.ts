@@ -65,15 +65,18 @@ export class ProfileComponent implements OnInit {
 
 
     this.pageProfile = this.profileservice.data;
-    console.log(this.userid);
-    console.log(this.pageProfile);
-    console.log(this.pageProfile.firstname);
-    console.log(this.pageProfile.lastname);
-    console.log(this.profileservice.data.firstname);
+    //console.log(this.userid);
+    //console.log(this.pageProfile);
+    //console.log(this.pageProfile.firstname);
+    //console.log(this.pageProfile.lastname);
+    //console.log(this.profileservice.data.firstname);
 
     this.username = this.pageProfile.firstname;
 
-    this.postService.getPosts(-1).subscribe(posts => { console.log(posts); this.posts = posts });
+    this.postService.getPosts(-1).subscribe(posts => {
+      posts.sort((a, b) => b.postedAtUnix - a.postedAtUnix)
+      this.posts = posts
+    });
 
 
 

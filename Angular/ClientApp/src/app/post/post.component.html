@@ -1,24 +1,36 @@
 
 
 <!---Hier een ngfor -->
-  <div class="card" >
+  <div class="card" style="margin-top: 5px">
     <div class="card-body">
-      <!--<a href="#" class="card-link">{{ post.userFirstName }} {{ post.userLastName }}</a>
-      <p class="card-text">{{ post.message }}</p>-->
+      <h5><a href="#" class="card-link">{{ post.userFirstName }} {{ post.userLastName }}</a></h5> {{timeString}}
+      <p class="card-text">{{ post.message }}</p>
+    </div>
+
+    <div class="card" style="margin-left: 10px; margin-right: 10px">
+      <div class="card-body" *ngIf="invitation">
+        <span class='badge badge-info'> {{ invitation.type }}</span>&nbsp;&nbsp;
+        <span class='badge badge-light'>0 / {{ invitation.numberOfGuests }} guests</span><br />
+        {{invitation.invitationDateUnix}} <br />
+        {{invitation.address}}
+        <button type="button" class="btn btn-primary btn-sm accept-button"
+                style="width: 100%" (click)="acceptInvitation(invitation.invitationId)">Accept</button>
+      </div>
     </div>
     <!-- hier een ng for alle opgehaalde posts-->
-    <div class="card-body">
+    <div class="card-body" *ngIf="commentsReceived">
       <button type="button" class="btn btn-outline-primary" (click)="isCollapsed = !isCollapsed"
               [attr.aria-expanded]="!isCollapsed" aria-controls="collapseExample">
         Show comments 
       </button>
 
       <div id="collapseExample" [ngbCollapse]="isCollapsed">
-      <!--  <div class="card" *ngFor="let comment of comments"> -->
-          <p id="posttekst">
-            <!--{{comment.content}}-->
-         <!-- </p>-->
-      
+        <div class="card" *ngFor="let comment of comments">
+          <div class="card-body">
+            <b><a href="#">{{comment.userFirstName}} {{comment.userLastName}}</a></b> {{comment.postedAtUnix}} <br />
+            {{comment.content}}
+          </div>
+        </div>
       </div>
     </div>
   </div>
