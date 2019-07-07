@@ -16,8 +16,6 @@
         <a class="nav-link" [routerLink]="['/profile']">Profile</a>
       </li>
     </ul>
-    <form class="form-inline" *ngIf="isLoggedIn">
-      <button mat-raised-button class="btn btn-primary" type="submit" (click)="logout()">Logout</button>
-    </form>
+    <a *ngIf="isLoggedIn" mat-raised-button class="btn btn-primary" color="primary" (click)="logout()">Logout</a>
   </div>
 </nav>

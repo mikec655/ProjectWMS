@@ -1,5 +1,5 @@
 <div class="card" style="width:100%; height:20%">
-  <img [src]="imageSrc" alt="John" style="width:100%">
+  <img [src]="imageSrc" (error)="onPictureError()" alt="John" style="width:100%">
   <h1>John Doe</h1>
   <p class="title">CEO & Founder, Example</p>
   <p>Harvard University</p>
