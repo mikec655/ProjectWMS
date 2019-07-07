@@ -1,133 +1,105 @@
 <form class="form-register" [formGroup]="registerForm" (ngSubmit)="onSubmit()">
 
   <h1 class="h3 mb-3 font-weight-normal">Register</h1>
+  <p class="form-field-wrapper">
+    <mat-form-field appearance="fill">
+      <input matInput formControlName="firstname" id="inputFirstname" type="text" placeholder="Firstname" required="" name="firstname" minLength="2" pattern="^[A-Za-z-. ]+$" />
+      <mat-label>Firstname</mat-label>
+      <mat-error *ngIf="f.firstname.hasError('required')">This field is required</mat-error>
+      <mat-error *ngIf="f.firstname.hasError('pattern')">Please enter a valid value</mat-error>
+    </mat-form-field>
+    <mat-form-field appearance="fill">
+      <input matInput formControlName="lastname" id="inputLastname" type="text" placeholder="Lastname" required="" name="lastname" minLength="2" pattern="^[A-Za-z-. ]+$" />
+      <mat-label>Lastname</mat-label>
+      <mat-error *ngIf="f.lastname.hasError('required')">This field is required</mat-error>
+      <mat-error *ngIf="f.lastname.hasError('pattern')">Please enter a valid value</mat-error>
+    </mat-form-field>
+  </p>
 
-  <div class="form-label-group">
-    <input formControlName="firstname" id="inputFirstname" class="form-control" type="text" placeholder="firstname" required="" autofocus="" [ngClass]="{ 'is-invalid': (f.firstname.dirty || submitted) && f.firstname.errors }"
-           name="firstname" minLength="2" pattern="^[A-Za-z-. ]+$" />
-    <label for="inputFirstname">Firstname</label>
-    <div *ngIf="(f.firstname.dirty || submitted) && f.firstname.errors" class="invalid-feedback">
-      <div *ngIf="f.firstname.errors.required">This field is required</div>
-    </div>
-  </div>
+  <p class="form-field-wrapper">
+    <mat-form-field appearance="fill">
+      <mat-select formControlName="gender" id="inputGender" placeholder="Gender" required="" autofocus="" name="gender" minLength="2">
+        <mat-option value="M" selected>Male</mat-option>
+        <mat-option value="V">Female</mat-option>
+        <mat-option value="O">Other</mat-option>
+      </mat-select>
+      <mat-label>Gender</mat-label>
 
-  <div class="form-label-group">
-    <input formControlName="lastname" id="inputLastname" class="form-control" type="text" placeholder="lastname" required="" autofocus="" [ngClass]="{ 'is-invalid': (f.lastname.dirty || submitted) && f.lastname.errors }"
-           name="lastname" minLength="2" pattern="^[A-Za-z-. ]+$" />
-    <label for="inputLastname">Lastname</label>
-    <div *ngIf="(f.lastname.dirty || submitted) && f.lastname.errors" class="invalid-feedback">
-      <div *ngIf="f.lastname.errors.required">This field is required</div>
-    </div>
-  </div>
+      <mat-error *ngIf="f.gender.hasError('required')">This field is required</mat-error>
+    </mat-form-field>
+    <mat-form-field appearance="fill">
+      <input matInput formControlName="birthDate" id="inputBirthDate" type="date" placeholder="" required="" autofocus="" name="birthDate" minLength="2" />
+      <mat-label>Birth Date</mat-label>
+      <mat-error *ngIf="f.birthDate.hasError('required')">This field is required</mat-error>
+    </mat-form-field>
+  </p>
 
-  <div class="form-label-group">
-    <select formControlName="gender" id="inputGender" class="form-control" placeholder="Geslacht" required="" autofocus="" [ngClass]="{ 'is-invalid': (f.gender.dirty || submitted) && f.gender.errors }"
-            name="gender" minLength="2">
-      <option value="M" selected>Man</option>
-      <option value="V">Vrouw</option>
-      <option value="O">Overig</option>
-    </select>
+  <p class="form-field-wrapper" style="display: flex; flex-direction: row; align-items: stretch;">
+    <mat-form-field appearance="fill" style="min-width: 75%; max-width: 80%;">
+      <input matInput formControlName="street" id="inputStreet" type="text" placeholder="Street" required="" autofocus="" name="street" minLength="2" pattern="^[A-Za-z-. ]+$" />
+      <mat-label>Street</mat-label>
+      <mat-error *ngIf="f.street.hasError('required')">This field is required</mat-error>
+      <mat-error *ngIf="f.street.hasError('pattern')">Please enter a valid value</mat-error>
+    </mat-form-field>
+    <mat-form-field appearance="fill" style="max-width: 100px; min-width: 15%;">
+      <input matInput formControlName="number" id="inputNumber" type="text" placeholder="Number" required="" autofocus="" name="lastname" minLength="2" pattern="^[0-9A-Za-b- ]+$" />
+      <mat-label>No.</mat-label>
+      <mat-error *ngIf="f.number.hasError('required')">This field is required</mat-error>
+      <mat-error *ngIf="f.number.hasError('pattern')">Please enter a valid house number</mat-error>
+    </mat-form-field>
+  </p>
 
-    <div *ngIf="(f.gender.dirty || submitted) && f.gender.errors" class="invalid-feedback">
-      <div *ngIf="f.gender.errors.required">This field is required</div>
-    </div>
-  </div>
+  <p class="form-field-wrapper">
+    <mat-form-field>
+      <input matInput formControlName="zipCode" id="inputZipCode" class="form-control" type="text" placeholder="Zip Code" required="" autofocus="" name="zipCode" minLength="2" pattern="^[0-9]{4}[A-Z]{2}$" />
+      <mat-label>Zip Code</mat-label>
+      <mat-error *ngIf="f.zipCode.hasError('required')">This field is required</mat-error>
+      <mat-error *ngIf="f.zipCode.hasError('pattern')">Please enter a valid ZipCode</mat-error>
+    </mat-form-field>
 
-  <div class="form-label-group">
-    <input formControlName="birthDate" id="inputBirthDate" class="form-control" type="date" placeholder="" required="" autofocus="" [ngClass]="{ 'is-invalid': (f.birthDate.dirty || submitted) && f.birthDate.errors }"
-           name="lastname" minLength="2" />
-    <label for="inputLastname">Birth Date</label>
-    <div *ngIf="(f.lastname.dirty || submitted) && f.lastname.errors" class="invalid-feedback">
-      <div *ngIf="f.birthDate.errors.required">This field is required</div>
-    </div>
-  </div>
+    <mat-form-field>
+      <input matInput formControlName="city" id="inputCity" class="form-control" type="text" placeholder="City" required="" autofocus="" name="city" minLength="2" pattern="^[A-Za-z-. ]+$" />
+      <mat-label for="inputCity">City</mat-label>
+      <mat-error *ngIf="f.city.hasError('required')">This field is required</mat-error>
+      <mat-error *ngIf="f.city.hasError('pattern')">Please enter a valid value</mat-error>
+    </mat-form-field>
+  </p>
 
-  <div class="form-label-group">
-    <input formControlName="street" id="inputStreet" class="form-control" type="text" placeholder="Street" required="" autofocus="" [ngClass]="{ 'is-invalid': (f.street.dirty || submitted) && f.street.errors }"
-           name="street" minLength="3" pattern="^[A-Za-z-. ]+$" />
-    <label for="inputStreet">Street</label>
-    <div *ngIf="(f.street.dirty || submitted) && f.street.errors" class="invalid-feedback">
-      <div *ngIf="f.street.errors.required">This field is required</div>
-    </div>
-  </div>
+  <p class="form-field-wrapper">
+    <mat-form-field>
+      <input matInput formControlName="email" id="inputEmail" class="form-control" type="email" placeholder="Email address" required="" autofocus="" name="email" minLength="12" pattern="^[A-Za-z0-9._%+-]+@[A-Za-z0-9.-]+.[A-Za-z]{2,}$" />
+      <mat-label for="inputEmail">Email address</mat-label>
+      <mat-error *ngIf="f.email.hasError('required')">This field is required</mat-error>
+      <mat-error *ngIf="f.email.hasError('pattern')">Please enter a valid email</mat-error>
+      <mat-error *ngIf="f.email.hasError('conflict')">Email already exists, please login</mat-error>
+    </mat-form-field>
+  </p>
 
-  <div class="form-label-group">
-    <input formControlName="number" id="inputNumber" class="form-control" type="text" placeholder="Number" required="" autofocus="" [ngClass]="{ 'is-invalid': (f.number.dirty || submitted) && f.number.errors }"
-           name="lastname" minLength="2" pattern="^[0-9A-Za-b- ]+$" />
-    <label for="inputNumber">Number</label>
-    <div *ngIf="(f.number.dirty || submitted) && f.number.errors" class="invalid-feedback">
-      <div *ngIf="f.number.errors.required">This field is required</div>
-    </div>
-  </div>
+  <p class="form-field-wrapper">
+    <mat-form-field>
+      <input matInput formControlName="password" id="inputPassword" class="form-control" type="password" placeholder="Password" required="" name="password"/>
+      <mat-label for="inputPassword">Password</mat-label>
+        <mat-error *ngIf="f.password.hasError('required')">This field is required</mat-error>
+        <mat-error *ngIf="f.password.hasError('minlength')">Password must be {{f.password.errors.minlength.requiredLength}} characters or longer</mat-error>
+    </mat-form-field>
 
-  <div class="form-label-group">
-    <input formControlName="zipCode" id="inputZipCode" class="form-control" type="text" placeholder="Zip Code" required="" autofocus="" [ngClass]="{ 'is-invalid': (f.zipCode.dirty || submitted) && f.zipCode.errors }"
-           name="zipCode" minLength="2" pattern="^[0-9]{4}[A-Z]{2}$" />
-    <label for="inputZipCode">Zip Code</label>
-    <div *ngIf="(f.zipCode.dirty || submitted) && f.zipCode.errors" class="invalid-feedback">
-      <div *ngIf="f.zipCode.errors.required">This field is required</div>
-    </div>
-  </div>
+    <mat-form-field>
+      <input matInput formControlName="repeatPassword" id="inputRepeatPassword" class="form-control" type="password" placeholder="Repeat Password" required="" name="repeatPassword" />
+      <mat-label for="inputRepeatPassword">Repeat Password</mat-label>
+      <mat-error *ngIf="f.repeatPassword.hasError('required')">This field is required</mat-error>
+      <mat-error *ngIf="f.repeatPassword.hasError('mustMatch')">Passwords must match</mat-error>
+    </mat-form-field>
+  </p>
 
-  <div class="form-label-group">
-    <input formControlName="city" id="inputCity" class="form-control" type="text" placeholder="City" required="" autofocus="" [ngClass]="{ 'is-invalid': (f.city.dirty || submitted) && f.city.errors }"
-           name="city" minLength="2" pattern="^[A-Za-z-. ]+$" />
-    <label for="inputCity">City</label>
-    <div *ngIf="(f.city.dirty || submitted) && f.city.errors" class="invalid-feedback">
-      <div *ngIf="f.city.errors.required">This field is required</div>
-    </div>
-  </div>
+  <p class="form-field-wrapper">
+    <mat-form-field>
+      <textarea matInput rows="3" formControlName="profileDescription" id="inputProfileDescription" class="form-control" type="text" placeholder="Profile Description" required="" name="profileDescription" >
+      </textarea>
+      <mat-error *ngIf="f.repeatPassword.hasError('required')">This field is required</mat-error>
+    </mat-form-field>
+  </p>
 
-  <div class="form-label-group">
-    <input formControlName="email" id="inputEmail" class="form-control" type="email" placeholder="Email address" required="" autofocus="" [ngClass]="{ 'is-invalid': (f.email.dirty || submitted) && f.email.errors }"
-           name="email" minLength="12" pattern="^[A-Za-z0-9._%+-]+@[A-Za-z0-9.-]+.[A-Za-z]{2,}$" />
-    <label for="inputEmail">Email address</label>
-    <div *ngIf="(f.email.dirty || submitted) && f.email.errors" class="invalid-feedback">
-      <div *ngIf="f.email.errors.required">This field is required</div>
-      <div *ngIf="f.email.errors.pattern">Please enter a valid email</div>
-      <div *ngIf="f.email.errors.conflict">Email already exists, please login</div>
-    </div>
-  </div>
-
-  Todo remove this: {{ submitted }}
-  <div class="form-label-group">
-    <input formControlName="password" id="inputPassword" class="form-control" type="password" placeholder="Password" required=""
-           name="password" [ngClass]="{ 'is-invalid': (f.password.dirty || submitted) && f.password.errors }" />
-    <label for="inputPassword">Password</label>
-    <div *ngIf="(f.password.dirty || submitted) && f.password.errors" class="invalid-feedback">
-      <div *ngIf="f.password.errors.required">This field is required</div>
-      <div *ngIf="f.password.errors.minlength">Password must be {{f.password.errors.minlength.requiredLength}} characters or longer</div>
-    </div>
-  </div>
-
-  <div class="form-label-group">
-    <input formControlName="repeatPassword" id="inputRepeatPassword" class="form-control" type="password" placeholder="Repeat Password" required=""
-           name="repeatPassword" [ngClass]="{ 'is-invalid': (f.repeatPassword.dirty || submitted) && f.repeatPassword.errors }" />
-    <label for="inputRepeatPassword">Repeat Password</label>
-    <div class="invalid-feedback" *ngIf="(f.repeatPassword.dirty || submitted) && f.repeatPassword.errors">
-      <div *ngIf="f.repeatPassword.errors.required">This field is required</div>
-      <div *ngIf="f.repeatPassword.errors.mustMatch">Passwords must match</div>
-    </div>
-  </div>
-
-  <div class="form-label-group">
-    <textarea rows="3" formControlName="profileDescription" id="inputProfileDescription" class="form-control" type="password" placeholder="Profile Description" required=""
-              name="profileDescription" [ngClass]="{ 'is-invalid': (f.repeatPassword.dirty || submitted) && f.repeatPassword.errors }">
-
-        </textarea>
-    <div class="invalid-feedback" *ngIf="f.repeatPassword.dirty && f.repeatPassword.errors">
-      <div *ngIf="f.repeatPassword.errors.required">This field is required</div>
-    </div>
-  </div>
-
-  <div class="checkbox mb-3">
-    <label>
-      <input type="checkbox" value="remember me" />
-      Remember me
-    </label>
-  </div>
-
-  <p>Already have an account <a [routerLink]="['/login']">signin</a></p>
-  <button class="btn btn-lg btn-primary btn-block" type="submit" (click)="onClick()" style="margin-bottom: 10px">Create Account</button>
+  <p>Already have an account <a [routerLink]="['/login']">Sign-in</a></p>
+  <button mat-raised-button class="btn btn-lg btn-primary btn-block" type="submit" (click)="onClick()" style="margin-bottom: 10px">Create Account</button>
 </form>
 

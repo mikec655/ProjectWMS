@@ -1,13 +1,47 @@
 .form-register {
-  max-width: 330px;
+  max-width: 660px;
   margin: auto;
 }
 
-.ng-valid[required], .ng-valid.required {
+@media (min-width: 766px) {
+  .form-field-wrapper {
+    display: flex;
+    flex-direction: row;
+    align-items: stretch;
+  }
+}
+
+.form-field-wrapper {
+  width: 100%;
+}
+
+@media (max-width: 766px) {
+  mat-form-field {
+    width: 100%;
+  }
+}
+
+mat-form-field {
+  flex: 1;
+  flex-direction: row;
+  align-items: stretch;
+  margin-right: 10px;
+  min-width: 50%;
+}
+
+mat-form-field {
+  flex: 1;
+  flex-direction: row;
+  align-items: stretch;
+  margin-right: 10px;
+  min-width: 300px;
+}
+
+div > .ng-valid[required], .ng-valid.required {
   border-left: 5px solid #42A948; /* green */
 }
 
-.ng-invalid:not(form) {
+div > .ng-invalid:not(form) {
   border-left: 5px solid #a94442; /* red */
 }
 
