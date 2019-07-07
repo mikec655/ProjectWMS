@@ -36,6 +36,11 @@ export class MapSideBarComponent implements OnInit {
 
     }
 
+    onChange(event: any){
+        console.log(event.target.value)
+        this.km = event.target.value
+    }
+
     showInvitation(post, invitation) {
 
         var coords = L.latLng(invitation.longitude, invitation.latitude, 0);
