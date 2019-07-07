@@ -1,65 +1,75 @@
 <ng-template #content let-modal id="modal">
-    <div class="modal-header" >
-        <h4 class="modal-title" id="modal-basic-title">New Post</h4>
-        <button type="button" class="close" aria-label="Close" (click)="modal.dismiss('Cross click')">
-            <span aria-hidden="true">&times;</span>
-        </button>
-    </div>
-    <div class="modal-body">
-        <form>
-            <div class="form-group">
-                <div class="form-group">
-                    <label for="usr">Title:</label><br>
-                    <input #title (keyup)="titlePost(title.value)" type = "text" [name]="posttitle"><br>
+  <div mat-dialog-title>
+    <h4 class="modal-title" id="modal-basic-title">New Post</h4>
+    <button type="button" class="close" aria-label="Close" (click)="onDismiss()">
+      <span aria-hidden="true">&times;</span>
+    </button>
+  </div>
+  <div mat-dialog-content>
+    <form>
+      <div class="form-group">
+        <div class="form-group">
+          <mat-form-field class="new-post" appearance="fill">
+            <mat-label>Title</mat-label>
+            <input matInput #title (keyup)="titlePost(title.value)" placeholder="Title" type="text" [name]="posttitle">
+          </mat-form-field>
 
-                    <label for="usr">PostText:</label><br>
-                    <textarea #posttekst (keyup)="postText(posttekst.value)" rows="4" placeholder="fill in posttext.">
+          <p class="new-post">
+            <mat-form-field class="new-post" appearance="fill">
+              <mat-label for="usr">Post Text</mat-label><br>
+              <textarea matInput #posttekst (keyup)="postText(posttekst.value)" placeholder="Post Text" rows="4" placeholder="fill in posttext."></textarea>
+            </mat-form-field>
+          </p>
 
-                    </textarea><br>
+          <div>
+            <mat-slide-toggle (change)="FieldsChange()" value="angular" type="checkbox">Use registered address</mat-slide-toggle>
+          </div>
+          <mat-expansion-panel [expanded]="!isChecked" class="address-expansion">
+            <mat-form-field class="street">
+              <mat-label>Street</mat-label>
+              <input matInput #street placeholder="Street" (keyup)="streetPost(street.value)" type="text" [name]="street" id="streetinput">
+            </mat-form-field>
+            <mat-form-field class="house-number">
+              <mat-label>Number</mat-label>
+              <input matInput type="text" #hous placeholder="Number" (keyup)="houseNumber(hous.value)" [name]="housenumber" maxlength="10" size="4">
+            </mat-form-field>
+            <mat-form-field class="split-left">
+              <mat-label for="usr">Zip Code</mat-label>
+              <input matInput #zip (keyup)="zipCode(zip.value)" placeholder="Zip Code" type="text" [name]="zipcode">
+            </mat-form-field>
+            <mat-form-field class="split-right">
+              <mat-label>City</mat-label>
+              <input matInput #city placeholder="City" (keyup)="cityPost(city.value)" type="text" [name]="city">
+            </mat-form-field>
+          </mat-expansion-panel>
+          <label class="image-upload-container btn btn-bwm">
+            <input #imageInput
+                   type="file"
+                   accept="image/*"
+                   (change)="processFile(imageInput)">
+          </label>
 
-                    <div>
-                        Use registered adress: <input (change)="FieldsChange()" value="angular" type="checkbox" />
-                        <br>
-                    </div>
-                    <div *ngIf="ischecked == 'false' ">
-                        <div class="form-group" [id]="adressblock">
-                            <label for="usr">street and Housenumber:</label><br>
-                            <input #street (keyup)="streetPost(street.value)" type="text" [name]="street" id="streetinput"><input type="text" #hous (keyup)="houseNumber(hous.value)" [name]="housenumber" maxlength="10" size="4"><br>
-                            <label for="usr">zipcode:</label><br>
-                            <input #zip (keyup)="zipCode(zip.value)" type="text" [name]="zipcode"><br>
-                            <label for="usr">City:</label><br>
-                            <input #city (keyup)="cityPost(city.value)" type="text" [name]="zipcode"><br>
-
-                        </div>
-                    </div>
-                    <label class="image-upload-container btn btn-bwm">
-                        <input #imageInput
-                               type="file"
-                               accept="image/*"
-                               (change)="processFile(imageInput)">
-                    </label>
+          <p>
+            <mat-form-field appearance="fill">
+              <mat-label>Number of guests</mat-label>
+              <input matInput #guests placeholder="Number of guests" type="text" (keyup)="guestPost(guests.value)" [name]="guests" size="2">
+            </mat-form-field>
+          </p>
 
 
-                    <input type="submit">
-
-                    <label for="usr">amount of guests:</label><br>
-                    <input #guests type="text" (keyup)="guestPost(guests.value)" [name]="guests" size="2"><br>
-
-
-                </div>
-                </div>
-        </form>
-    </div>
-    <div class="modal-footer">
-        <B> {{message}} </B>
-        <button type="button" class="btn btn-outline-dark" (click)="createpost()">Save</button>
-        <!-- modal.dismiss('Values saved')-->
-    </div>
+        </div>
+      </div>
+    </form>
+  </div>
+  <div mat-dialog-actions>
+    <B> {{message}} </B>
+    <button mat-button (click)="onDismiss()">Cancel</button>
+    <button type="button" class="btn btn-outline-dark" (click)="createpost()">Save</button>
+    <!-- modal.dismiss('Values saved')-->
+  </div>
 </ng-template>
 
 <button class="btn btn-lg btn-outline-primary" (click)="open(content)" id="newpostbutton">New Post</button>
 
 
 <!--- {{CloseResult}}--->
-
-

@@ -1,11 +1,12 @@
 import { Component, OnInit } from '@angular/core';
 import { NgbModal, ModalDismissReasons } from '@ng-bootstrap/ng-bootstrap';
 
-import { PostService} from '../post.service';
+import { PostService } from '../post.service';
 
 import { NgModel, FormGroup, FormBuilder, Validators } from '@angular/forms';
 import { HttpClient } from '@angular/common/http';
 import { environment } from '../../../environments/environment';
+import { MatDialog, MatDialogRef } from '@angular/material/dialog';
 
 @Component({
   selector: 'app-newpost',
@@ -13,138 +14,144 @@ import { environment } from '../../../environments/environment';
   styleUrls: ['./new-post.component.css']
 })
 export class NewPostComponent implements OnInit {
-    public ischecked: string = "false";
-    title: any;
+  private dialogRef: MatDialogRef<any, any>;
+  public isChecked: boolean = false;
+  title: any;
 
-    message: any;
-    closeResult: string;
+  message: any;
+  closeResult: string;
 
-    password: string;
-    street: any;
-    housenumber: any;
-    zipcode: any;
-    city: any;
-    guests: any;
+  password: string;
+  street: any;
+  housenumber: any;
+  zipcode: any;
+  city: any;
+  guests: any;
 
-    result: any;
+  result: any;
 
-    
 
-    constructor(private modalService: NgbModal,
-        private postservice: PostService, private http: HttpClient) { }
 
-    open(content) {
-        this.modalService.open(content, { ariaLabelledBy: 'modal-basic-title' }).result.then((result) => {
-            this.closeResult = ` ${result}`;
-            console.log(this.closeResult);
+  constructor(private modalService: NgbModal,
+    private postservice: PostService, private http: HttpClient,
+    public dialog: MatDialog) { }
 
-        }, (reason) => {
-            this.closeResult = ` ${this.getDismissReason(reason)}`;
-        });
+  open(content) {
+    this.dialogRef = this.dialog.open(content, { ariaLabelledBy: 'modal-basic-title' });
+
+    /*.afterClosed().subscribe((result) => {
+      this.closeResult = ` ${result}`;
+      console.log(this.closeResult);
+
+    }, (reason) => {
+      this.closeResult = ` ${this.getDismissReason(reason)}`;
+    });*/
+  }
+
+  private getDismissReason(reason: any): string {
+    if (reason === ModalDismissReasons.ESC) {
+      return 'Closed pressing ESC';
+    } else if (reason === ModalDismissReasons.BACKDROP_CLICK) {
+      return 'Closed clicking on a backdrop';
+    } else {
+      return ` ${reason}`;
     }
-
-    private getDismissReason(reason: any): string {
-        if (reason === ModalDismissReasons.ESC) {
-            return 'Closed pressing ESC';
-        } else if (reason === ModalDismissReasons.BACKDROP_CLICK) {
-            return 'Closed clicking on a backdrop';
-        } else {
-            return ` ${reason}`;
-        }
-    }
+  }
 
 
-    streetPost(value: any) {
-        this.street = value;
-  
-    }
+  streetPost(value: any) {
+    this.street = value;
 
-    guestPost(value: any) {
-        this.guests = value;
-    }
+  }
 
-    zipCode(value: any) {
-        this.zipcode= value;
+  guestPost(value: any) {
+    this.guests = value;
+  }
 
-    }
+  zipCode(value: any) {
+    this.zipcode = value;
 
-    filePost(value: any) {
-        this.zipcode = value;
+  }
 
-    }
+  filePost(value: any) {
+    this.zipcode = value;
 
-    titlePost(value: any) {
-        this.title = value;
-     
-    }
+  }
 
-    houseNumber(value: any) {
-        this.housenumber = value;
+  titlePost(value: any) {
+    this.title = value;
 
-    }
+  }
 
-    postText(value: any) {
-        this.message = value;
- 
-    }
+  houseNumber(value: any) {
+    this.housenumber = value;
 
-    cityPost(value: any) {
-        this.city = value;
-     
-    }
+  }
 
+  postText(value: any) {
+    this.message = value;
 
-    //method to post post to database;
-    createpost() {
-        console.log(this.title);
-        console.log(this.message);
-        console.log(this.street);
-        console.log(this.housenumber);
-        console.log(this.zipcode);
-        console.log(this.title);
-        console.log(this.city);
-        console.log(this.guests);
+  }
 
-        var uid: number = 4;
-        var postId: number = 2;
-        let post = {
-            postUserId: uid,
-            Title: this.title,
-            message: this.message,
-            
+  cityPost(value: any) {
+    this.city = value;
 
-        };
+  }
 
-        console.log(post);
-        
-        
-        
+  onDismiss() {
+    this.dialogRef.close();
+  }
 
-        //hier post object bouwen.
-        //this.postservice.createPost(post).subscribe(x => console.log(x));
+  //method to post post to database;
+  createpost() {
+    console.log(this.title);
+    console.log(this.message);
+    console.log(this.street);
+    console.log(this.housenumber);
+    console.log(this.zipcode);
+    console.log(this.title);
+    console.log(this.city);
+    console.log(this.guests);
+
+    var uid: number = 4;
+    var postId: number = 2;
+    let post = {
+      postUserId: uid,
+      Title: this.title,
+      message: this.message,
 
 
-        //.post<string>(`${environment.apiUrl}/api/Users`, profile)
-        
-        this.http
-            .post<any>(`${environment.apiUrl}/api/Posts/`, post)
-            .subscribe(result => {
-                this.result = result;
-                console.log(result);
+    };
 
-            });
-        console.log("after Post");
-           
-    }
+    console.log(post);
 
 
-    FieldsChange() {
-        console.log(this.ischecked);
-        if (this.ischecked === "false") { this.ischecked = "true"; }
-        else { this.ischecked = "false";}
-        
-    }
 
-    ngOnInit() {
-    }
+
+    //hier post object bouwen.
+    //this.postservice.createPost(post).subscribe(x => console.log(x));
+
+
+    //.post<string>(`${environment.apiUrl}/api/Users`, profile)
+
+    this.http
+      .post<any>(`${environment.apiUrl}/api/Posts/`, post)
+      .subscribe(result => {
+        this.result = result;
+        console.log(result);
+
+      });
+    console.log("after Post");
+
+  }
+
+
+  FieldsChange() {
+    console.log(this.isChecked);
+    this.isChecked = !this.isChecked;
+
+  }
+
+  ngOnInit() {
+  }
 }

@@ -13,13 +13,13 @@
     <!-- hier een ng for alle opgehaalde posts-->
     <mat-card-actions>
       <button mat-button (click)="expansionPanel.toggle()">
-        COMMENTS ({{comments.length}})
+        COMMENTS ({{ comments == null ? 0 : comments.length}})
       </button>
 
       <mat-expansion-panel #expansionPanel>
         <div class="card" *ngFor="let comment of comments">
           <p id="posttekst">
-            {{comment.content}}
+            {{ comment.content }}
           </p>
         </div>
       </mat-expansion-panel>

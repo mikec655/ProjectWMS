@@ -39,7 +39,7 @@
               <input type="range" id="rangeInput" name="rangeInput" min="0" max="10" value="0" class="slider" oninput="amount.value=rangeInput.value">
               <h1 class="align-self-start" style="font-size:18px"> Grade: <output id="amount" align="bottom" name="amount" for="rangeInput">0</output></h1>
             </div>
-            <button class="btn-primary" type="submit">post a review</button>
+            <button mat-raised-button class="btn-primary" type="submit">post a review</button>
           </div>
           <!-- List with reviews -->
           <div id="readreviewblock">
@@ -53,7 +53,7 @@
       <!-- Posts to show if own profile -->
       <div *ngIf="ownUserProfile; else elseBlock">
         <div id="posts">
-          <button (click)="print(event,value )">sdf</button>
+          <button (click)="print(event,value)">sdf</button>
           <app-newpost></app-newpost>
           <h1 class="align-self-start" id="postlist">Posts:</h1>
           <app-post *ngFor="let post of posts" [post]="post"></app-post>
