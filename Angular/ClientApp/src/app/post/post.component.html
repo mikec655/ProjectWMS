@@ -1,13 +1,22 @@
-<mat-card>
+<!---Hier een ngfor -->
+  <mat-card>
     <mat-card-header>
-      <mat-card-title>{{ post.title }}</mat-card-title>
+      <mat-card-title>{{ post.userFirstName }} {{ post.userLastName }} {{timeString}}</mat-card-title>
     </mat-card-header>
-    <img mat-card-image *ngIf="post.postMediaId != null && post.postMediaId != 0" [src]="imageSrc" (error)="post.postMediaId=null" />
-    <mat-card-content class="card-body">
-      <!--<a href="#" class="card-link">{{ post.userFirstName }} {{ post.userLastName }}</a>
-      <p class="card-text">{{ post.message }}</p>-->
+
+    <mat-card-content>
+      <p class="card-text">{{ post.message }}</p>
+
+      <div class="card-body" *ngIf="invitation">
+        <span class='badge badge-info'> {{ invitation.type }}</span>&nbsp;&nbsp;
+        <span class='badge badge-light'>0 / {{ invitation.numberOfGuests }} guests</span><br />
+        {{invitation.invitationDateUnix}} <br />
+        {{invitation.address}}
+        <button type="button" class="btn btn-primary btn-sm accept-button"
+                style="width: 100%" (click)="acceptInvitation(invitation.invitationId)">Accept</button>
+      </div>
     </mat-card-content>
-    <!-- hier een ng for alle opgehaalde posts-->
+
     <mat-card-actions>
       <button mat-button (click)="expansionPanel.toggle()">
         COMMENTS ({{comments.length}})
@@ -15,12 +24,13 @@
 
       <mat-expansion-panel #expansionPanel>
         <div class="card" *ngFor="let comment of comments">
-          <p id="posttekst">
-            {{comment.content}}
-          </p>
+            <b><a href="#">{{comment.userFirstName}} {{comment.userLastName}}</a></b> {{comment.postedAtUnix}} <br />
+            <p id="posttekst">
+              {{comment.content}}
+            </p>
         </div>
       </mat-expansion-panel>
     </mat-card-actions>
+    </div>
   </mat-card>
-
 

@@ -64,6 +64,8 @@ namespace Angular.Models
 
         public string Number { get; set; }
 
+        public List<Guest> Guests { get; set; }
+
         public static InvitationDto ToDto(Invitation invitation)
         {
             return Projection.Compile().Invoke(invitation);
@@ -107,6 +109,7 @@ namespace Angular.Models
                     ZipCode = p.ZipCode,
                     Address = p.Address,
                     Number = p.Number,
+                    Guests = p.Guests,
                     Latitude = p.LocationPoint == null ? 0.00: p.LocationPoint.Coordinate.Y,
                     Longitude = p.LocationPoint == null ? 0.00 : p.LocationPoint.Coordinate.X
                 };

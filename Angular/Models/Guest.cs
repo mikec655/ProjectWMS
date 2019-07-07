@@ -5,6 +5,7 @@ using System.ComponentModel.DataAnnotations.Schema;
 using System.Linq;
 using System.Linq.Expressions;
 using System.Threading.Tasks;
+using Newtonsoft.Json;
 
 namespace Angular.Models
 {
@@ -20,6 +21,7 @@ namespace Angular.Models
 
         public int GuestInvitationId { get; set; }
 
+        [JsonIgnore]
         [ForeignKey("GuestInvitationId")]
         public Invitation Invitation { get; set; }
     }

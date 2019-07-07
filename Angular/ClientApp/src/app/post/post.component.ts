@@ -2,6 +2,7 @@ import { Component, OnInit, Input } from '@angular/core';
 import { Post, PostService } from './post.service';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { environment } from '../../environments/environment';
+import { error } from '@angular/compiler/src/util';
 
 
 @Component({
@@ -11,30 +12,81 @@ import { environment } from '../../environments/environment';
 })
 
 export class PostComponent implements OnInit {
+    @Input() post = new Post()
+    private invitation;
+    private comments = [];
+    private isCollapsed = true;
+    public imageSrc: any = environment.apiUrl + '/api/Media/' + this.post.postMediaId;
+    private commentsReceived = false;
+    private timeString;
 
-  @Input() post = new Post()
-  private comments = []
-  public isCollapsed = true;
-  public imageSrc: any = environment.apiUrl + '/api/Media/' + this.post.postMediaId;
-
-  constructor(private postService: PostService, private _snackBar: MatSnackBar) { }
-
+    constructor(private postService: PostService, private _snackBar: MatSnackBar) { }
+   
 
   ngOnInit() {
-    this.imageSrc = 
+    console.log(this.post)
     this.postService.getComments(this.post.postId).subscribe(comments => {
-      console.log(comments);
+      comments.sort((a, b) => b.postedAtUnix - a.postedAtUnix)
       this.comments = comments
+      comments.forEach(comment => comment.postedAtUnix = this.timeToString(comment.postedAtUnix))
+      this.commentsReceived = true
     },
       error => {
-        if (error.status == 404) {
-          this.comments = null;
-        } else {
+        this.commentsReceived = false;
+        if(error.status != 404) {
           console.error(error);
-          this._snackBar.open(`Oopsie... Something went wrong please try again. (error code ${error.status})`, 'Oops');
+          this._snackBar.open(`Oopsie... Something went wrong fetching comments. (error code ${error.status})`, 'Oops');
         }
-      });
+      })
+    this.postService.getInvitation(this.post.postId).subscribe(invitation => {
+      console.log(invitation);
+      invitation.invitationDateUnix = this.timeToString(invitation.invitationDateUnix)
+      this.invitation = invitation
+    } )
+   
+    this.timeString = this.timeToString(this.post.postedAtUnix)
   }
 
+  acceptInvitation(id: number) {
+    this.postService.acceptInvitation(id).subscribe(r => console.log(r))
+  }
 
-}
+  timeToString(timeStamp: number) {
+    let time = new Date(timeStamp)
+    let currentTime = new Date(Date.now())
+    let yesterdayTime = new Date(Date.now() - 24 * 60 * 60)
+    yesterdayTime.setMilliseconds(0)
+    yesterdayTime.setSeconds(0)
+    yesterdayTime.setMinutes(0)
+    yesterdayTime.setHours(0)
+
+    let timeDiff = (currentTime.getTime() - time.getTime()) / 1000
+
+    if (timeDiff < 60 * 60) {
+      return Math.round(timeDiff / 60) + " minutes ago"
+    } else if (timeDiff < 24 * 60 * 60) {
+      return Math.round(timeDiff / (60 * 60)) + " hours ago"
+    } else if (time.getTime() > yesterdayTime.getTime()) {
+      return "yesterday"
+    } else {
+      return this.timestamp(timeStamp)
+    }
+  }
+
+  timestamp(time: number) {
+      const monthNames = ["januari", "februari", "maart", "april", "mei", "juni",
+        "juli", "augustus", "september", "oktober", "november", "december"
+      ];
+      var dt = new Date(time);
+      var y = dt.getFullYear();
+      var mth = dt.getMonth();
+      var d = "0" + dt.getDate();
+      var hr = "0" + dt.getHours();
+      var m = "0" + dt.getMinutes();
+
+      return d.substr(-2) + ' ' + monthNames[mth] + ' ' + y + ' ' +
+        hr.substr(-2) + ':' + m.substr(-2);
+    }
+    
+  }
+

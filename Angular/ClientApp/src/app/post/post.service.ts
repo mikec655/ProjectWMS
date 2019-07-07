@@ -85,6 +85,7 @@ export class Post {
   postUserId: number;
   message: string;
   postMediaId: number;
+  postedAtUnix: number
 }
 
 
