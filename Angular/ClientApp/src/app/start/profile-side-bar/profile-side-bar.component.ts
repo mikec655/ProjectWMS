@@ -15,4 +15,8 @@ export class ProfileSideBarComponent implements OnInit {
   ngOnInit() {
   }
 
+  onPictureError() {
+    this.imageSrc = "./assets/account.png";
+  }
+
 }

@@ -19,13 +19,8 @@ export class AuthenticationComponent {
   constructor(
     private formBuilder: FormBuilder,
     private authenticationService: AuthenticationService,
-    public Pwa: PWAService,
     private router: Router
   ) { }
-
-  installPwa(): void {
-    this.Pwa.promptEvent.prompt();
-  }
 
   ngOnInit() {
     this.loginForm = this.formBuilder.group({

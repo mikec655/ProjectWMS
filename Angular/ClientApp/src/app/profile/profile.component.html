@@ -2,19 +2,32 @@
 <div class="container" style="margin-top:100px">
   <div class="row">
     <div class="col-lg-4 ">
-      <!-- show dit stuk alleen als er niet is ingelogd op het account van het profiel zie variable in profile.component-->
-      <div *ngIf="profileview == 'notloggedin'">
+      <div *ngIf="profileview == 'loggedin'">
         <div id="userblock">
-          <img class="img-fluid" id="profilephoto" [src]="imageSrc" alt="Card image cap" style="border-width: 2px;">
-          <h1 class="align-self-start" style="font-size:18px">{{username}}</h1>
+          <img class="img-fluid" [src]="imageSrc" (error)="onPictureError()" alt="Profile Picture" style="border-width: 2px;">
+          <h2 class="align-self-start">{{user.firstname + ' ' + user.lastname}}</h2>
 
           <div id="userdescriptionblock">
-            <p class="align-self-start">{{profile_description}}.</p>
+            <p class="align-self-start"> {{profile_description}}</p>
           </div>
 
-          <button class="btn btn-primary" (click)="follow($event, item)">Follow</button>
-          <!-- VAK voor het posten van een review-->
-          <div id="postreviewblock">
+          <button mat-raised-button *ngIf="!ownUserProfile" class="btn btn-primary" (click)="follow($event, item)">Follow</button>
+
+          <!-- Upload profilepicture area -->
+          <div id="postreviewblock" *ngIf="ownUserProfile">
+
+            <form #form [formGroup]="uploadForm">
+              <input #file type="file" name="file" accept=".jpg,.jpeg,.png,.bmp" [hidden]="true" [formControl]="uploadForm.controls['pic']" (change)="getPhoto($event)" />
+              <button mat-raised-button class="btn-primary" (click)="file.click()" color="primary">Upload File</button>
+              <div *ngIf="(f.pic.dirty || submitted) && f.pic.errors" class="invalid-feedback" style="display: block;">
+                <div *ngIf="f.pic.errors.size">File can't be bigger than 10 MB</div>
+              </div>
+            </form>
+            <app-usersettings *ngIf="ownUserProfile"></app-usersettings>
+          </div>
+
+          <!-- Posting of a review -->
+          <div id="postreviewblock" *ngIf="!ownUserProfile">
             <h1 class="align-self-start" style="font-size:18px">Review this user:</h1>
             <p style="font-size:12px">
               Titel:
@@ -26,57 +39,19 @@
               <input type="range" id="rangeInput" name="rangeInput" min="0" max="10" value="0" class="slider" oninput="amount.value=rangeInput.value">
               <h1 class="align-self-start" style="font-size:18px"> Grade: <output id="amount" align="bottom" name="amount" for="rangeInput">0</output></h1>
             </div>
-            <button class="btn btn-primary" type="submit">post a review</button>
+            <button class="btn-primary" type="submit">post a review</button>
           </div>
-          <!-- Hier komt ene lijst van reviews-->
+          <!-- List with reviews -->
           <div id="readreviewblock">
             <h1 for="exampleFormControlTextarea1" style="font-size:18px">User Reviews:</h1>
             <app-review></app-review>
           </div>
         </div>
       </div>
-      <!-- show dit stuk alleen als wel is ingelogd op het account van het profiel, zie variable in profile.component-------------->
-      <div *ngIf="profileview == 'loggedin'">
-        <div id="userblock">
-          <img class="img-fluid" [src]="imageSrc" alt="Card image cap" style="border-width: 2px;">
-          <h1 class="align-self-start" style="font-size:18px">{{username}}</h1>
-          <div id="userdescriptionblock">
-            <p class="align-self-start"> {{profile_description}}</p>
-          </div>
-          <!-- VAK voor het posten van een profielfoto-->
-          <div id="postreviewblock">
-
-            <!--uploaden van nieuwe profielfoto (moet nog gefixt worden)-->
-            <h1 class="align-self-start" style="font-size:18px">Upload a profilepicture</h1>
-            <form #form [formGroup]="uploadForm">
-              <input #file type="file" name="file" accept=".jpg,.jpeg,.png,.bmp" [hidden]="true" [formControl]="uploadForm.controls['pic']" (change)="getPhoto($event)"/>
-              <button mat-raised-button (click)="file.click()" color="primary">Upload File</button>
-              <div *ngIf="(f.pic.dirty || submitted) && f.pic.errors" class="invalid-feedback" style="display: block;">
-                <div *ngIf="f.pic.errors.size">File can't be bigger than 10 MB</div>
-              </div>
-            </form>
-            <app-usersettings></app-usersettings>
-          </div>
-
-          <!-- Hier komt ene lijst van reviews-->
-          <div id="readreviewblock">
-            <h1 class="align-self-start" style="font-size:18px">User Reviews:</h1>
-            <app-review></app-review>
-          </div>
-        </div>
-      </div>
     </div>
     <div class="col-lg-8 d-fled">
-      <!-- Hier moeten de post van het profiel worden geladen als er niet is ingelogd op het account van het profiel-->
-      <div *ngIf="profileview == 'notloggedin'">
-        <div id="posts">
-          <h1 class="align-self-start" id="postlist">Posts:</h1>
-          <!--<p class="align-self-start">{{posttekst}}</p>-->
-          <app-post *ngFor="let post of posts" [post]="post"></app-post>
-        </div>
-      </div>
-      <!-- Hier moeten de post van het profiel worden geladen als er Wel is ingelogd op het account van het profiel hierbij moet er een delete knop bijgevoegd worden -->
-      <div *ngIf="profileview == 'loggedin'">
+      <!-- Posts to show if own profile -->
+      <div *ngIf="ownUserProfile; else elseBlock">
         <div id="posts">
           <button (click)="print(event,value )">sdf</button>
           <app-newpost></app-newpost>
@@ -84,6 +59,14 @@
           <app-post *ngFor="let post of posts" [post]="post"></app-post>
         </div>
       </div>
+      <!-- Posts of others -->
+      <ng-template #elseBlock>
+        <div id="posts">
+          <h1 class="align-self-start" id="postlist">Posts:</h1>
+          <!--<p class="align-self-start">{{posttekst}}</p>-->
+          <app-post *ngFor="let post of posts" [post]="post"></app-post>
+        </div>
+      </ng-template>
     </div>
   </div>
 </div>

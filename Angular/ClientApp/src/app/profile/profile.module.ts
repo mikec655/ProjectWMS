@@ -27,7 +27,8 @@ import { MatFormFieldModule } from '@angular/material/form-field';
     NgbModule.forRoot(),
     CommonModule,
     RouterModule.forChild([
-      { path: '', component: ProfileComponent, canActivate: [AuthenticationService] }
+      { path: '', component: ProfileComponent, canActivate: [AuthenticationService] },
+      { path: ':id', component: ProfileComponent }
     ]),
     MatFormFieldModule,
     MatInputModule,
