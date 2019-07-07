@@ -52,7 +52,7 @@ export class AuthenticationService implements CanActivate {
   logout() {
     localStorage.removeItem('currentUser');
     this.currentUserSubject.next(null);
-    this.router.navigate(["/login"])
+    this.router.navigate(["/login"]);
   }
 
   isLoggedIn() {

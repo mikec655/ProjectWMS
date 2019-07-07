@@ -62,6 +62,7 @@ export class ProfileComponent implements OnInit {
       //hier roep ik iets aan om een userobject te halen,
       this.profileservice.getUserProfile(this.userid).subscribe(data => {
         this.pageProfile = data;
+        this.postService.getUserPosts(-1, this.userid).subscribe(posts => { console.log(posts); this.posts = posts });
       },
         error => {
           if (error.status == 404) {
@@ -92,11 +93,6 @@ export class ProfileComponent implements OnInit {
     this.username = this.pageProfile.firstname;
     //this.user = this.authenticationService.currentUserValue;
     //this.authenticationService.currentUser.subscribe(p => this.user = p);
-
-    this.postService.getPosts(-1).subscribe(posts => { console.log(posts); this.posts = posts });
-
-
-
   }
 
   //hier de follow http
