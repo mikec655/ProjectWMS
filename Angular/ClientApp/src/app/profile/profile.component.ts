@@ -72,6 +72,8 @@ export class ProfileComponent implements OnInit {
     console.log(this.profileservice.data.firstname);
 
     this.username = this.pageProfile.firstname;
+    //this.user = this.authenticationService.currentUserValue;
+    //this.authenticationService.currentUser.subscribe(p => this.user = p);
 
     this.postService.getPosts(-1).subscribe(posts => { console.log(posts); this.posts = posts });
 

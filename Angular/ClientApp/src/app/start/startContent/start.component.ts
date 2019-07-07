@@ -11,13 +11,9 @@ export class StartComponent implements OnInit {
 
     private posts = []
 
-    constructor(private postService: PostService, public Pwa: PWAService) {
+    constructor(private postService: PostService) {
         
 
-    }
-
-    installPwa(): void {
-        this.Pwa.promptEvent.prompt();
     }
 
     ngOnInit() {
