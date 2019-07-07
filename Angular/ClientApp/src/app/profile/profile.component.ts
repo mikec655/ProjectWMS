@@ -86,6 +86,10 @@ export class ProfileComponent implements OnInit {
     console.log(item);
   }
 
+  onPictureError() {
+    this.imageSrc = './assets/account.png';
+  }
+
   print() {
     console.log("print dit na de print van account data");
     console.log(this.pageProfile);
