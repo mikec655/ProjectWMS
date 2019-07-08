@@ -1,24 +1,25 @@
-<script src="//netdna.bootstrapcdn.com/bootstrap/3.1.0/js/bootstrap.min.js"></script>
+<!---<script src="//netdna.bootstrapcdn.com/bootstrap/3.1.0/js/bootstrap.min.js"></script>
 <script src="//code.jquery.com/jquery-1.11.1.min.js"></script>
+    -->
 
 <!-- link aanpassen naar profiel van review poster-->
-<div id="reviewblock">
-  <!--- hier ng for each review --> 
-<a href="#" class="list-group-item active">
-  <div>
-    <h4 class="list-group-item-heading"> Review titel</h4>
-    <p>
-      Grade:   &&*(*)
-    </p>
-    <p class="list-group-item-text">
-      Hier review tekst hoi hoi hoi hoi hoi blllllllllllllllllllllllllllllllll
-      llllllllllllllllllllllllllll
-      lllllllllllllllllllllll
-    </p>
-    <p>
-      Door:   hier profielnaam sdssd van poster
-    </p>
+  <div id="reviewblock">
+    <!--- hier ng for each review -->
+    <div class="card" *ngFor="let review of reviews">
+      <a href="https://localhost:4200/profile/{{review.reviewUserId}}" class="list-group-item active">
+      <div>
+        <h4 class="list-group-item-heading"> Review titelmoet toegevoegd worden aan database</h4>
+        <p>
+          Cijfer:   {{review.rating}}
+        </p>
+        <p class="list-group-item-text">
+          {{review.description}}
+        </p>
+        <p>
+          Door:   {{review.reviewUserId}}
+        </p>
 
+      </div>
+      </a>
+    </div>
   </div>
-</a>
-</div>
