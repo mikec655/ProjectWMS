@@ -148,7 +148,9 @@ export class ProfileComponent implements OnInit {
     var review = {
       "rating": this.reviewForm.controls.reviewgrade.value,
       "description": this.reviewForm.controls.reviewtext.value,
-      "title": this.reviewForm.controls.reviewtitle.value
+      "title": this.reviewForm.controls.reviewtitle.value,
+      "ReviewUserId": this.authenticationService.currentUserId,
+      "ReviewTargetId": this.userid
       
     }
     console.log(review);
