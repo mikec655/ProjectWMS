@@ -79,7 +79,6 @@ export class MapComponent implements OnInit {
       $('.accept-button').click(function (e) {
         console.log(this.getAttribute("data-id"));
         self.postService.acceptInvitation(1)
-
       });
     });
 

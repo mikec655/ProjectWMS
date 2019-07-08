@@ -3,6 +3,7 @@ import { Post, PostService } from './post.service';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { environment } from '../../environments/environment';
 import { error } from '@angular/compiler/src/util';
+import { Invitation } from '../_models/invitation';
 import { AuthenticationService } from '../authentication.service';
 
 
@@ -14,18 +15,23 @@ import { AuthenticationService } from '../authentication.service';
 
 export class PostComponent {
   @Input() post = new Post()
-  public invitation;
+  public invitation: Invitation;
   public comments = [];
   public isCollapsed = true;
   public imageSrc: any = environment.apiUrl + '/api/Media/' + this.post.postMediaId;
   public commentsReceived = false;
+  public timeString: string;
+  public invitationTimeString: string;
+  public acceptedInvite: boolean;
+  public canAccept: boolean;
   public commentInput;
-  public timeString;
   public userImageSrc = environment.apiUrl + '/api/Media/2' //+ this.authenticationService.currentUserValue.userMediaId;
 
-  constructor(private postService: PostService,
-    private authenticationService: AuthenticationService,
-    private _snackBar: MatSnackBar) { }
+  constructor(
+    private postService: PostService,
+    private _snackBar: MatSnackBar,
+    private _authenticationService: AuthenticationService
+  ) { }
 
 
   ngOnInit() {
@@ -44,7 +50,10 @@ export class PostComponent {
       });
     if (this.post.invitationId) {
       this.postService.getInvitation(this.post.postId).subscribe(invitation => {
-        invitation.invitationDateUnix = this.timeToString(invitation.invitationDateUnix);
+        this.invitationTimeString = this.timeToString(invitation.invitationDateUnix);
+        const userId = this._authenticationService.currentUserId;
+        this.acceptedInvite = invitation.guests.findIndex(p => p.guestUserId == userId) != -1;
+        this.canAccept = this.acceptedInvite || invitation.guests.length >= invitation.numberOfGuests;
         this.invitation = invitation;
       });
     }
@@ -54,13 +63,14 @@ export class PostComponent {
 
   acceptInvitation(id: number) {
     this.postService.acceptInvitation(id).subscribe(r => console.log(r), error => console.log(error));
+    this.acceptedInvite = true;
   }
 
   postComment() {
     console.log(this.commentInput)
     this.postService.createComment(this.post.postId, {
       content: this.commentInput,
-      commentUserId: this.authenticationService.currentUserId
+      commentUserId: this._authenticationService.currentUserId
     }).subscribe(e => console.log(e))
   }
 

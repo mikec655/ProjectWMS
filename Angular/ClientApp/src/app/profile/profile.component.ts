@@ -52,18 +52,17 @@ export class ProfileComponent implements OnInit {
     private route: ActivatedRoute,
     private router: Router) {
 
-    console.log("asdasdasdasdas paginA");
     this.route.params.subscribe(params => {
       this.posts = [];
       if (params != null && params['id'] != null) {
         this.userid = params['id'];
-        this.ownUserProfile = false;
+        this.ownUserProfile = this.authenticationService.currentUserId == this.userid;
       } else {
         this.userid = this.authenticationService.currentUserId;
         this.ownUserProfile = true;
       }
+
       //hier roep ik iets aan om een userobject te halen,
-      console.log("het userid =" + this.userid);
       this.profileservice.getUserProfile(this.userid).subscribe(data => {
         this.pageProfile = data;
         this.imageSrc = environment.apiUrl + '/api/Media/' + this.pageProfile.userMediaId;
@@ -77,7 +76,7 @@ export class ProfileComponent implements OnInit {
         });
 
     });
-    console.log("profilepage id=" + this.userid);
+
     this.user = this.authenticationService.currentUserValue;
     this.postService.getUserPosts(-1, this.userid).subscribe(posts => {
       posts.sort((a, b) => b.postedAtUnix - a.postedAtUnix)
@@ -151,11 +150,11 @@ export class ProfileComponent implements OnInit {
       "title": this.reviewForm.controls.reviewtitle.value,
       "ReviewUserId": this.authenticationService.currentUserId,
       "ReviewTargetId": this.userid
-      
+
     }
     console.log(review);
 
-   
+
     this.reviewservice.postreview(this.userid, review).subscribe(result => {
       console.log(result)
     },
