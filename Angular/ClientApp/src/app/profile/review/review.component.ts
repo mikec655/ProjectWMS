@@ -10,7 +10,7 @@ import { AuthenticationService } from '../../authentication.service';
 })
 export class ReviewComponent implements OnInit {
   private userid: number;
-  private reviews = [];
+  public reviews = [];
   constructor(
     private reviewservice: ReviewService,
     private route: ActivatedRoute,
