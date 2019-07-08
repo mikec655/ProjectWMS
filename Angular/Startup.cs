@@ -132,7 +132,9 @@ namespace Angular
                 .AllowAnyHeader());
 
             app.UseAuthentication();
+#if !MIKE
             app.UseHttpsRedirection();
+#endif
             app.UseStaticFiles();
             app.UseSpaStaticFiles();
 

@@ -1,38 +1,41 @@
 <!---Hier een ngfor -->
-<mat-card>
-  <mat-card-header>
-    <mat-card-title>{{ post.userFirstName }} {{ post.userLastName }} {{timeString}}</mat-card-title>
-  </mat-card-header>
+  <mat-card>
+    <mat-card-header>
+      <mat-card-title><a href="/profile/{{post.postId}}">{{ post.userFirstName }} {{ post.userLastName }}</a></mat-card-title>
+    </mat-card-header>
 
-  <img mat-card-image *ngIf="post.postMediaId != null && post.postMediaId != 0" [src]="imageSrc" (error)="post.postMediaId=null" />
+    <img mat-card-image *ngIf="post.postMediaId != null && post.postMediaId != 0" [src]="imageSrc" (error)="post.postMediaId=null" />
+    
+    <mat-card-content>
+      {{timeString}}
+      <p class="card-text">{{ post.message }}</p>
 
-  <mat-card-content>
-    <p class="card-text">{{ post.message }}</p>
-
-    <div class="card-body" *ngIf="invitation">
-      <span class='badge badge-info'> {{ invitation.type }}</span>&nbsp;&nbsp;
-      <span class='badge badge-light'>0 / {{ invitation.numberOfGuests }} guests</span><br />
-      {{invitation.invitationDateUnix}} <br />
-      {{invitation.address}}
-      <button type="button" class="btn btn-primary btn-sm accept-button"
-              style="width: 100%" (click)="acceptInvitation(invitation.invitationId)">
-        Accept
-      </button>
-    </div>
-  </mat-card-content>
-
-  <mat-card-actions>
-    <button mat-button (click)="expansionPanel.toggle()">
-      COMMENTS ({{comments.length}})
-    </button>
-
-    <mat-expansion-panel #expansionPanel>
-      <div class="card" *ngFor="let comment of comments">
-        <b><a href="#">{{comment.userFirstName}} {{comment.userLastName}}</a></b> {{comment.postedAtUnix}} <br />
-        <p id="posttekst">
-          {{comment.content}}
-        </p>
+      <div class="card-body" *ngIf="invitation">
+        <span class='badge badge-info'> {{ invitation.type }}</span>&nbsp;&nbsp;
+        <span class='badge badge-light'>0 / {{ invitation.numberOfGuests }} guests</span><br />
+        {{invitation.invitationDateUnix}} <br />
+        {{invitation.address}}
+        <button type="button" class="btn btn-primary btn-sm accept-button"
+                style="width: 100%" (click)="acceptInvitation(invitation.invitationId)">
+          Accept
+        </button>
       </div>
-    </mat-expansion-panel>
-  </mat-card-actions>
-</mat-card>
+    </mat-card-content>
+
+    <mat-card-actions>
+      <button mat-button (click)="expansionPanel.toggle()">
+        COMMENTS ({{comments.length}})
+      </button>
+
+      <mat-expansion-panel #expansionPanel>
+        <div class="card" *ngFor="let comment of comments">
+          <div class="card-body">
+            <b><a href="#">{{comment.userFirstName}} {{comment.userLastName}}</a></b> {{comment.postedAtUnix}} <br />
+            <p id="posttekst">
+              {{comment.content}}
+            </p>
+          </div>
+        </div>
+      </mat-expansion-panel>
+    </mat-card-actions>
+  </mat-card>
