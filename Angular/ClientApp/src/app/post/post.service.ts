@@ -45,7 +45,8 @@ export class PostService {
     return this.http.get<any>(`${environment.apiUrl}/api/Posts/` + postId + "/comments/" + commentId);
   }
 
-  createComment(postId: number, comment: Comment) {
+  createComment(postId: number, comment) {
+    console.log("?????")
     return this.http.post<any>(`${environment.apiUrl}/api/Posts/` + postId + "/comments", comment);
   }
 
@@ -89,13 +90,4 @@ export class Post {
   postMediaId: number;
   postedAtUnix: number;
   invitationId: number;
-}
-
-
-
-export class PostComment {
-  commentId: number;
-  userId: number;
-  username: string;
-  comment: string;
 }

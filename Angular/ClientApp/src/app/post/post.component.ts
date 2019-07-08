@@ -3,6 +3,7 @@ import { Post, PostService } from './post.service';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { environment } from '../../environments/environment';
 import { error } from '@angular/compiler/src/util';
+import { AuthenticationService } from '../authentication.service';
 
 
 @Component({
@@ -18,9 +19,12 @@ export class PostComponent {
   public isCollapsed = true;
   public imageSrc: any = environment.apiUrl + '/api/Media/' + this.post.postMediaId;
   public commentsReceived = false;
+  public commentInput;
   public timeString;
 
-  constructor(private postService: PostService, private _snackBar: MatSnackBar) { }
+  constructor(private postService: PostService,
+    private authenticationService: AuthenticationService,
+    private _snackBar: MatSnackBar) { }
 
 
   ngOnInit() {
@@ -49,6 +53,14 @@ export class PostComponent {
 
   acceptInvitation(id: number) {
     this.postService.acceptInvitation(id).subscribe(r => console.log(r), error => console.log(error));
+  }
+
+  postComment() {
+    console.log(this.commentInput)
+    this.postService.createComment(this.post.postId, {
+      content: this.commentInput,
+      commentUserId: this.authenticationService.currentUserId
+    }).subscribe(e => console.log(e))
   }
 
   timeToString(timeStamp: number) {
