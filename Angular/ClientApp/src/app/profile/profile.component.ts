@@ -74,6 +74,7 @@ export class ProfileComponent implements OnInit {
           if (error.status == 404) {
             this.router.navigate(['/profile']);
           }
+          console.log(error);
         });
 
     });
