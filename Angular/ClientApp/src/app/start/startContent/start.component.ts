@@ -11,8 +11,8 @@ import { Post } from '../../_models/post';
 export class StartComponent implements OnInit {
 
     @Input() post = new Post()
-    private posts = []
-    private comments = []
+    public posts = []
+    public comments = []
     // private post:string[] 
     user;
     userid;
