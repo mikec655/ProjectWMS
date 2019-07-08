@@ -78,7 +78,7 @@ export interface DialogData {
   houseNumber: string;
   zipCode: string;
   city: string;
-  file: any
+  file: any;
 }
 
 @Component({
