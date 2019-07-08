@@ -18,16 +18,16 @@
 
         <!-- Upload profilepicture area -->
         <div id="postreviewblock" *ngIf="ownUserProfile">
-            <form #form [formGroup]="uploadForm">
-              <input #file type="file" name="file" accept=".jpg,.jpeg,.png,.bmp" [hidden]="true" [formControl]="uploadForm.controls['pic']" (change)="getPhoto($event)" />
-              <button mat-raised-button class="btn-primary" (click)="file.click()" color="primary">Upload File</button>
-              <div *ngIf="(f.pic.dirty || submitted) && f.pic.errors" class="invalid-feedback" style="display: block;">
-                <div *ngIf="f.pic.errors.size">File can't be bigger than 10 MB</div>
-              </div>
+          <form #form [formGroup]="uploadForm">
+            <input #file type="file" name="file" accept=".jpg,.jpeg,.png,.bmp" [hidden]="true" [formControl]="uploadForm.controls['pic']" (change)="getPhoto($event)" />
+            <button mat-raised-button class="btn-primary" (click)="file.click()" color="primary">Upload File</button>
+            <div *ngIf="(f.pic.dirty || submitted) && f.pic.errors" class="invalid-feedback" style="display: block;">
+              <div *ngIf="f.pic.errors.size">File can't be bigger than 10 MB</div>
+            </div>
 
-            </form>
-            <app-usersettings *ngIf="ownUserProfile"></app-usersettings>
-          </div>
+          </form>
+          <app-usersettings *ngIf="ownUserProfile"></app-usersettings>
+        </div>
 
         <!-- Posting of a review -->
         <div id="postreviewblock" *ngIf="!ownUserProfile">
@@ -37,24 +37,23 @@
             <textarea class="form-control" id="reviewtitle" rows="1"></textarea>
           </p>
           <textarea class="form-control" id="reviewtext" rows="3"></textarea>
-            <div class="slidecontainer">
-              <input type="range" id="rangeInput" name="rangeInput" min="0" max="10" value="0" class="slider" oninput="amount.value=rangeInput.value">
-              <h1 class="align-self-start" style="font-size:18px"> Grade: <output id="amount" align="bottom" name="amount" for="rangeInput">0</output></h1>
-            </div>
-            <button mat-raised-button class="btn-primary" type="submit">post a review</button>
+          <div class="slidecontainer">
+            <input type="range" id="rangeInput" name="rangeInput" min="0" max="10" value="0" class="slider" oninput="amount.value=rangeInput.value">
+            <h1 class="align-self-start" style="font-size:18px"> Grade: <output id="amount" align="bottom" name="amount" for="rangeInput">0</output></h1>
           </div>
-          <!-- List with reviews -->
-          <div id="readreviewblock">
-            <h1 for="exampleFormControlTextarea1" style="font-size:18px">User Reviews:</h1>
-            <app-review></app-review>
-          </div>
-          <button class="btn-primary" type="submit">post a review</button>
+          <button mat-raised-button class="btn-primary" type="submit">post a review</button>
         </div>
         <!-- List with reviews -->
         <div id="readreviewblock">
           <h1 for="exampleFormControlTextarea1" style="font-size:18px">User Reviews:</h1>
           <app-review></app-review>
         </div>
+        <button class="btn-primary" type="submit">post a review</button>
+      </div>
+      <!-- List with reviews -->
+      <div id="readreviewblock">
+        <h1 for="exampleFormControlTextarea1" style="font-size:18px">User Reviews:</h1>
+        <app-review></app-review>
       </div>
     </div>
     <div class="col-lg-8 d-fled">

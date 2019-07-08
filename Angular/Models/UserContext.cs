@@ -103,6 +103,11 @@ namespace Angular.Models
                 .WithMany(p => p.Followers)
                 .OnDelete(DeleteBehavior.Restrict)
                 .HasForeignKey(p => p.FollowingUserAccountTargetId);
+            _ = modelBuilder.Entity<Media>()
+                .HasOne(p => p.User)
+                .WithMany()
+                .OnDelete(DeleteBehavior.SetNull)
+                .HasForeignKey(p => p.MediaUserAccountId);
         }
     }
 }
