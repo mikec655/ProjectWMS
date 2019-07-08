@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Newtonsoft.Json;
+using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
@@ -15,8 +16,11 @@ namespace Angular.Models
         [Column(TypeName = "nvarchar(max)")]
         public string Type { get; set; }
 
-        [Column(TypeName = "nvarchar(max)")]
-        public string Source { get; set; }
+        public int? MediaUserAccountId { get; set; }
+
+        [ForeignKey("MediaUserAccountId")]
+        [JsonIgnore]
+        public UserAccount User { get; set; }
         
         public byte[] ImageData { get; set; }
     }

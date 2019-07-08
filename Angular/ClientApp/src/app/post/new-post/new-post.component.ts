@@ -7,6 +7,7 @@ import { NgModel, FormGroup, FormBuilder, Validators } from '@angular/forms';
 import { HttpClient } from '@angular/common/http';
 import { environment } from '../../../environments/environment';
 import { MatDialog, MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
+import { AuthenticationService } from '../../authentication.service';
 
 @Component({
   selector: 'app-newpost',
@@ -16,127 +17,45 @@ import { MatDialog, MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dial
 export class NewPostComponent implements OnInit {
   private dialogRef: MatDialogRef<any, any>;
   public isChecked: boolean = false;
-  title: any;
-
-  message: any;
-  closeResult: string;
-
-  password: string;
-  street: any;
-  housenumber: any;
-  zipcode: any;
-  city: any;
-  guests: any;
-
-  result: any;
-
-
 
   constructor(private modalService: NgbModal,
-    private postservice: PostService, private http: HttpClient,
-    public dialog: MatDialog) { }
+    private postservice: PostService,
+    private http: HttpClient,
+    public dialog: MatDialog,
+    private _authenticationService: AuthenticationService
+  ) { }
 
   openDialog() {
     this.dialogRef = this.dialog.open(NewPostDialog, {
-      data: { title: '' }
+      data: { title: '' },
+      position: { top: '100px' }
     });
 
     this.dialogRef.afterClosed().subscribe(result => {
       console.log(result);
+      if (result != null) {
+        let post = {
+          "title": result.title,
+          "message": result.message
+        }
+      }
     })
 
-    /*.afterClosed().subscribe((result) => {
-      this.closeResult = ` ${result}`;
-      console.log(this.closeResult);
-
-    }, (reason) => {
-      this.closeResult = ` ${this.getDismissReason(reason)}`;
-    });*/
-  }
-
-  streetPost(value: any) {
-    this.street = value;
-
-  }
-
-  guestPost(value: any) {
-    this.guests = value;
-  }
-
-  zipCode(value: any) {
-    this.zipcode = value;
-
-  }
-
-  filePost(value: any) {
-    this.zipcode = value;
-
-  }
-
-  titlePost(value: any) {
-    this.title = value;
-
-  }
-
-  houseNumber(value: any) {
-    this.housenumber = value;
-
-  }
-
-  postText(value: any) {
-    this.message = value;
-
-  }
-
-  cityPost(value: any) {
-    this.city = value;
-
-  }
-
-  onDismiss() {
-    this.dialogRef.close();
   }
 
   //method to post post to database;
   createpost() {
-    console.log(this.title);
-    console.log(this.message);
-    console.log(this.street);
-    console.log(this.housenumber);
-    console.log(this.zipcode);
-    console.log(this.title);
-    console.log(this.city);
-    console.log(this.guests);
-
     var uid: number = 4;
     var postId: number = 2;
-    let post = {
-      postUserId: uid,
-      Title: this.title,
-      message: this.message,
 
-
-    };
-
-    console.log(post);
-
-
-
-
-    //hier post object bouwen.
-    //this.postservice.createPost(post).subscribe(x => console.log(x));
-
-
-    //.post<string>(`${environment.apiUrl}/api/Users`, profile)
-
-    this.http
+    // Move this to the 
+    /*this.http
       .post<any>(`${environment.apiUrl}/api/Posts/`, post)
       .subscribe(result => {
         this.result = result;
         console.log(result);
 
-      });
-    console.log("after Post");
+      });*/
 
   }
 
@@ -153,7 +72,13 @@ export class NewPostComponent implements OnInit {
 
 export interface DialogData {
   title: string;
-  name: string;
+  content: string;
+  useAddress: boolean;
+  street: string;
+  houseNumber: string;
+  zipCode: string;
+  city: string;
+  file: any
 }
 
 @Component({
@@ -168,10 +93,11 @@ export class NewPostDialog {
     public dialogRef: MatDialogRef<NewPostDialog>,
     @Inject(MAT_DIALOG_DATA) public data: any) { }
 
-  ngOnInit() {
-  }
-
   onDismiss(): void {
     this.dialogRef.close();
+  }
+
+  processFile(event): void {
+    this.data.file = event.target.files[0];
   }
 }

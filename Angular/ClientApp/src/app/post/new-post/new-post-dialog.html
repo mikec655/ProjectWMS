@@ -1,29 +1,34 @@
+<div class="new-post-dialog">
   <div mat-dialog-title>
     <h4 class="modal-title" id="modal-basic-title">New Post</h4>
     <button type="button" class="close" aria-label="Close" (click)="onDismiss()">
       <span aria-hidden="true">&times;</span>
     </button>
   </div>
-  <div mat-dialog-content>
-    <form>
+  <div mat-dialog-content class="new-post">
+    <form class="new-post">
       <div class="form-group">
-        <div class="form-group">
+        <mat-form-field class="new-post" appearance="fill">
+          <mat-label>Title</mat-label>
+          <input matInput [(ngModel)]="data.title" placeholder="Title" type="text" name="title">
+        </mat-form-field>
+
+        <p class="new-post">
           <mat-form-field class="new-post" appearance="fill">
-            <mat-label>Title</mat-label>
-            <input matInput [(ngModel)]="data.title" placeholder="Title" type="text" name="title">
+            <mat-label for="usr">Post Text</mat-label><br>
+            <textarea matInput [(ngModel)]="data.content" name="content" placeholder="Post Text" rows="4"></textarea>
           </mat-form-field>
+        </p>
 
-          <p class="new-post">
-            <mat-form-field class="new-post" appearance="fill">
-              <mat-label for="usr">Post Text</mat-label><br>
-              <textarea matInput [(ngModel)]="data.content" name="content" placeholder="Post Text" rows="4"></textarea>
-            </mat-form-field>
-          </p>
+        <div class="mat-expansion-panel-header">
+          <mat-slide-toggle class="mat-expansion-panel-header" [(ngModel)]="data.createInvitation" name="createInvitation" type="checkbox">Create Invitation</mat-slide-toggle>
+        </div>
 
-          <div>
-            <mat-slide-toggle [(ngModel)]="data.useAddress" name="useAddress" type="checkbox">Use registered address</mat-slide-toggle>
-          </div>
-          <mat-expansion-panel [expanded]="data.useAddress" [ngClass]="{'address-expansion': data.useAddress}">
+        <mat-expansion-panel [expanded]="data.createInvitation" hideToggle>
+
+          <mat-slide-toggle id="newpostbutton" [(ngModel)]="data.useAddress" name="useAddress" type="checkbox">Use registered address</mat-slide-toggle>
+
+          <div [hidden]="data.useAddress" [ngClass]="{'address-expansion': data.useAddress}">
             <mat-form-field class="street">
               <mat-label>Street</mat-label>
               <input matInput [(ngModel)]="data.street" name="street" placeholder="Street" type="text">
@@ -40,31 +45,29 @@
               <mat-label>City</mat-label>
               <input matInput [(ngModel)]="data.city" name="city" placeholder="City" type="text">
             </mat-form-field>
-          </mat-expansion-panel>
-          <label class="image-upload-container btn btn-bwm">
-            <input #imageInput
-                   type="file"
-                   accept="image/*"
-                   (change)="processFile(imageInput)"
-                   [hidden]="true">
-            <button mat-raised-button class="btn-primary" (click)="imageInput.click()" color="primary">Upload File</button>
-          </label>
-
+          </div>
           <p>
-            <mat-form-field appearance="fill">
+            <mat-form-field>
               <mat-label>Number of guests</mat-label>
-              <input matInput #guests placeholder="Number of guests" type="text" (keyup)="guestPost(guests.value)" [name]="guests" size="2">
+              <input matInput [(ngModel)]="data.numGuests" name="numGuests" placeholder="Number of guests" type="text" size="2">
             </mat-form-field>
           </p>
+        </mat-expansion-panel>
+        <label class="image-upload-container btn btn-bwm">
+          <input #imageInput
+                 type="file"
+                 accept="image/*"
+                 (change)="processFile(imageInput)"
+                 [hidden]="true">
+          <button mat-raised-button class="btn-primary" (click)="imageInput.click()" color="primary">Upload File</button>
+        </label>
 
-
-        </div>
       </div>
     </form>
   </div>
-  <div mat-dialog-actions>
-    <B> {{message}} </B>
-    <button mat-button (click)="onDismiss()">Cancel</button>
-    <button type="button" [mat-dialog-close]="data" class="btn btn-outline-dark">Save</button>
+  <div mat-action-row>
+    <button mat-button color="warn" (click)="onDismiss()">Cancel</button>
+    <button mat-button color="primary" [mat-dialog-close]="data">Save</button>
     <!-- modal.dismiss('Values saved')-->
   </div>
+</div>

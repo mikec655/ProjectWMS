@@ -52,7 +52,10 @@ namespace Angular.Controllers
         [HttpGet]
         public async Task<ActionResult<InvitationDto>> GetInvitation([FromRoute] int postId)
         {
-            var invitation = await _context.Invitations.Where(p => p.InvitationPostId == postId).FirstOrDefaultAsync();
+            var invitation = await _context.Invitations
+                .Include(p => p.Guests)
+                .Where(p => p.InvitationPostId == postId)
+                .FirstOrDefaultAsync();
 
             if (invitation == null)
             {
@@ -105,7 +108,7 @@ namespace Angular.Controllers
                 }
             }
 
-            return CreatedAtAction("GetGuest", new { postId = postId, guestId = guest.GuestId }, guest);
+            return CreatedAtAction("GetGuest", new { postId, guestId = guest.GuestId }, guest);
         }
 
         // GET: api/Posts/5/Invitation/guests/4

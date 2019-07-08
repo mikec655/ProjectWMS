@@ -75,7 +75,7 @@ namespace Angular.Controllers
             }
                 
 
-            _context.Entry(post).State = EntityState.Modified;
+            _context.Entry(post.ToEntity()).State = EntityState.Modified;
 
             try
             {
@@ -103,6 +103,8 @@ namespace Angular.Controllers
         public async Task<ActionResult<Post>> PostPost(PostDto postDto)
         {
             var post = postDto.ToEntity();
+
+            post.PostUserId = int.Parse(User.Identity.Name);
 
             post.PostedAt = DateTime.UtcNow;
 

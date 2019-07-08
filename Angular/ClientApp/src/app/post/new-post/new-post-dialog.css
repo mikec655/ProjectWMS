@@ -1,5 +1,6 @@
 #newpostbutton {
   margin-top: 15px;
+  margin-bottom: 15px;
 }
 
 #streetinput {
@@ -8,6 +9,18 @@
 
 .address-expansion {
   padding-top: 16px;
+}
+
+@media (min-width: 1280px) {
+  .new-post-dialog {
+    width: 1000px;
+  }
+}
+
+@media (min-width: 768px) and (max-width: 1280px) {
+  .new-post-dialog {
+    width: 700px;
+  }
 }
 
 .new-post {
