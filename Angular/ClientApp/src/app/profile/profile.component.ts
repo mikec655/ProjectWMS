@@ -1,14 +1,12 @@
 import { Component, OnInit } from '@angular/core';
-import { ProfileService, UserProfile } from './profile.service';
-import { timeout, catchError } from 'rxjs/operators';
-import { $ } from 'protractor';
+import { ProfileService } from './profile.service';
 import { environment } from '../../environments/environment';
 import { AuthenticationService } from '../authentication.service';
 import { FormBuilder, FormGroup } from '@angular/forms';
 import { HttpClient } from '@angular/common/http';
 import { PostService } from '../post/post.service';
 import { ActivatedRoute, Router } from '@angular/router';
-import { ReviewService } from './review/ReviewService.service';
+import { ReviewService } from './review/reviewservice.service';
 import { UserAccount } from '../_models/useraccount';
 
 @Component({
