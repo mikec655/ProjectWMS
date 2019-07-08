@@ -2,6 +2,9 @@ import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { environment } from '../../environments/environment';
 import { AuthenticationService } from '../authentication.service';
+import { Invitation } from '../_models/invitation';
+import { Observable } from 'rxjs';
+import { Post } from '../_models/post';
 
 @Injectable({
   providedIn: 'root'
@@ -45,7 +48,8 @@ export class PostService {
     return this.http.get<any>(`${environment.apiUrl}/api/Posts/` + postId + "/comments/" + commentId);
   }
 
-  createComment(postId: number, comment: Comment) {
+  createComment(postId: number, comment) {
+    console.log("?????")
     return this.http.post<any>(`${environment.apiUrl}/api/Posts/` + postId + "/comments", comment);
   }
 
@@ -57,8 +61,8 @@ export class PostService {
     return this.http.delete<any>(`${environment.apiUrl}/api/Posts/` + postId + "/comments/" + commentId);
   }
 
-  getInvitation(postId: number) {
-    return this.http.get<any>(`${environment.apiUrl}/api/Posts/` + postId + "/invitation");
+  getInvitation(postId: number): Observable<Invitation> {
+    return this.http.get<Invitation>(`${environment.apiUrl}/api/Posts/` + postId + "/invitation");
   }
 
   createInvitation(postId: number, invitation) {
@@ -74,24 +78,8 @@ export class PostService {
   }
 
   acceptInvitation(postId: number) {
-    return this.http.post<any>(`${environment.apiUrl}/Posts/` + postId + "/invitation/accept", {});
+    return this.http.post<any>(`${environment.apiUrl}/api/Posts/` + postId + "/invitation/accept", {});
   }
 
 
-}
-
-export class Post {
-  postId: number;
-  postUserId: number;
-  message: string;
-  postMediaId: number;
-}
-
-
-
-export class PostComment {
-  commentId: number;
-  userId: number;
-  username: string;
-  comment: string;
 }

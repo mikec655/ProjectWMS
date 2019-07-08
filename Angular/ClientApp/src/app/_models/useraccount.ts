@@ -1,18 +1,18 @@
 export class UserAccount {
-    userId: number;
-    username: string;
-    password: string;
-    firstName: string;
-    lastName: string;
-    gender: string;
-    birthDateUnix: number;
-    street: string;
-    number: string;
-    zipCode: string;
-    city: string;
-    userMediaId: number;
-    profileDescription: string;
-    followers: number;
-    following: number;
-    token: string;
+  public userId: number;
+  public username: string;
+  public password: string;
+  public firstname: string;
+  public lastname: string;
+  public gender: string;
+  public birthDateUnix: number;
+  public street: string;
+  public number: string;
+  public zipCode: string;
+  public city: string;
+  public userMediaId: number;
+  public profileDescription: string;
+  public followers: number;
+  public following: number;
+  public token: string;
 }

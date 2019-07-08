@@ -36,6 +36,9 @@ namespace Angular.Models
 
         public Media Media { get; set; }
 
+        [InverseProperty("Post")]
+        public List<Comment> Comments { get; set; }
+
         public void ToEntity()
         {
             PostedAt = DateTimeOffset.FromUnixTimeMilliseconds(PostedAtUnix).UtcDateTime;
@@ -67,6 +70,8 @@ namespace Angular.Models
 
         public int? PostMediaId { get; set; }
 
+        public int Comments { get; set; }
+
         /// <summary>
         /// Convert given Post to a DTO object. Include User for correct operation
         /// </summary>
@@ -84,7 +89,8 @@ namespace Angular.Models
                     Title = p.Title,
                     PostMediaId = p.PostMediaId,
                     PostedAtUnix = new DateTimeOffset(p.PostedAt.GetValueOrDefault()).ToUnixTimeMilliseconds(),
-                    InvitationId = p.Invitation == null ? (int?)null : p.Invitation.InvitationId
+                    InvitationId = p.Invitation == null ? (int?)null : p.Invitation.InvitationId,
+                    Comments = p.Comments.Count
                 };
             }
         }

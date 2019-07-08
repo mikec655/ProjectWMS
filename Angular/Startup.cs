@@ -132,7 +132,9 @@ namespace Angular
                 .AllowAnyHeader());
 
             app.UseAuthentication();
+#if !MIKE
             app.UseHttpsRedirection();
+#endif
             app.UseStaticFiles();
             app.UseSpaStaticFiles();
 
@@ -143,20 +145,16 @@ namespace Angular
                     template: "{controller}/{action=Index}/{id?}");
             });
 
-            app.UseSpa(spa =>
+            if(env.EnvironmentName != EnvironmentName.Development)
             {
-                // To learn more about options for serving an Angular SPA from ASP.NET Core,
-                // see https://go.microsoft.com/fwlink/?linkid=864501
-
-                spa.Options.SourcePath = "ClientApp";
-
-                if (env.IsDevelopment())
+                app.UseSpa(spa =>
                 {
-                    //spa.UseAngularCliServer(npmScript: "start");
+                    // To learn more about options for serving an Angular SPA from ASP.NET Core,
+                    // see https://go.microsoft.com/fwlink/?linkid=864501
 
-                    spa.UseProxyToSpaDevelopmentServer("https://localhost:4200");
-                }
-            });
+                    spa.Options.SourcePath = "ClientApp";
+                });
+            }
         }
     }
 }

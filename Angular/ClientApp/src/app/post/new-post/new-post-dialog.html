@@ -28,7 +28,7 @@
 
           <mat-slide-toggle id="newpostbutton" [(ngModel)]="data.useAddress" name="useAddress" type="checkbox">Use registered address</mat-slide-toggle>
 
-          <div [hidden]="!data.useAddress" [ngClass]="{'address-expansion': data.useAddress}">
+          <div [hidden]="data.useAddress" [ngClass]="{'address-expansion': data.useAddress}">
             <mat-form-field class="street">
               <mat-label>Street</mat-label>
               <input matInput [(ngModel)]="data.street" name="street" placeholder="Street" type="text">
@@ -49,7 +49,7 @@
           <p>
             <mat-form-field>
               <mat-label>Number of guests</mat-label>
-              <input matInput [(ngModel)]="data.numGuests" placeholder="Number of guests" type="text" size="2">
+              <input matInput [(ngModel)]="data.numGuests" name="numGuests" placeholder="Number of guests" type="number" size="2">
             </mat-form-field>
           </p>
         </mat-expansion-panel>
@@ -57,7 +57,7 @@
           <input #imageInput
                  type="file"
                  accept="image/*"
-                 (change)="processFile(imageInput)"
+                 (change)="processFile($event)"
                  [hidden]="true">
           <button mat-raised-button class="btn-primary" (click)="imageInput.click()" color="primary">Upload File</button>
         </label>
@@ -66,7 +66,6 @@
     </form>
   </div>
   <div mat-action-row>
-    <B> {{message}} </B>
     <button mat-button color="warn" (click)="onDismiss()">Cancel</button>
     <button mat-button color="primary" [mat-dialog-close]="data">Save</button>
     <!-- modal.dismiss('Values saved')-->
