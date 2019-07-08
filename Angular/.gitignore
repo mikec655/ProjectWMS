@@ -78,6 +78,7 @@ ipch/
 *.opensdf
 *.sdf
 *.cachefile
+ClientApp/src/environments/environment.ts
 
 # Visual Studio profiler
 *.psess

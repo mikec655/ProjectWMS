@@ -1,11 +1,18 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, Inject } from '@angular/core';
 import { NgbModal, ModalDismissReasons } from '@ng-bootstrap/ng-bootstrap';
 
-import { PostService} from '../post.service';
+import { PostService } from '../post.service';
 
 import { NgModel, FormGroup, FormBuilder, Validators } from '@angular/forms';
 import { HttpClient } from '@angular/common/http';
 import { environment } from '../../../environments/environment';
+import { MatDialog, MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
+import { AuthenticationService } from '../../authentication.service';
+import { Media } from '../../_models/media';
+import { Post } from '../../_models/post';
+import { map } from 'rxjs/operators';
+import { Invitation } from '../../_models/invitation';
+import { UserAccount } from '../../_models/useraccount';
 
 @Component({
   selector: 'app-newpost',
@@ -13,138 +20,155 @@ import { environment } from '../../../environments/environment';
   styleUrls: ['./new-post.component.css']
 })
 export class NewPostComponent implements OnInit {
-    public ischecked: string = "false";
-    title: any;
+  private dialogRef: MatDialogRef<NewPostDialog, DialogData>;
+  public isChecked: boolean = false;
 
-    message: any;
-    closeResult: string;
+  constructor(private modalService: NgbModal,
+    private postservice: PostService,
+    private http: HttpClient,
+    public dialog: MatDialog,
+    private _authenticationService: AuthenticationService
+  ) { }
 
-    password: string;
-    street: any;
-    housenumber: any;
-    zipcode: any;
-    city: any;
-    guests: any;
+  openDialog() {
+    this.dialogRef = this.dialog.open(NewPostDialog, {
+      data: { title: '' },
+      position: { top: '100px' }
+    });
 
-    result: any;
+    this.dialogRef.afterClosed().subscribe(result => {
+      console.log(result);
+      this.createPost(result);
+    })
 
-    
+  }
 
-    constructor(private modalService: NgbModal,
-        private postservice: PostService, private http: HttpClient) { }
+  async createPost(result: DialogData) {
+    if (result != null) {
+      let post: Post = {
+        "title": result.title,
+        "message": result.content
+      };
 
-    open(content) {
-        this.modalService.open(content, { ariaLabelledBy: 'modal-basic-title' }).result.then((result) => {
-            this.closeResult = ` ${result}`;
-            console.log(this.closeResult);
+      if (result.fileId != null) {
+        post.postMediaId = result.fileId;
+      }
+      else if (result.fileUpload != null) {
+        const media: Media = await result.fileUpload;
+        post.postMediaId = media.mediaId;
+      }
 
-        }, (reason) => {
-            this.closeResult = ` ${this.getDismissReason(reason)}`;
-        });
-    }
+      post = await this.http.post<Post>(`${environment.apiUrl}/api/Posts/`, post).toPromise();
+      console.log(post);
 
-    private getDismissReason(reason: any): string {
-        if (reason === ModalDismissReasons.ESC) {
-            return 'Closed pressing ESC';
-        } else if (reason === ModalDismissReasons.BACKDROP_CLICK) {
-            return 'Closed clicking on a backdrop';
-        } else {
-            return ` ${reason}`;
-        }
-    }
-
-
-    streetPost(value: any) {
-        this.street = value;
-  
-    }
-
-    guestPost(value: any) {
-        this.guests = value;
-    }
-
-    zipCode(value: any) {
-        this.zipcode= value;
-
-    }
-
-    filePost(value: any) {
-        this.zipcode = value;
-
-    }
-
-    titlePost(value: any) {
-        this.title = value;
-     
-    }
-
-    houseNumber(value: any) {
-        this.housenumber = value;
-
-    }
-
-    postText(value: any) {
-        this.message = value;
- 
-    }
-
-    cityPost(value: any) {
-        this.city = value;
-     
-    }
-
-
-    //method to post post to database;
-    createpost() {
-        console.log(this.title);
-        console.log(this.message);
-        console.log(this.street);
-        console.log(this.housenumber);
-        console.log(this.zipcode);
-        console.log(this.title);
-        console.log(this.city);
-        console.log(this.guests);
-
-        var uid: number = 4;
-        var postId: number = 2;
-        let post = {
-            postUserId: uid,
-            Title: this.title,
-            message: this.message,
-            
-
+      if (result.createInvitation) {
+        let invitation: Invitation = {
+          "invitationPostId": post.postId,
+          "numberOfGuests": result.numGuests
         };
+        if (result.useAddress) {
+          let user: UserAccount = this._authenticationService.currentUserValue;
+          invitation.address = user.street;
+          invitation.number = user.number;
+          invitation.zipCode = user.zipCode;
+          invitation.city = user.city;
+        } else {
+          invitation.address = result.street;
+          invitation.number = result.houseNumber;
+          invitation.city = result.city;
+          invitation.zipCode = result.zipCode;
+        }
 
-        console.log(post);
-        
-        
-        
-
-        //hier post object bouwen.
-        //this.postservice.createPost(post).subscribe(x => console.log(x));
-
-
-        //.post<string>(`${environment.apiUrl}/api/Users`, profile)
-        
-        this.http
-            .post<any>(`${environment.apiUrl}/api/Posts/`, post)
-            .subscribe(result => {
-                this.result = result;
-                console.log(result);
-
-            });
-        console.log("after Post");
-           
+        this.http.post(`${environment.apiUrl}/api/Posts/${post.postId}/Invitation`, invitation).subscribe(result => {
+          console.log(result);
+        }
+        );
+      }
     }
+  }
+
+  //method to post post to database;
+  createpost() {
+    var uid: number = 4;
+    var postId: number = 2;
+
+    // Move this to the 
+    /*this.http
+      .post<any>(`${environment.apiUrl}/api/Posts/`, post)
+      .subscribe(result => {
+        this.result = result;
+        console.log(result);
+
+      });*/
+
+  }
 
 
-    FieldsChange() {
-        console.log(this.ischecked);
-        if (this.ischecked === "false") { this.ischecked = "true"; }
-        else { this.ischecked = "false";}
-        
+  FieldsChange() {
+    this.isChecked = !this.isChecked;
+  }
+
+  ngOnInit() {
+  }
+}
+
+export interface DialogData {
+  title: string;
+  content: string;
+  createInvitation: boolean;
+  useAddress: boolean;
+  street: string;
+  houseNumber: string;
+  zipCode: string;
+  city: string;
+  file: any;
+  fileId: number;
+  fileUpload: Promise<any>;
+  numGuests: number;
+}
+
+@Component({
+  selector: 'new-post-dialog',
+  templateUrl: './new-post-dialog.html',
+  styleUrls: ['./new-post-dialog.css']
+})
+export class NewPostDialog {
+  newPostForm: FormGroup;
+
+  constructor(
+    public dialogRef: MatDialogRef<NewPostDialog, DialogData>,
+    @Inject(MAT_DIALOG_DATA) public data: DialogData,
+    private httpClient: HttpClient
+  ) { }
+
+  onDismiss(): void {
+    this.dialogRef.close();
+    if (this.data.fileId != null) {
+      this.httpClient.delete(`${environment.apiUrl}/api/Media/${this.data.fileId}`).toPromise();
     }
+  }
 
-    ngOnInit() {
+  async processFile(event): Promise<void> {
+    if (this.data.fileUpload != null) {
+      await this.data.fileUpload;
     }
+    this.data.file = event.target.files[0];
+
+    const formData = new FormData();
+
+    formData.append('file', this.data.file);
+
+    console.log("fileId: " + this.data.fileId);
+    if (this.data.fileId == null) {
+      this.data.fileUpload = this.httpClient.post<Media>(`${environment.apiUrl}/api/Media/`, formData).pipe(map(
+        result => {
+          this.data.fileId = result.mediaId;
+          console.log(result);
+          return result;
+        }
+      )).toPromise();
+    } else {
+      this.data.fileUpload = this.httpClient.put(`${environment.apiUrl}/api/Media/${this.data.fileId}`, formData).toPromise();
+    }
+  }
 }

@@ -49,7 +49,7 @@ namespace Angular.Migrations
                             CommentPostId = 1,
                             CommentUserId = 1,
                             Content = "Hippity hoppity",
-                            PostedAt = new DateTime(2019, 7, 4, 23, 47, 55, 883, DateTimeKind.Local).AddTicks(2543)
+                            PostedAt = new DateTime(2019, 7, 9, 0, 14, 42, 882, DateTimeKind.Local).AddTicks(9753)
                         });
                 });
 
@@ -79,6 +79,8 @@ namespace Angular.Migrations
                         .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
                     b.Property<string>("Address");
+
+                    b.Property<string>("City");
 
                     b.Property<DateTime?>("InvitationDate");
 
@@ -144,13 +146,14 @@ namespace Angular.Migrations
 
                     b.Property<byte[]>("ImageData");
 
-                    b.Property<string>("Source")
-                        .HasColumnType("nvarchar(max)");
+                    b.Property<int?>("MediaUserAccountId");
 
                     b.Property<string>("Type")
                         .HasColumnType("nvarchar(max)");
 
                     b.HasKey("MediaId");
+
+                    b.HasIndex("MediaUserAccountId");
 
                     b.ToTable("Medias");
 
@@ -173,7 +176,7 @@ namespace Angular.Migrations
 
                     b.Property<string>("Message");
 
-                    b.Property<int>("PostMediaId");
+                    b.Property<int?>("PostMediaId");
 
                     b.Property<int>("PostUserId");
 
@@ -196,7 +199,7 @@ namespace Angular.Migrations
                             Message = "Vanavond zieke kaas maaltijd jo!",
                             PostMediaId = 1,
                             PostUserId = 1,
-                            PostedAt = new DateTime(2019, 7, 2, 21, 47, 55, 883, DateTimeKind.Utc).AddTicks(2217),
+                            PostedAt = new DateTime(2019, 7, 6, 22, 14, 42, 882, DateTimeKind.Utc).AddTicks(9314),
                             Title = "Kaas"
                         },
                         new
@@ -205,7 +208,7 @@ namespace Angular.Migrations
                             Message = "Kaas van gisteren was zo goed, k doe vanavond nog zo'n zieke kaas party",
                             PostMediaId = 1,
                             PostUserId = 1,
-                            PostedAt = new DateTime(2019, 7, 5, 21, 47, 55, 883, DateTimeKind.Utc).AddTicks(2219),
+                            PostedAt = new DateTime(2019, 7, 7, 22, 14, 42, 882, DateTimeKind.Utc).AddTicks(9316),
                             Title = "Kaas"
                         },
                         new
@@ -214,7 +217,7 @@ namespace Angular.Migrations
                             Message = "Vanavond gewoon weer zieke kaas!!",
                             PostMediaId = 1,
                             PostUserId = 1,
-                            PostedAt = new DateTime(2019, 7, 4, 21, 47, 55, 883, DateTimeKind.Utc).AddTicks(2221),
+                            PostedAt = new DateTime(2019, 7, 8, 22, 14, 42, 882, DateTimeKind.Utc).AddTicks(9317),
                             Title = "Kaas"
                         });
                 });
@@ -236,6 +239,8 @@ namespace Angular.Migrations
 
                     b.Property<int>("ReviewUserId");
 
+                    b.Property<string>("Title");
+
                     b.HasKey("ReviewId");
 
                     b.HasIndex("ReviewTargetId");
@@ -249,7 +254,7 @@ namespace Angular.Migrations
                         {
                             ReviewId = 1,
                             Description = "Lekkere kaas wel.",
-                            PostedAt = new DateTime(2019, 7, 4, 21, 47, 55, 892, DateTimeKind.Utc).AddTicks(2990),
+                            PostedAt = new DateTime(2019, 7, 8, 22, 14, 42, 890, DateTimeKind.Utc).AddTicks(9875),
                             Rating = (short)5,
                             ReviewTargetId = 1,
                             ReviewUserId = 1
@@ -299,7 +304,7 @@ namespace Angular.Migrations
                         new
                         {
                             UserId = 1,
-                            BirthDate = new DateTime(2019, 7, 4, 23, 47, 55, 880, DateTimeKind.Local).AddTicks(9040),
+                            BirthDate = new DateTime(2019, 7, 9, 0, 14, 42, 881, DateTimeKind.Local).AddTicks(790),
                             City = "Stadskanaal",
                             Firstname = "Jans",
                             Gender = "M",
@@ -336,7 +341,7 @@ namespace Angular.Migrations
             modelBuilder.Entity("Angular.Models.Comment", b =>
                 {
                     b.HasOne("Angular.Models.Post", "Post")
-                        .WithMany()
+                        .WithMany("Comments")
                         .HasForeignKey("CommentPostId");
 
                     b.HasOne("Angular.Models.UserAccount", "User")
@@ -372,6 +377,14 @@ namespace Angular.Migrations
                         .WithMany()
                         .HasForeignKey("LocationInvitationId")
                         .OnDelete(DeleteBehavior.Cascade);
+                });
+
+            modelBuilder.Entity("Angular.Models.Media", b =>
+                {
+                    b.HasOne("Angular.Models.UserAccount", "User")
+                        .WithMany()
+                        .HasForeignKey("MediaUserAccountId")
+                        .OnDelete(DeleteBehavior.SetNull);
                 });
 
             modelBuilder.Entity("Angular.Models.Post", b =>

@@ -17,6 +17,7 @@
 *.launch
 .settings/
 *.sublime-workspace
+src/environments/environment.ts
 
 # IDE - VSCode
 .vscode/*
@@ -41,3 +42,5 @@ testem.log
 # System Files
 .DS_Store
 Thumbs.db
+
+ClientApp/src/environments/environment.ts

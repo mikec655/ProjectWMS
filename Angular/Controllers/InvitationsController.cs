@@ -14,7 +14,7 @@ using Newtonsoft.Json.Linq;
 namespace Angular.Controllers
 {
     [Authorize]
-    [Route("api/posts/{postId}/[controller]")]
+    [Route("api/Posts/{postId}/[controller]")]
     [ApiController]
     public class InvitationController : ControllerBase
     {
@@ -52,7 +52,10 @@ namespace Angular.Controllers
         [HttpGet]
         public async Task<ActionResult<InvitationDto>> GetInvitation([FromRoute] int postId)
         {
-            var invitation = await _context.Invitations.Where(p => p.InvitationPostId == postId).FirstOrDefaultAsync();
+            var invitation = await _context.Invitations
+                .Include(p => p.Guests)
+                .Where(p => p.InvitationPostId == postId)
+                .FirstOrDefaultAsync();
 
             if (invitation == null)
             {
@@ -76,9 +79,14 @@ namespace Angular.Controllers
                 return NotFound();
             }
 
-            if (invitation.Guests.Any(p => p.GuestUserId.ToString() == User.Identity.Name) && invitation.NumberOfGuests >= invitation.Guests.Count)
+            if (invitation.Guests.Any(p => p.GuestUserId.ToString() == User.Identity.Name))
             {
-                return BadRequest();
+                return BadRequest(new { Code = 100, Message = "User already accepted invitation" });
+            }
+
+            if (invitation.NumberOfGuests <= invitation.Guests.Count)
+            {
+                return BadRequest(new { Code = 101, Message = "Maximum number of guests reached" });
             }
 
             var guest = new Guest()
@@ -105,7 +113,7 @@ namespace Angular.Controllers
                 }
             }
 
-            return CreatedAtAction("GetGuest", new { postId = postId, guestId = guest.GuestId }, guest);
+            return CreatedAtAction("GetGuest", new { postId, guestId = guest.GuestId }, guest);
         }
 
         // GET: api/Posts/5/Invitation/guests/4

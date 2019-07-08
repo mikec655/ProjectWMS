@@ -34,6 +34,8 @@ namespace Angular.Models
 
         public int ReviewUserId { get; set; }
 
+        public string Title { get; set; }
+
         /// <summary>
         /// The person who posted the review
         /// </summary>
@@ -54,7 +56,8 @@ namespace Angular.Models
                 Description = Description,
                 ReviewTargetId = ReviewTargetId,
                 PostedAtUnix = new DateTimeOffset(PostedAt.Value.ToUniversalTime()).ToUnixTimeMilliseconds(),
-                ReviewUserId = ReviewUserId
+                ReviewUserId = ReviewUserId,
+                Title = Title
             };
         }
 

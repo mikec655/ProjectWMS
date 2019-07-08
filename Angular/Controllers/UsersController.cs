@@ -125,7 +125,11 @@ namespace Angular.Controllers
 
             if (User.Identity.Name != user.UserId.ToString())
             {
-                return Unauthorized();
+                user.Street = null;
+                user.Number = null;
+                user.ZipCode = null;
+                user.Username = null;
+                user.BirthDateUnix = null;
             }
 
             return Ok(user);
