@@ -1,40 +1,46 @@
 <!---Hier een ngfor -->
-<mat-card class="post-card">
-  <mat-card-header>
-    <mat-card-title><a href="/profile/{{post.postId}}">{{ post.userFirstName }} {{ post.userLastName }}</a></mat-card-title>
-  </mat-card-header>
+  <mat-card class="post-card">
+    <img class="small-profile-pic" [src]="userImageSrc" alt="Profile Picture" />
+    <mat-card-header>
+      <mat-card-title style="margin-top: 6px;"><a href="/profile/{{post.postId}}">{{ post.userFirstName }} {{ post.userLastName }}</a></mat-card-title>
 
-  <img mat-card-image *ngIf="post.postMediaId != null && post.postMediaId != 0" [src]="imageSrc" (error)="post.postMediaId=null" />
 
-  <mat-card-content>
-    {{timeString}}
-    <p class="card-text">{{ post.message }}</p>
+    </mat-card-header>
 
-    <div class="card-body" *ngIf="invitation">
-      <span class='badge badge-info'> {{ invitation.type }}</span>&nbsp;&nbsp;
-      <span class='badge badge-light'>{{ invitation.guests.length }} / {{ invitation.numberOfGuests }} guests</span><br />
-      {{invitationTimeString}} <br />
-      {{invitation.address}}
-      <button [disabled]="canAccept" type="button" class="btn btn-primary btn-sm accept-button" style="width: 100%" (click)="acceptInvitation(invitation.invitationPostId)">
-        {{ canAccept ? "Accepted" : "Accept" }}
-      </button>
-    </div>
-  </mat-card-content>
+    <img mat-card-image *ngIf="post.postMediaId != null && post.postMediaId != 0" [src]="imageSrc" (error)="post.postMediaId=null" />
 
-  <mat-card-actions>
-    <button mat-button (click)="expansionPanel.toggle()">
-      COMMENTS ({{comments.length}})
-    </button>
+    <mat-card-content>
+      {{timeString}}
+      <p class="card-text">{{ post.message }}</p>
 
-    <mat-expansion-panel #expansionPanel>
-      <div class="card" *ngFor="let comment of comments">
-        <div class="card-body">
-          <b><a href="#">{{comment.userFirstName}} {{comment.userLastName}}</a></b> {{comment.postedAtUnix}} <br />
-          <p id="posttekst">
-            {{comment.content}}
-          </p>
-        </div>
+      <div class="card-body" *ngIf="invitation">
+        <span class='badge badge-info'> {{ invitation.type }}</span>&nbsp;&nbsp;
+        <span class='badge badge-light'>{{ invitation.guests.length }} / {{ invitation.numberOfGuests }} guests</span><br />
+        {{invitationTimeString}} <br />
+        {{invitation.address}}
+        <button [disabled]="canAccept" type="button" class="btn btn-primary btn-sm accept-button" style="width: 100%" (click)="acceptInvitation(invitation.invitationId)">
+          {{ canAccept ? "Accepted" : "Accept" }}
+        </button>
       </div>
-    </mat-expansion-panel>
-  </mat-card-actions>
-</mat-card>
+    </mat-card-content>
+
+    <textarea rows="2" style="width: 75%" [(ngModel)]="commentInput"></textarea>
+    <button class="btn btn-primary btn-sm accept-button" style="width: 75%;" (click)="postComment()">Post Comment</button>
+
+    <mat-card-actions>
+      <button mat-button (click)="expansionPanel.toggle()">
+        COMMENTS ({{comments.length}})
+      </button>
+
+      <mat-expansion-panel #expansionPanel>
+        <div class="card" *ngFor="let comment of comments">
+          <div class="card-body">
+            <b><a href="#">{{comment.userFirstName}} {{comment.userLastName}}</a></b> {{comment.postedAtUnix}} <br />
+            <p id="posttekst">
+              {{comment.content}}
+            </p>
+          </div>
+        </div>
+      </mat-expansion-panel>
+    </mat-card-actions>
+  </mat-card>

@@ -24,6 +24,8 @@ export class PostComponent {
   public invitationTimeString: string;
   public acceptedInvite: boolean;
   public canAccept: boolean;
+  public commentInput;
+  public userImageSrc = environment.apiUrl + '/api/Media/2' //+ this.authenticationService.currentUserValue.userMediaId;
 
   constructor(
     private postService: PostService,
@@ -62,6 +64,14 @@ export class PostComponent {
   acceptInvitation(id: number) {
     this.postService.acceptInvitation(id).subscribe(r => console.log(r), error => console.log(error));
     this.acceptedInvite = true;
+  }
+
+  postComment() {
+    console.log(this.commentInput)
+    this.postService.createComment(this.post.postId, {
+      content: this.commentInput,
+      commentUserId: this._authenticationService.currentUserId
+    }).subscribe(e => console.log(e))
   }
 
   timeToString(timeStamp: number) {
