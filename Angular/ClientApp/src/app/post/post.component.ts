@@ -11,14 +11,14 @@ import { error } from '@angular/compiler/src/util';
   styleUrls: ['./post.component.css']
 })
 
-export class PostComponent implements OnInit {
+export class PostComponent {
   @Input() post = new Post()
-  private invitation;
-  private comments = [];
-  private isCollapsed = true;
+  public invitation;
+  public comments = [];
+  public isCollapsed = true;
   public imageSrc: any = environment.apiUrl + '/api/Media/' + this.post.postMediaId;
-  private commentsReceived = false;
-  private timeString;
+  public commentsReceived = false;
+  public timeString;
 
   constructor(private postService: PostService, private _snackBar: MatSnackBar) { }
 

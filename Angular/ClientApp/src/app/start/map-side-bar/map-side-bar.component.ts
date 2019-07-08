@@ -10,7 +10,7 @@ declare let L;
 })
 
 export class MapSideBarComponent implements OnInit {
-    private km: any = 1;
+    public km: any = 1;
     private map
     private posts = []
     private positionLatitude;

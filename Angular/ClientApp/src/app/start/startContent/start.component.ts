@@ -9,7 +9,7 @@ import { PWAService } from '../../pwa.service';
 })
 export class StartComponent implements OnInit {
 
-    private posts = []
+    public posts = []
     private comments:any 
     private post:string[] 
     

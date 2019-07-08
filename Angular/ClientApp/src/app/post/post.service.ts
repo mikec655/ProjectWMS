@@ -81,6 +81,8 @@ export class PostService {
 }
 
 export class Post {
+  userFirstName: string;
+  userLastName: string;
   postId: number;
   postUserId: number;
   message: string;
