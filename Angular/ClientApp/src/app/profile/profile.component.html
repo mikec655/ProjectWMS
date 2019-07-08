@@ -5,7 +5,7 @@
       <div id="userblock">
         <img class="img-fluid" [src]="imageSrc" (error)="onPictureError()" alt="Profile Picture"
              style="border-width: 2px;">
-        <h2 class="align-self-start">{{user.firstname + ' ' + user.lastname}}</h2>
+        <h2 class="align-self-start">{{pageProfile?.firstname}} {{pageProfile?.lastname}}</h2>
 
         <div id="userdescriptionblock">
           <p class="align-self-start"> {{profiledescription}}</p>
@@ -48,7 +48,7 @@
           <h1 for="exampleFormControlTextarea1" style="font-size:18px">User Reviews:</h1>
           <app-review></app-review>
         </div>
-        <button class="btn-primary" type="submit">post a review</button>
+       
       </div>
       
     </div>
@@ -65,7 +65,7 @@
       <ng-template #elseBlock>
         <div id="posts">
           <h1 class="align-self-start" id="postlist">Posts:</h1>
-          <!--<p class="align-self-start">{{posttekst}}</p>-->
+          
           <app-post *ngFor="let post of posts" [post]="post"></app-post>
         </div>
       </ng-template>

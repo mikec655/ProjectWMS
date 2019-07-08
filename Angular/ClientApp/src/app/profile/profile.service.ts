@@ -16,7 +16,8 @@ export class ProfileService {
   getUserProfile(id: number) {
       return this.http.get<any>(`${environment.apiUrl}/api/Users/` + id)
   }
-    //return this.result; */
+  //return this.result;
+  /*
     sub(id: number) {
         this.getUserProfile(id).subscribe(data => {
             console.log(data);
@@ -24,7 +25,8 @@ export class ProfileService {
         })
 
         return this.data;
-    }
+}
+*/
 
   
     //tijdelijk omgezet naar any omdat ik fotos uploaden nog niet werkend heb.
