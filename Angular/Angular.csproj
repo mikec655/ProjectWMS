@@ -59,6 +59,7 @@
   </ItemGroup>
 
   <ItemGroup>
+    <None Remove="ClientApp\src\app\_models\guest.ts" />
     <None Remove="ClientApp\src\app\_models\invitation.ts" />
     <None Remove="ClientApp\src\app\_models\media.ts" />
     <None Remove="ClientApp\src\app\_models\post.ts" />
@@ -66,6 +67,7 @@
   </ItemGroup>
 
   <ItemGroup>
+    <TypeScriptCompile Include="ClientApp\src\app\_models\guest.ts" />
     <TypeScriptCompile Include="ClientApp\src\app\_models\invitation.ts" />
     <TypeScriptCompile Include="ClientApp\src\app\_models\media.ts" />
     <TypeScriptCompile Include="ClientApp\src\app\_models\post.ts" />

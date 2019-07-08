@@ -4,6 +4,7 @@ import { environment } from '../../environments/environment';
 import { AuthenticationService } from '../authentication.service';
 import { Invitation } from '../_models/invitation';
 import { Observable } from 'rxjs';
+import { Post } from '../_models/post';
 
 @Injectable({
   providedIn: 'root'
@@ -81,15 +82,4 @@ export class PostService {
   }
 
 
-}
-
-export class Post {
-  userFirstName: string;
-  userLastName: string;
-  postId: number;
-  postUserId: number;
-  message: string;
-  postMediaId: number;
-  postedAtUnix: number;
-  invitationId: number;
 }

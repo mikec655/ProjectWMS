@@ -143,6 +143,9 @@ export class NewPostDialog {
 
   onDismiss(): void {
     this.dialogRef.close();
+    if (this.data.fileId != null) {
+      this.httpClient.delete(`${environment.apiUrl}/api/Media/${this.data.fileId}`).toPromise();
+    }
   }
 
   async processFile(event): Promise<void> {

@@ -30,7 +30,10 @@ export class ProfileService {
 
   
     //tijdelijk omgezet naar any omdat ik fotos uploaden nog niet werkend heb.
-  editUserProfile(id: number, profile:any) {
+  editUserProfile(id: number, profile: any) {
+    if (id == null) {
+      throw Error("id cannot be null!");
+    }
     return this.http.put<any>(`${environment.apiUrl}/api/Users/` + id, profile)
       .subscribe(result => {
         console.log(result.token);

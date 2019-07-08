@@ -42,7 +42,8 @@ namespace Angular.Controllers
                 media = new Media()
                 {
                     Type = file.ContentType,
-                    ImageData = fileBytes
+                    ImageData = fileBytes,
+                    MediaUserAccountId = int.Parse(User.Identity.Name)
                 };
                 _context.Medias.Add(media);
 

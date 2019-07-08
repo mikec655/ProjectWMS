@@ -3,7 +3,7 @@
   <div class="row">
     <div class="col-lg-4 ">
       <div id="userblock">
-        <img class="img-fluid" [src]="imageSrc" (error)="onPictureError()" alt="Profile Picture"
+        <img class="img-fluid" *ngIf="imageSrc" [src]="imageSrc" (error)="onPictureError()" alt="Profile Picture"
              style="border-width: 2px;">
         <h2 class="align-self-start">{{pageProfile?.firstname}} {{pageProfile?.lastname}}</h2>
 
@@ -11,8 +11,7 @@
           <p class="align-self-start"> {{profiledescription}}</p>
         </div>
 
-        <button mat-raised-button *ngIf="!ownUserProfile" class="btn btn-primary"
-                (click)="follow($event, item)">
+        <button mat-raised-button *ngIf="!ownUserProfile" class="btn btn-primary" (click)="follow($event, item)">
           Follow
         </button>
 
@@ -21,6 +20,7 @@
           <form #form [formGroup]="uploadForm">
             <input #file type="file" name="file" accept=".jpg,.jpeg,.png,.bmp" [hidden]="true" [formControl]="uploadForm.controls['pic']" (change)="getPhoto($event)" />
             <button mat-raised-button class="btn-primary" (click)="file.click()" color="primary">Upload File</button>
+
             <div *ngIf="(f.pic.dirty || submitted) && f.pic.errors" class="invalid-feedback" style="display: block;">
               <div *ngIf="f.pic.errors.size">File can't be bigger than 10 MB</div>
             </div>
@@ -57,18 +57,18 @@
     <div class="col-lg-8 d-fled">
       <!-- Posts to show if own profile -->
       <div *ngIf="ownUserProfile; else elseBlock">
-        <div id="posts">
+        <div id="posts" *ngIf="profileLoaded">
           <app-newpost></app-newpost>
           <h1 class="align-self-start" id="postlist">Posts:</h1>
-          <app-post *ngFor="let post of posts" [post]="post"></app-post>
+          <app-post *ngFor="let post of posts" [post]="post" [userMediaId]="pageProfile.userMediaId"></app-post>
         </div>
       </div>
       <!-- Posts of others -->
       <ng-template #elseBlock>
-        <div id="posts">
+        <div id="posts" *ngIf="profileLoaded">
           <h1 class="align-self-start" id="postlist">Posts:</h1>
           
-          <app-post *ngFor="let post of posts" [post]="post"></app-post>
+          <app-post *ngFor="let post of posts" [post]="post" [userMediaId]="pageProfile.userMediaId"></app-post>
         </div>
       </ng-template>
     </div>

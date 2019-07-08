@@ -1,10 +1,11 @@
 import { Component, OnInit, Input } from '@angular/core';
-import { Post, PostService } from './post.service';
+import { PostService } from './post.service';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { environment } from '../../environments/environment';
 import { error } from '@angular/compiler/src/util';
 import { Invitation } from '../_models/invitation';
 import { AuthenticationService } from '../authentication.service';
+import { Post } from '../_models/post';
 
 
 @Component({
@@ -15,6 +16,7 @@ import { AuthenticationService } from '../authentication.service';
 
 export class PostComponent {
   @Input() post = new Post()
+  @Input('userMediaId') userMediaId: number;
   public invitation: Invitation;
   public comments = [];
   public isCollapsed = true;
@@ -25,29 +27,35 @@ export class PostComponent {
   public acceptedInvite: boolean;
   public canAccept: boolean;
   public commentInput;
-  public userImageSrc = environment.apiUrl + '/api/Media/2' //+ this.authenticationService.currentUserValue.userMediaId;
+  public userImageSrc;
 
   constructor(
     private postService: PostService,
     private _snackBar: MatSnackBar,
     private _authenticationService: AuthenticationService
-  ) { }
+  ) {}
 
 
   ngOnInit() {
-    this.postService.getComments(this.post.postId).subscribe(comments => {
-      comments.sort((a, b) => b.postedAtUnix - a.postedAtUnix);
-      comments.forEach(comment => comment.postedAtUnix = this.timeToString(comment.postedAtUnix));
-      this.comments = comments;
-      this.commentsReceived = true;
-    },
-      error => {
-        this.commentsReceived = false;
-        if (error.status != 404) {
-          console.error(error);
-          this._snackBar.open(`Oopsie... Something went wrong fetching comments. (error code ${error.status})`, 'Oops');
-        }
-      });
+    this.userImageSrc = this.userMediaId == null || this.userMediaId == 0 ? './assets/account.png' : environment.apiUrl + '/api/Media/2' //+ this.authenticationService.currentUserValue.userMediaId;
+    console.log(this.post.comments);
+    if (this.post.comments > 0) {
+      this.postService.getComments(this.post.postId).subscribe(comments => {
+        comments.sort((a, b) => b.postedAtUnix - a.postedAtUnix);
+        comments.forEach(comment => comment.postedAtUnix = this.timeToString(comment.postedAtUnix));
+        this.comments = comments;
+        this.commentsReceived = true;
+      },
+        error => {
+          this.commentsReceived = false;
+          if (error.status != 404) {
+            console.error(error);
+            this._snackBar.open(`Oopsie... Something went wrong fetching comments. (error code ${error.status})`, 'Oops');
+          }
+        });
+    } else {
+      this.commentsReceived = false;
+    }
     if (this.post.invitationId) {
       this.postService.getInvitation(this.post.postId).subscribe(invitation => {
         this.invitationTimeString = this.timeToString(invitation.invitationDateUnix);
