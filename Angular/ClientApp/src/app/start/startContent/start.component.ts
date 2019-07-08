@@ -1,6 +1,5 @@
 import { Component, OnInit, Input } from '@angular/core';
 import { PostService} from '../../post/post.service';
-import { PWAService } from '../../pwa.service';
 import { Post } from '../../_models/post';
 
 @Component({
