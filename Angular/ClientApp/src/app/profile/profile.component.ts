@@ -36,6 +36,7 @@ export class ProfileComponent implements OnInit {
 
   public picture: File;
   public uploadForm: FormGroup;
+  public reviewForm: FormGroup;
 
   public posts = []
 
@@ -89,6 +90,12 @@ export class ProfileComponent implements OnInit {
       pic: ['']
     });
 
+    this.reviewForm = this.formBuilder.group({
+      reviewtitle: '',
+      reviewtext: '',
+      reviewgrade: [new Number()]
+    })
+
     /*
     this.postService.getPosts(-1).subscribe(posts => {
       posts.sort((a, b) => b.postedAtUnix - a.postedAtUnix)
@@ -138,9 +145,24 @@ export class ProfileComponent implements OnInit {
   }
 
   PostReview() {
-    var review = "a";
-    console.log("posting review");
-    //this.reviewservice.postreview(this.userid, review);
+    var review = {
+      "rating": this.reviewForm.controls.reviewgrade.value,
+      "description": this.reviewForm.controls.reviewtext.value,
+      "title": this.reviewForm.controls.reviewtitle.value
+      
+    }
+    console.log(review);
+
+   
+    this.reviewservice.postreview(this.userid, review).subscribe(result => {
+      console.log(result)
+    },
+      error => {
+        if (error.status == 404) {
+          this.router.navigate(['/profile']);
+        }
+        console.log(error);
+      });
   }
 
 }
