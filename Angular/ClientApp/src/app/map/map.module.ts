@@ -11,6 +11,7 @@ import { AuthenticationService } from '../authentication.service';
     RouterModule.forChild([
       { path: '', component: MapComponent, canActivate: [AuthenticationService] }
     ])
-  ]
+  ],
+  exports: []
 })
 export class MapModule { }

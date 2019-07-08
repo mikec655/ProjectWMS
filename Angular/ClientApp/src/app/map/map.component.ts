@@ -33,11 +33,10 @@ export class MapComponent implements OnInit {
 
     this.updateMap();
 
-    console.log(this.Unix_timestamp(1561883114))
-
   }
 
   showInvitation(post, invitation) {
+    console.log(invitation)
 
     var coords = L.latLng(invitation.longitude, invitation.latitude, 0);
 
@@ -60,13 +59,11 @@ export class MapComponent implements OnInit {
     btn.innerHTML = "Accept";
     container.innerHTML = '' + btn.outerHTML;
 
-    //console.log(btn);
-
     let popUp = L.popup()
       .setLatLng(coords)
       .setContent("<script></script><h6><a href='#'>" + post.userFirstName + " " + post.userLastName +
         "</a></h6><span class='badge badge-info'>" + invitation.type + "</span> - <span class='badge badge-light'>0 / " +
-        invitation.numberOfGuests + " guests</span><br/><br/>" + this.Unix_timestamp(invitation.postedAtUnix) + "<br/>" +
+        invitation.numberOfGuests + " guests</span><br/><br/>" + this.Unix_timestamp(invitation.invitationDateUnix) + "<br/>" +
         invitation.address + "<br/><br/>" + post.message + "<br/><br/>" + container.innerHTML)
 
 
@@ -92,7 +89,7 @@ export class MapComponent implements OnInit {
     this.postService.getPosts(-1).subscribe(posts => {
       this.posts = posts
       this.posts.forEach(post => {
-        if (post.postId.invitationId) {
+        if (post.invitationId) {
           this.postService.getInvitation(post.postId).subscribe(invitation => this.showInvitation(post, invitation));
         }
       });
