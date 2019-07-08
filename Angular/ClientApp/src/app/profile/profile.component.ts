@@ -9,6 +9,7 @@ import { HttpClient } from '@angular/common/http';
 import { PostService } from '../post/post.service';
 import { ActivatedRoute, Router } from '@angular/router';
 import { ReviewService } from './review/ReviewService.service';
+import { UserAccount } from '../_models/useraccount';
 
 @Component({
   selector: 'app-profile',
@@ -23,16 +24,17 @@ export class ProfileComponent implements OnInit {
   //dus als we in de service checken of het id van de ingelodepersoon gelijkt is aand de pagina dan weergeven we dit?
   //geen idee of dit handig is tho, misschien beter om 2 componenten te maken.
   public ownUserProfile = false;
-  public imageSrc: any = environment.apiUrl + '/api/Media/' + this.authenticationService.currentUserValue.userMediaId;
+  public imageSrc: any;
   public profiledescription = "profiledescriptionvariable";
   public newreviewgrade = document.getElementById("amount");
   //tijdelijke variable voor testen
 
 
-  public pageProfile: any;
+  public pageProfile: UserAccount;
   private params: any;
-  user;
-  userid;
+  public user;
+  public userid;
+  public profileLoaded: boolean = false;
 
   public picture: File;
   public uploadForm: FormGroup;
@@ -52,32 +54,33 @@ export class ProfileComponent implements OnInit {
     private route: ActivatedRoute,
     private router: Router) {
 
-    console.log("asdasdasdasdas paginA");
     this.route.params.subscribe(params => {
       this.posts = [];
       if (params != null && params['id'] != null) {
         this.userid = params['id'];
-        this.ownUserProfile = false;
+        this.ownUserProfile = this.authenticationService.currentUserId == this.userid;
       } else {
         this.userid = this.authenticationService.currentUserId;
         this.ownUserProfile = true;
       }
+
       //hier roep ik iets aan om een userobject te halen,
-      console.log("het userid =" + this.userid);
-      this.profileservice.getUserProfile(this.userid).subscribe(data => {
-        this.pageProfile = data;
-        this.imageSrc = environment.apiUrl + '/api/Media/' + this.pageProfile.userMediaId;
-        console.log(this.imageSrc);
+      this.profileservice.getUserProfile(this.userid).subscribe(profile => {
+        this.pageProfile = profile;
+        this.profileLoaded = true;
+        this.imageSrc = profile.userMediaId == null || profile.userMediaId == 0 ? "./assets/account.png" : environment.apiUrl + '/api/Media/' + profile.userMediaId;
       },
         error => {
           if (error.status == 404) {
             this.router.navigate(['/profile']);
           }
+          this.profileLoaded = true;
+          this.imageSrc = "./assets/account.png";
           console.log(error);
         });
 
     });
-    console.log("profilepage id=" + this.userid);
+
     this.user = this.authenticationService.currentUserValue;
     this.postService.getUserPosts(-1, this.userid).subscribe(posts => {
       posts.sort((a, b) => b.postedAtUnix - a.postedAtUnix)
@@ -124,7 +127,7 @@ export class ProfileComponent implements OnInit {
     this.httpClient.post<any>(`${environment.apiUrl}/api/Media/`, formData).subscribe(result => {
       this.result = result;
       console.log(result);
-      this.profileservice.editUserProfile(this.user.userid, { 'userId': this.user.userId, 'userMediaId': result.mediaId });
+      this.profileservice.editUserProfile(this.authenticationService.currentUserId, { 'userId': this.authenticationService.currentUserId, 'userMediaId': result.mediaId });
       this.imageSrc = environment.apiUrl + '/api/Media/' + result.mediaId;
     });
   }
@@ -151,11 +154,11 @@ export class ProfileComponent implements OnInit {
       "title": this.reviewForm.controls.reviewtitle.value,
       "ReviewUserId": this.authenticationService.currentUserId,
       "ReviewTargetId": this.userid
-      
+
     }
     console.log(review);
 
-   
+
     this.reviewservice.postreview(this.userid, review).subscribe(result => {
       //console.log(result)
     },

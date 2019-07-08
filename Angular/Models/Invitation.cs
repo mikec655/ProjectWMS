@@ -40,6 +40,8 @@ namespace Angular.Models
         public string Number { get; set; }
 
         public string ZipCode { get; set; }
+
+        public string City { get; set; }
     }
 
     public class InvitationDto
@@ -63,6 +65,8 @@ namespace Angular.Models
         public string ZipCode { get; set; }
 
         public string Number { get; set; }
+
+        public string City { get; set; }
 
         public List<Guest> Guests { get; set; }
 
@@ -90,7 +94,7 @@ namespace Angular.Models
                     ZipCode = p.ZipCode,
                     Address = p.Address,
                     Number = p.Number,
-                    LocationPoint = new Point(p.Longitude.GetValueOrDefault(), p.Latitude.GetValueOrDefault())
+                    LocationPoint = p.Longitude.HasValue && p.Latitude.HasValue ? new Point(p.Longitude.GetValueOrDefault(), p.Latitude.GetValueOrDefault()) { SRID = 4326 } : null
                 };
             }
         }

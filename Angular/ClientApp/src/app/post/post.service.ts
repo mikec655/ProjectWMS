@@ -2,6 +2,9 @@ import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { environment } from '../../environments/environment';
 import { AuthenticationService } from '../authentication.service';
+import { Invitation } from '../_models/invitation';
+import { Observable } from 'rxjs';
+import { Post } from '../_models/post';
 
 @Injectable({
   providedIn: 'root'
@@ -58,8 +61,8 @@ export class PostService {
     return this.http.delete<any>(`${environment.apiUrl}/api/Posts/` + postId + "/comments/" + commentId);
   }
 
-  getInvitation(postId: number) {
-    return this.http.get<any>(`${environment.apiUrl}/api/Posts/` + postId + "/invitation");
+  getInvitation(postId: number): Observable<Invitation> {
+    return this.http.get<Invitation>(`${environment.apiUrl}/api/Posts/` + postId + "/invitation");
   }
 
   createInvitation(postId: number, invitation) {
@@ -79,15 +82,4 @@ export class PostService {
   }
 
 
-}
-
-export class Post {
-  userFirstName: string;
-  userLastName: string;
-  postId: number;
-  postUserId: number;
-  message: string;
-  postMediaId: number;
-  postedAtUnix: number;
-  invitationId: number;
 }

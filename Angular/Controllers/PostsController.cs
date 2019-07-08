@@ -31,8 +31,9 @@ namespace Angular.Controllers
             return await _context.Posts
                 .Where(p => p.PostUserId == userId)
                 .Include(p => p.Invitation)
+                .Include(p => p.Comments)
                 .Select(PostDto.Projection)
-                .ToListAsync();
+                .ToListAsync(); ;
         }
 
         // GET: api/Posts/5
@@ -43,6 +44,7 @@ namespace Angular.Controllers
             var post = await _context.Posts
                 .Where(p => p.PostId == id)
                 .Include(p => p.User)
+                .Include(p => p.Comments)
                 .Select(PostDto.Projection)
                 .FirstOrDefaultAsync();
 

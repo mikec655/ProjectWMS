@@ -5,14 +5,16 @@ using GeoAPI.Geometries;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 namespace Angular.Migrations
 {
     [DbContext(typeof(UserContext))]
-    partial class UserContextModelSnapshot : ModelSnapshot
+    [Migration("20190708204717_InvitationCity")]
+    partial class InvitationCity
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -49,7 +51,7 @@ namespace Angular.Migrations
                             CommentPostId = 1,
                             CommentUserId = 1,
                             Content = "Hippity hoppity",
-                            PostedAt = new DateTime(2019, 7, 9, 0, 14, 42, 882, DateTimeKind.Local).AddTicks(9753)
+                            PostedAt = new DateTime(2019, 7, 8, 22, 47, 17, 510, DateTimeKind.Local).AddTicks(1747)
                         });
                 });
 
@@ -199,7 +201,7 @@ namespace Angular.Migrations
                             Message = "Vanavond zieke kaas maaltijd jo!",
                             PostMediaId = 1,
                             PostUserId = 1,
-                            PostedAt = new DateTime(2019, 7, 6, 22, 14, 42, 882, DateTimeKind.Utc).AddTicks(9314),
+                            PostedAt = new DateTime(2019, 7, 6, 20, 47, 17, 510, DateTimeKind.Utc).AddTicks(1524),
                             Title = "Kaas"
                         },
                         new
@@ -208,7 +210,7 @@ namespace Angular.Migrations
                             Message = "Kaas van gisteren was zo goed, k doe vanavond nog zo'n zieke kaas party",
                             PostMediaId = 1,
                             PostUserId = 1,
-                            PostedAt = new DateTime(2019, 7, 7, 22, 14, 42, 882, DateTimeKind.Utc).AddTicks(9316),
+                            PostedAt = new DateTime(2019, 7, 7, 20, 47, 17, 510, DateTimeKind.Utc).AddTicks(1525),
                             Title = "Kaas"
                         },
                         new
@@ -217,7 +219,7 @@ namespace Angular.Migrations
                             Message = "Vanavond gewoon weer zieke kaas!!",
                             PostMediaId = 1,
                             PostUserId = 1,
-                            PostedAt = new DateTime(2019, 7, 8, 22, 14, 42, 882, DateTimeKind.Utc).AddTicks(9317),
+                            PostedAt = new DateTime(2019, 7, 8, 20, 47, 17, 510, DateTimeKind.Utc).AddTicks(1526),
                             Title = "Kaas"
                         });
                 });
@@ -254,7 +256,7 @@ namespace Angular.Migrations
                         {
                             ReviewId = 1,
                             Description = "Lekkere kaas wel.",
-                            PostedAt = new DateTime(2019, 7, 8, 22, 14, 42, 890, DateTimeKind.Utc).AddTicks(9875),
+                            PostedAt = new DateTime(2019, 7, 8, 20, 47, 17, 516, DateTimeKind.Utc).AddTicks(5241),
                             Rating = (short)5,
                             ReviewTargetId = 1,
                             ReviewUserId = 1
@@ -304,7 +306,7 @@ namespace Angular.Migrations
                         new
                         {
                             UserId = 1,
-                            BirthDate = new DateTime(2019, 7, 9, 0, 14, 42, 881, DateTimeKind.Local).AddTicks(790),
+                            BirthDate = new DateTime(2019, 7, 8, 22, 47, 17, 508, DateTimeKind.Local).AddTicks(6562),
                             City = "Stadskanaal",
                             Firstname = "Jans",
                             Gender = "M",
@@ -341,7 +343,7 @@ namespace Angular.Migrations
             modelBuilder.Entity("Angular.Models.Comment", b =>
                 {
                     b.HasOne("Angular.Models.Post", "Post")
-                        .WithMany("Comments")
+                        .WithMany()
                         .HasForeignKey("CommentPostId");
 
                     b.HasOne("Angular.Models.UserAccount", "User")

@@ -49,7 +49,7 @@
           <p>
             <mat-form-field>
               <mat-label>Number of guests</mat-label>
-              <input matInput [(ngModel)]="data.numGuests" name="numGuests" placeholder="Number of guests" type="text" size="2">
+              <input matInput [(ngModel)]="data.numGuests" name="numGuests" placeholder="Number of guests" type="number" size="2">
             </mat-form-field>
           </p>
         </mat-expansion-panel>
@@ -57,7 +57,7 @@
           <input #imageInput
                  type="file"
                  accept="image/*"
-                 (change)="processFile(imageInput)"
+                 (change)="processFile($event)"
                  [hidden]="true">
           <button mat-raised-button class="btn-primary" (click)="imageInput.click()" color="primary">Upload File</button>
         </label>

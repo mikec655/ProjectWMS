@@ -1,9 +1,11 @@
 import { Component, OnInit, Input } from '@angular/core';
-import { Post, PostService } from './post.service';
+import { PostService } from './post.service';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { environment } from '../../environments/environment';
 import { error } from '@angular/compiler/src/util';
+import { Invitation } from '../_models/invitation';
 import { AuthenticationService } from '../authentication.service';
+import { Post } from '../_models/post';
 
 
 @Component({
@@ -14,37 +16,52 @@ import { AuthenticationService } from '../authentication.service';
 
 export class PostComponent {
   @Input() post = new Post()
-  public invitation;
+  @Input('userMediaId') userMediaId: number;
+  public invitation: Invitation;
   public comments = [];
   public isCollapsed = true;
   public imageSrc: any = environment.apiUrl + '/api/Media/' + this.post.postMediaId;
   public commentsReceived = false;
+  public timeString: string;
+  public invitationTimeString: string;
+  public acceptedInvite: boolean;
+  public canAccept: boolean;
   public commentInput;
-  public timeString;
-  public userImageSrc = environment.apiUrl + '/api/Media/2' //+ this.authenticationService.currentUserValue.userMediaId;
+  public userImageSrc;
 
-  constructor(private postService: PostService,
-    private authenticationService: AuthenticationService,
-    private _snackBar: MatSnackBar) { }
+  constructor(
+    private postService: PostService,
+    private _snackBar: MatSnackBar,
+    private _authenticationService: AuthenticationService
+  ) {}
 
 
   ngOnInit() {
-    this.postService.getComments(this.post.postId).subscribe(comments => {
-      comments.sort((a, b) => b.postedAtUnix - a.postedAtUnix);
-      comments.forEach(comment => comment.postedAtUnix = this.timeToString(comment.postedAtUnix));
-      this.comments = comments;
-      this.commentsReceived = true;
-    },
-      error => {
-        this.commentsReceived = false;
-        if (error.status != 404) {
-          console.error(error);
-          this._snackBar.open(`Oopsie... Something went wrong fetching comments. (error code ${error.status})`, 'Oops');
-        }
-      });
+    this.userImageSrc = this.userMediaId == null || this.userMediaId == 0 ? './assets/account.png' : environment.apiUrl + '/api/Media/2' //+ this.authenticationService.currentUserValue.userMediaId;
+    console.log(this.post.comments);
+    if (this.post.comments > 0) {
+      this.postService.getComments(this.post.postId).subscribe(comments => {
+        comments.sort((a, b) => b.postedAtUnix - a.postedAtUnix);
+        comments.forEach(comment => comment.postedAtUnix = this.timeToString(comment.postedAtUnix));
+        this.comments = comments;
+        this.commentsReceived = true;
+      },
+        error => {
+          this.commentsReceived = false;
+          if (error.status != 404) {
+            console.error(error);
+            this._snackBar.open(`Oopsie... Something went wrong fetching comments. (error code ${error.status})`, 'Oops');
+          }
+        });
+    } else {
+      this.commentsReceived = false;
+    }
     if (this.post.invitationId) {
       this.postService.getInvitation(this.post.postId).subscribe(invitation => {
-        invitation.invitationDateUnix = this.timeToString(invitation.invitationDateUnix);
+        this.invitationTimeString = this.timeToString(invitation.invitationDateUnix);
+        const userId = this._authenticationService.currentUserId;
+        this.acceptedInvite = invitation.guests.findIndex(p => p.guestUserId == userId) != -1;
+        this.canAccept = this.acceptedInvite || invitation.guests.length >= invitation.numberOfGuests;
         this.invitation = invitation;
       });
     }
@@ -54,13 +71,14 @@ export class PostComponent {
 
   acceptInvitation(id: number) {
     this.postService.acceptInvitation(id).subscribe(r => console.log(r), error => console.log(error));
+    this.acceptedInvite = true;
   }
 
   postComment() {
     console.log(this.commentInput)
     this.postService.createComment(this.post.postId, {
       content: this.commentInput,
-      commentUserId: this.authenticationService.currentUserId
+      commentUserId: this._authenticationService.currentUserId
     }).subscribe(e => console.log(e))
   }
 
