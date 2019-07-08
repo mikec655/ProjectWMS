@@ -79,9 +79,14 @@ namespace Angular.Controllers
                 return NotFound();
             }
 
-            if (invitation.Guests.Any(p => p.GuestUserId.ToString() == User.Identity.Name) && invitation.NumberOfGuests >= invitation.Guests.Count)
+            if (invitation.Guests.Any(p => p.GuestUserId.ToString() == User.Identity.Name))
             {
-                return BadRequest();
+                return BadRequest(new { Code = 100, Message = "User already accepted invitation" });
+            }
+
+            if (invitation.NumberOfGuests >= invitation.Guests.Count)
+            {
+                return BadRequest(new { Code = 101, Message = "Maximum number of guests reached" });
             }
 
             var guest = new Guest()
