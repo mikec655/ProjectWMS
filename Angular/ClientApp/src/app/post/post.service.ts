@@ -74,7 +74,7 @@ export class PostService {
   }
 
   acceptInvitation(postId: number) {
-    return this.http.post<any>(`${environment.apiUrl}/Posts/` + postId + "/invitation/accept", {});
+    return this.http.post<any>(`${environment.apiUrl}/api/Posts/` + postId + "/invitation/accept", {});
   }
 
 
