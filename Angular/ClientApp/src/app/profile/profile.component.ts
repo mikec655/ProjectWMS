@@ -70,7 +70,7 @@ export class ProfileComponent implements OnInit {
           }
         });
     });
-
+    console.log("profilepage id=" + this.userid);
     this.user = this.authenticationService.currentUserValue;
   }
 
