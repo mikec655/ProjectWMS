@@ -2,8 +2,8 @@ export class UserAccount {
   public userId: number;
   public username: string;
   public password: string;
-  public firstName: string;
-  public lastName: string;
+  public firstname: string;
+  public lastname: string;
   public gender: string;
   public birthDateUnix: number;
   public street: string;
