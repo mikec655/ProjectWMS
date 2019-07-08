@@ -64,11 +64,9 @@ export class ProfileComponent implements OnInit {
       //hier roep ik iets aan om een userobject te halen,
       console.log("het userid =" + this.userid);
       this.profileservice.getUserProfile(this.userid).subscribe(data => {
-        console.log("HEEEEEEEEEEEEESFKSFKSKFSKDF");
         this.pageProfile = data;
-        
-        //this.postService.getUserPosts(-1, this.userid).subscribe(posts => { this.posts = posts });
- 
+        this.imageSrc = environment.apiUrl + '/api/Media/' + this.pageProfile.userMediaId;
+        console.log(this.imageSrc);
       },
         error => {
           if (error.status == 404) {
