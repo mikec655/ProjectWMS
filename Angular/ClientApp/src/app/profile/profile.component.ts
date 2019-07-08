@@ -8,6 +8,8 @@ import { FormBuilder, FormGroup } from '@angular/forms';
 import { HttpClient } from '@angular/common/http';
 import { PostService } from '../post/post.service';
 import { ActivatedRoute, Router } from '@angular/router';
+import { ReviewService } from './review/ReviewService.service';
+
 @Component({
   selector: 'app-profile',
   templateUrl: './profile.component.html',
@@ -43,6 +45,7 @@ export class ProfileComponent implements OnInit {
   public result: any;
 
   constructor(
+    private reviewservice: ReviewService,
     public profileservice: ProfileService,
     private postService: PostService,
     private formBuilder: FormBuilder,
@@ -138,4 +141,11 @@ export class ProfileComponent implements OnInit {
       }
     }
   }
+
+  PostReview() {
+    var review = "a";
+    console.log("posting review");
+    //this.reviewservice.postreview(this.userid, review);
+  }
+
 }

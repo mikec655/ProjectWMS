@@ -29,8 +29,8 @@ export class ReviewComponent implements OnInit {
 
     this.reviewservice.getreviews(this.userid).subscribe(reviews => {
       this.reviews = reviews
-      console.log("review object :");
-      console.log(this.reviews);
+      //console.log("review object :");
+      //console.log(this.reviews);
     },
       error => {
         if (error.status == 404) {
@@ -45,7 +45,7 @@ export class ReviewComponent implements OnInit {
 
   ngOnInit() {
     //testfuncties
-    this.printuser()
+    //this.printuser()
     setTimeout(() => { 
       this.printreviews()
     }, 3000);
@@ -57,6 +57,6 @@ export class ReviewComponent implements OnInit {
   }
 
   printreviews() {
-    console.log(this.reviews[0].reviewId);
+    //console.log(this.reviews[0].reviewId);
   }
 }

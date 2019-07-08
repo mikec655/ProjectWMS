@@ -13,8 +13,8 @@ export class ReviewService {
       return this.http.get<any>(`${environment.apiUrl}/api/users/` + id +'/Reviews')
   }
 
-  postreview(ietsvanuserid) {
-    //httppost op basis van userid
+  postreview(id: number, review:any) {
+       return this.http.post<any>(`${environment.apiUrl}/api/users/` + id + '/Reviews', review)
   }
 
 }
