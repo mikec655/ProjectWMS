@@ -21,6 +21,7 @@ export class PostComponent {
   public commentsReceived = false;
   public commentInput;
   public timeString;
+  public userImageSrc = environment.apiUrl + '/api/Media/2' //+ this.authenticationService.currentUserValue.userMediaId;
 
   constructor(private postService: PostService,
     private authenticationService: AuthenticationService,
