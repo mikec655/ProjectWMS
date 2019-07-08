@@ -74,7 +74,8 @@
           "configurations": {
             "production": {
               "browserTarget": "Angular:build:production"
-            }
+            },
+            "mike": {}
           }
         },
         "extract-i18n": {
