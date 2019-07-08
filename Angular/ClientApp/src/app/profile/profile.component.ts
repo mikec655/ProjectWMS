@@ -157,7 +157,7 @@ export class ProfileComponent implements OnInit {
 
    
     this.reviewservice.postreview(this.userid, review).subscribe(result => {
-      console.log(result)
+      //console.log(result)
     },
       error => {
         if (error.status == 404) {
