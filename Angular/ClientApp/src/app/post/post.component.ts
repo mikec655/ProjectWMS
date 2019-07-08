@@ -48,7 +48,7 @@ export class PostComponent {
   }
 
   acceptInvitation(id: number) {
-    this.postService.acceptInvitation(id).subscribe(r => console.log(r));
+    this.postService.acceptInvitation(id).subscribe(r => console.log(r), error => console.log(error));
   }
 
   timeToString(timeStamp: number) {
