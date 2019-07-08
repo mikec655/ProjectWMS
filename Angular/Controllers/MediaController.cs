@@ -99,5 +99,31 @@ namespace Angular.Controllers
 
             return File(file.ImageData, file.Type);
         }
+
+        [HttpDelete("{fileId}")]
+        public async Task<IActionResult> DeleteFile([FromRoute] int fileId)
+        {
+            if (!ModelState.IsValid)
+            {
+                return BadRequest(ModelState);
+            }
+
+            var file = await _context.Medias.FindAsync(fileId);
+
+            if (file == null)
+            {
+                return NotFound();
+            }
+
+            if (User.Identity.Name != file.MediaUserAccountId?.ToString())
+            {
+                return Unauthorized();
+            }
+
+            _context.Medias.Remove(file);
+            await _context.SaveChangesAsync();
+
+            return Ok(file);
+        }
     }
 }

@@ -14,7 +14,7 @@ using Newtonsoft.Json.Linq;
 namespace Angular.Controllers
 {
     [Authorize]
-    [Route("api/posts/{postId}/[controller]")]
+    [Route("api/Posts/{postId}/[controller]")]
     [ApiController]
     public class InvitationController : ControllerBase
     {

@@ -12,12 +12,11 @@
 
     <div class="card-body" *ngIf="invitation">
       <span class='badge badge-info'> {{ invitation.type }}</span>&nbsp;&nbsp;
-      <span class='badge badge-light'>0 / {{ invitation.numberOfGuests }} guests</span><br />
-      {{invitation.invitationDateUnix}} <br />
+      <span class='badge badge-light'>{{ invitation.guests.length }} / {{ invitation.numberOfGuests }} guests</span><br />
+      {{invitationTimeString}} <br />
       {{invitation.address}}
-      <button type="button" class="btn btn-primary btn-sm accept-button"
-              style="width: 100%" (click)="acceptInvitation(invitation.invitationId)">
-        Accept
+      <button [disabled]="canAccept" type="button" class="btn btn-primary btn-sm accept-button" style="width: 100%" (click)="acceptInvitation(invitation.invitationPostId)">
+        {{ canAccept ? "Accepted" : "Accept" }}
       </button>
     </div>
   </mat-card-content>
