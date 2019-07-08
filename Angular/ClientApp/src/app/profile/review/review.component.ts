@@ -29,8 +29,8 @@ export class ReviewComponent implements OnInit {
 
     this.reviewservice.getreviews(this.userid).subscribe(reviews => {
       this.reviews = reviews
-      //console.log("review object :");
-      //console.log(this.reviews);
+      console.log("review object :");
+      console.log(this.reviews);
     },
       error => {
         if (error.status == 404) {
@@ -39,7 +39,7 @@ export class ReviewComponent implements OnInit {
           console.error("gettingreviews failed :"+ error);
         }
       });
-  };
+  }
 
   
 

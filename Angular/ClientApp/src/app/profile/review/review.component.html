@@ -8,7 +8,7 @@
     <div class="card" *ngFor="let review of reviews">
       <a href="/profile/{{review.reviewUserId}}" class="list-group-item active">
       <div>
-        <h4 class="list-group-item-heading"> Review titelmoet toegevoegd worden aan database</h4>
+        <h4 class="list-group-item-heading"> {{review.title}}</h4>
         <p>
           Cijfer:   {{review.rating}}
         </p>
