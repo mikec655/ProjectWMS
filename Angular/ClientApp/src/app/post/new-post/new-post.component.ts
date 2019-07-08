@@ -34,6 +34,7 @@ export class NewPostComponent implements OnInit {
     this.dialogRef.afterClosed().subscribe(result => {
       console.log(result);
       if (result != null) {
+        
         let post = {
           "title": result.title,
           "message": result.message

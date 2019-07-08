@@ -38,8 +38,15 @@
 
   <ItemGroup>
     <!-- Don't publish the SPA source files, but do show them in the project files list -->
+    <Compile Remove="ClientApp\src\app\hello-world\**" />
     <Content Remove="$(SpaRoot)**" />
+    <Content Remove="ClientApp\src\app\hello-world\**" />
     <None Include="$(SpaRoot)**" Exclude="$(SpaRoot)node_modules\**" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <EmbeddedResource Remove="ClientApp\src\app\hello-world\**" />
+    <None Remove="ClientApp\src\app\hello-world\**" />
   </ItemGroup>
 
   <ItemGroup>
@@ -52,12 +59,10 @@
   </ItemGroup>
 
   <ItemGroup>
-    <None Remove="ClientApp\src\app\hello-world\hello-world.component.ts" />
     <None Remove="ClientApp\src\app\_models\useraccount.ts" />
   </ItemGroup>
 
   <ItemGroup>
-    <TypeScriptCompile Include="ClientApp\src\app\hello-world\hello-world.component.ts" />
     <TypeScriptCompile Include="ClientApp\src\app\_models\useraccount.ts" />
   </ItemGroup>
 
