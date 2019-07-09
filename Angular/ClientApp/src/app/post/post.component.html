@@ -1,6 +1,6 @@
 <!---Hier een ngfor -->
   <mat-card class="post-card">
-    <img class="small-profile-pic" [src]="userImageSrc" alt="Profile Picture" />
+    <img class="small-profile-pic" [src]="userImageSrc" (error)="onPictureError()"alt="Profile Picture" />
     <mat-card-header>
       <mat-card-title style="margin-top: 6px;"><a href="/profile/{{post.postUserId}}">{{ post.userFirstName }} {{ post.userLastName }}</a></mat-card-title>
 
@@ -17,7 +17,7 @@
         <span class='badge badge-info'> {{ invitation.type }}</span>&nbsp;&nbsp;
         <span class='badge badge-light'>{{ invitation.guests.length }} / {{ invitation.numberOfGuests }} guests</span><br />
         {{invitationTimeString}} <br />
-        {{invitation.address}}
+        {{invitation.address}} {{invitation.number}} {{invitation.zipCode}} {{invitation.city}}
         <button [disabled]="canAccept" type="button" class="btn btn-primary btn-sm accept-button" style="width: 100%" (click)="acceptInvitation(invitation.invitationId)">
           {{ canAccept ? "Accepted" : "Accept" }}
         </button>

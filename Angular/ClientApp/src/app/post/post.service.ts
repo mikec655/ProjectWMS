@@ -18,6 +18,10 @@ export class PostService {
     return this.http.get<any>(`${environment.apiUrl}/api/Users/${userId}/Posts`);
   }
 
+  getAllPosts() {
+    return this.http.get<any>(`${environment.apiUrl}/api/Posts`);
+  }
+
   getPosts(time: number) {
     let userId = this.authenticationService.currentUserId
     return this.http.get<any>(`${environment.apiUrl}/api/Users/${userId}/Posts`);
