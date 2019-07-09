@@ -16,7 +16,7 @@ import { Post } from '../_models/post';
 
 export class PostComponent {
   @Input() post = new Post()
-  @Input('userMediaId') userMediaId: number = this.post.PostUserMediaId;
+  @Input('userMediaId') userMediaId: number = this.post.postUserMediaId;
   public invitation: Invitation;
   public comments = [];
   public isCollapsed = true;

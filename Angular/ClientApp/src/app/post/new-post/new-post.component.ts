@@ -80,7 +80,7 @@ export class NewPostComponent implements OnInit {
           invitation.zipCode = result.zipCode;
         }
 
-        this.http.get<any>("https://www.mapquestapi.com/geocoding/v1/address?key=CbLfULiJOyxLbbEXDxfVGd6lg5HaXj87&street=" + invitation.number + "postalCode=" + invitation.zipCode).subscribe(result => {
+        this.http.get<any>("https://www.mapquestapi.com/geocoding/v1/address?key=CbLfULiJOyxLbbEXDxfVGd6lg5HaXj87&street=" + invitation.number + "&postalCode=" + invitation.zipCode /* + "&city=" + invitation.city + "&country=Netherlands" */).subscribe(result => {
           invitation.latitude = result.results[0].locations[0].latLng.lat;
           invitation.longitude = result.results[0].locations[0].latLng.lng;
           this.http.post(`${environment.apiUrl}/api/Posts/${post.postId}/Invitation`, invitation).subscribe(result => {
