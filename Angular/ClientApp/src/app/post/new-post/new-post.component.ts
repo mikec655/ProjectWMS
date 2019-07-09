@@ -64,7 +64,8 @@ export class NewPostComponent implements OnInit {
       if (result.createInvitation) {
         let invitation: Invitation = {
           "invitationPostId": post.postId,
-          "numberOfGuests": result.numGuests
+          "numberOfGuests": result.numGuests,
+          "invitationDateUnix": Math.round(new Date(post.invitationId).getTime())
         };
         if (result.useAddress) {
           let user: UserAccount = this._authenticationService.currentUserValue;
