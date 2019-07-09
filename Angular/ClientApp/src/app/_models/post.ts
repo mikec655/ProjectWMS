@@ -10,5 +10,6 @@ export class Post {
   public title: string;
   public message: string;
   public postMediaId?: number;
+  public postUserMediaId?: number;
   public comments?: number;
 }
