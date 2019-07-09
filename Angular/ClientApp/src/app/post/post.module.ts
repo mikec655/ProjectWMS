@@ -11,6 +11,7 @@ import { MatDialogModule } from '@angular/material/dialog';
 import { MatInputModule } from '@angular/material/input';
 import { MatSlideToggleModule } from '@angular/material/slide-toggle';
 import { FormsModule } from '@angular/forms';
+import { MomentModule } from 'ngx-moment';
 
 
 @NgModule({
@@ -25,7 +26,8 @@ import { FormsModule } from '@angular/forms';
     MatDialogModule,
     MatInputModule,
     MatSlideToggleModule,
-    FormsModule
+    FormsModule,
+    MomentModule
   ],
   exports: [PostComponent, NewPostComponent, NewPostDialog],
   bootstrap: [PostComponent, NewPostComponent, NewPostDialog]

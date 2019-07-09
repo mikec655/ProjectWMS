@@ -72,6 +72,8 @@ namespace Angular.Models
 
         public int Comments { get; set; }
 
+        public int? PostUserMediaId { get; set; }
+
         /// <summary>
         /// Convert given Post to a DTO object. Include User for correct operation
         /// </summary>
@@ -85,6 +87,7 @@ namespace Angular.Models
                     PostUserId = p.PostUserId,
                     UserFirstName = p.User == null ? null : p.User.Firstname,
                     UserLastName = p.User == null ? null : p.User.Lastname,
+                    PostUserMediaId = p.User == null ? null : p.User.UserMediaId,
                     Message = p.Message,
                     Title = p.Title,
                     PostMediaId = p.PostMediaId,

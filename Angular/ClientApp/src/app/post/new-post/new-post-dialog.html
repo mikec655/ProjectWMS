@@ -47,9 +47,13 @@
             </mat-form-field>
           </div>
           <p>
-            <mat-form-field>
+            <mat-form-field class="split-left">
               <mat-label>Number of guests</mat-label>
               <input matInput [(ngModel)]="data.numGuests" name="numGuests" placeholder="Number of guests" type="number" size="2">
+            </mat-form-field>
+            <mat-form-field class="split-right">
+              <mat-label>Date and Time of Invitation</mat-label>
+              <input matInput [(ngModel)]="data.date" name="date" type="datetime-local" />
             </mat-form-field>
           </p>
         </mat-expansion-panel>

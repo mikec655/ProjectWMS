@@ -64,7 +64,8 @@ export class NewPostComponent implements OnInit {
       if (result.createInvitation) {
         let invitation: Invitation = {
           "invitationPostId": post.postId,
-          "numberOfGuests": result.numGuests
+          "numberOfGuests": result.numGuests,
+          "invitationDateUnix": Math.round(new Date(result.date).getTime())
         };
         if (result.useAddress) {
           let user: UserAccount = this._authenticationService.currentUserValue;
@@ -128,6 +129,7 @@ export interface DialogData {
   fileId: number;
   fileUpload: Promise<any>;
   numGuests: number;
+  date: any;
 }
 
 @Component({
