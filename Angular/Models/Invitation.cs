@@ -94,6 +94,7 @@ namespace Angular.Models
                     ZipCode = p.ZipCode,
                     Address = p.Address,
                     Number = p.Number,
+                    City = p.City,
                     LocationPoint = p.Longitude.HasValue && p.Latitude.HasValue ? new Point(p.Longitude.GetValueOrDefault(), p.Latitude.GetValueOrDefault()) { SRID = 4326 } : null
                 };
             }
