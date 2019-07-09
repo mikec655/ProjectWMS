@@ -59,15 +59,14 @@
       <div *ngIf="ownUserProfile; else elseBlock">
         <div id="posts" *ngIf="profileLoaded">
           <app-newpost></app-newpost>
-          <h1 class="align-self-start" id="postlist">Posts:</h1>
+          <h1 class="align-self-start" id="postlist">My Posts:</h1>
           <app-post *ngFor="let post of posts" [post]="post" [userMediaId]="pageProfile.userMediaId"></app-post>
         </div>
       </div>
       <!-- Posts of others -->
       <ng-template #elseBlock>
         <div id="posts" *ngIf="profileLoaded">
-          <h1 class="align-self-start" id="postlist">Posts:</h1>
-          
+          <h1 class="align-self-start" id="postlist">{{pageProfile?.firstname}}'s Posts:</h1>
           <app-post *ngFor="let post of posts" [post]="post" [userMediaId]="pageProfile.userMediaId"></app-post>
         </div>
       </ng-template>
