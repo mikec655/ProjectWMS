@@ -7,15 +7,10 @@
         </div>
 
 
-        <div class="col-sm-6">
-            <div class="span12">
-                <textarea class="form-control" id="exampleFormControlTextarea1" rows="3"></textarea>
-                <button mat-raised-button type="button" class="btn btn-outline-primary" (click)="onClickPostButton()">
-                    Post
-                </button>
-            </div>
+        <div class="col-sm-8">
+            <app-newpost></app-newpost>
 
-            <div style="overflow-y: scroll; height: 60vh">
+            <div>
                 <app-post *ngFor="let post of posts" [post]="post"></app-post>
             </div>
         </div>
