@@ -95,7 +95,7 @@ namespace Angular.Models
                     Address = p.Address,
                     Number = p.Number,
                     City = p.City,
-                    LocationPoint = p.Longitude.HasValue && p.Latitude.HasValue ? new Point(p.Longitude.GetValueOrDefault(), p.Latitude.GetValueOrDefault()) { SRID = 4326 } : null
+                    LocationPoint = p.Longitude.HasValue && p.Latitude.HasValue ? new Point(p.Latitude.GetValueOrDefault(), p.Longitude.GetValueOrDefault()) { SRID = 4326 } : null
                 };
             }
         }
@@ -108,7 +108,7 @@ namespace Angular.Models
                 {
                     InvitationId = p.InvitationId,
                     InvitationPostId = p.InvitationPostId,
-                    InvitationDateUnix = new DateTimeOffset(p.InvitationDate.GetValueOrDefault(DateTime.UtcNow)).ToUnixTimeMilliseconds(),
+                    InvitationDateUnix = new DateTimeOffset(p.InvitationDate.GetValueOrDefault()).ToUnixTimeMilliseconds(),
                     Type = p.Type,
                     NumberOfGuests = p.NumberOfGuests,
                     ZipCode = p.ZipCode,

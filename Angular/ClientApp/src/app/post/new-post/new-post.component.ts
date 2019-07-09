@@ -65,7 +65,7 @@ export class NewPostComponent implements OnInit {
         let invitation: Invitation = {
           "invitationPostId": post.postId,
           "numberOfGuests": result.numGuests,
-          "invitationDateUnix": Math.round(new Date(post.invitationId).getTime())
+          "invitationDateUnix": Math.round(new Date(result.date).getTime())
         };
         if (result.useAddress) {
           let user: UserAccount = this._authenticationService.currentUserValue;
@@ -79,6 +79,8 @@ export class NewPostComponent implements OnInit {
           invitation.city = result.city;
           invitation.zipCode = result.zipCode;
         }
+
+        console.log(invitation);
 
         this.http.post(`${environment.apiUrl}/api/Posts/${post.postId}/Invitation`, invitation).subscribe(result => {
           console.log(result);
@@ -126,6 +128,7 @@ export interface DialogData {
   fileId: number;
   fileUpload: Promise<any>;
   numGuests: number;
+  date: any;
 }
 
 @Component({

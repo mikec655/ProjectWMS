@@ -58,6 +58,7 @@ export class PostComponent {
     }
     if (this.post.invitationId) {
       this.postService.getInvitation(this.post.postId).subscribe(invitation => {
+        console.log(invitation.invitationDateUnix);
         this.invitationTimeString = this.timeToString(invitation.invitationDateUnix);
         const userId = this._authenticationService.currentUserId;
         this.acceptedInvite = invitation.guests.findIndex(p => p.guestUserId == userId) != -1;
@@ -65,7 +66,7 @@ export class PostComponent {
         this.invitation = invitation;
       });
     }
-
+    console.log(this.post.postedAtUnix);
     this.timeString = this.timeToString(this.post.postedAtUnix);
   }
 
@@ -93,7 +94,9 @@ export class PostComponent {
 
     let timeDiff = (currentTime.getTime() - time.getTime()) / 1000;
 
-    if (timeDiff < 60 * 60) {
+    if (timeDiff > 0) {
+      return this.timestamp(timeStamp);
+    } else if (timeDiff < 60 * 60) {
       return Math.round(timeDiff / 60) + " minutes ago";
     } else if (timeDiff < 24 * 60 * 60) {
       return Math.round(timeDiff / (60 * 60)) + " hours ago";
