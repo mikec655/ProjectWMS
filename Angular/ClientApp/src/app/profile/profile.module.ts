@@ -12,20 +12,18 @@ import { AuthenticationService } from '../authentication.service';
 import { MatInputModule } from '@angular/material/input';
 import { MatButtonModule } from '@angular/material/button';
 import { MatFormFieldModule } from '@angular/material/form-field';
-import {ProfileSideBarComponent} from '../../app/start/profile-side-bar/profile-side-bar.component'
 
 
 
 
 @NgModule({
-  declarations: [ReviewComponent, ProfileComponent, UsersettingsComponent, ProfileSideBarComponent],
+  declarations: [ReviewComponent, ProfileComponent, UsersettingsComponent],
 
   bootstrap: [UsersettingsComponent],
   imports: [
     ReactiveFormsModule,
     PostModule,
     FormsModule,
-    ProfileSideBarComponent,
     NgbModule.forRoot(),
     CommonModule,
     RouterModule.forChild([
