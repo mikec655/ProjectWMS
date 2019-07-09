@@ -18,7 +18,7 @@
         <!-- Upload profilepicture area -->
         <div id="postreviewblock" *ngIf="ownUserProfile">
           <form #form [formGroup]="uploadForm">
-            <input #file type="file" name="file" accept=".jpg,.jpeg,.png,.bmp" [hidden]="true" [formControl]="uploadForm.controls['pic']" (change)="getPhoto($event)" />
+            <input #file type="file" name="file" accept="image/*" [hidden]="true" [formControl]="uploadForm.controls['pic']" (change)="getPhoto($event)" />
             <button mat-raised-button class="btn-primary" (click)="file.click()" color="primary">Upload File</button>
 
             <div *ngIf="(f.pic.dirty || submitted) && f.pic.errors" class="invalid-feedback" style="display: block;">

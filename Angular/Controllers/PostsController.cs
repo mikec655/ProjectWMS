@@ -23,6 +23,16 @@ namespace Angular.Controllers
             _context = context;
         }
 
+        [HttpGet]
+        public async Task<ActionResult<IEnumerable<PostDto>>> GetAllPosts()
+        {
+            return await _context.Posts
+                .Include(p => p.Invitation)
+                .Include(p => p.Comments)
+                .Select(PostDto.Projection)
+                .ToListAsync();
+        }
+
         // GET: api/Users/5/posts
         [HttpGet("/api/users/{userId}/posts")]
         [ProducesResponseType(typeof(IEnumerable<PostDto>), 200)]
@@ -33,7 +43,7 @@ namespace Angular.Controllers
                 .Include(p => p.Invitation)
                 .Include(p => p.Comments)
                 .Select(PostDto.Projection)
-                .ToListAsync(); ;
+                .ToListAsync();
         }
 
         // GET: api/Posts/5
