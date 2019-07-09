@@ -16,7 +16,6 @@ import { Post } from '../_models/post';
 
 export class PostComponent {
   @Input() post = new Post()
-  @Input('userMediaId') userMediaId: number = this.post.PostUserMediaId;
   public invitation: Invitation;
   public comments = [];
   public isCollapsed = true;
@@ -37,7 +36,7 @@ export class PostComponent {
 
 
   ngOnInit() {
-    this.userImageSrc = this.userMediaId == null || this.userMediaId == 0 ? './assets/account.png' : environment.apiUrl + '/api/Media/' + this.userMediaId;
+    this.userImageSrc = this.post.postUserMediaId == null || this.post.postUserMediaId == 0 ? './assets/account.png' : environment.apiUrl + '/api/Media/' + this.post.postUserMediaId;
 
     if (this.post.comments > 0) {
       this.postService.getComments(this.post.postId).subscribe(comments => {
