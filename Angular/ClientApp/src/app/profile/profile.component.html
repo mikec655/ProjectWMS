@@ -60,7 +60,7 @@
         <div id="posts" *ngIf="profileLoaded">
           <app-newpost></app-newpost>
           <h1 class="align-self-start" id="postlist">My Posts:</h1>
-          <app-post *ngFor="let post of posts" [post]="post" [userMediaId]="pageProfile.userMediaId"></app-post>
+          <app-post *ngFor="let post of posts" [post]="post"></app-post>
         </div>
       </div>
       <!-- Posts of others -->

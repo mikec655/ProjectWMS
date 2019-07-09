@@ -38,7 +38,6 @@ namespace Angular.Controllers
         {
             var longitude = expandoObject.Value<double>("long");
             var latitude = expandoObject.Value<double>("lat");
-            Console.WriteLine($"longitude: {longitude}; latitude: {latitude}");
             var location = new Point(longitude, latitude) { SRID = 4326 };
             return await _context.Invitations
                 .Include(p => p.Post)
