@@ -115,8 +115,8 @@ namespace Angular.Models
                     Address = p.Address,
                     Number = p.Number,
                     Guests = p.Guests,
-                    Latitude = p.LocationPoint == null ? 0.00: p.LocationPoint.Coordinate.Y,
-                    Longitude = p.LocationPoint == null ? 0.00 : p.LocationPoint.Coordinate.X
+                    Latitude = p.LocationPoint == null ? 0.00: p.LocationPoint.Coordinate.X,
+                    Longitude = p.LocationPoint == null ? 0.00 : p.LocationPoint.Coordinate.Y
                 };
             }
         }

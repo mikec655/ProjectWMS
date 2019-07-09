@@ -16,7 +16,6 @@ import { Post } from '../_models/post';
 
 export class PostComponent {
   @Input() post = new Post()
-  @Input('userMediaId') userMediaId: number = this.post.postUserMediaId;
   public invitation: Invitation;
   public comments = [];
   public isCollapsed = true;
@@ -37,8 +36,8 @@ export class PostComponent {
 
 
   ngOnInit() {
-    this.userImageSrc = this.userMediaId == null || this.userMediaId == 0 ? './assets/account.png' : environment.apiUrl + '/api/Media/' + this.userMediaId;
-    console.log(this.post.comments);
+    this.userImageSrc = this.post.postUserMediaId == null || this.post.postUserMediaId == 0 ? './assets/account.png' : environment.apiUrl + '/api/Media/' + this.post.postUserMediaId;
+
     if (this.post.comments > 0) {
       this.postService.getComments(this.post.postId).subscribe(comments => {
         comments.sort((a, b) => b.postedAtUnix - a.postedAtUnix);
@@ -58,7 +57,6 @@ export class PostComponent {
     }
     if (this.post.invitationId) {
       this.postService.getInvitation(this.post.postId).subscribe(invitation => {
-        console.log(invitation.invitationDateUnix);
         this.invitationTimeString = this.timeToString(invitation.invitationDateUnix);
         const userId = this._authenticationService.currentUserId;
         this.acceptedInvite = invitation.guests.findIndex(p => p.guestUserId == userId) != -1;
@@ -66,7 +64,7 @@ export class PostComponent {
         this.invitation = invitation;
       });
     }
-    console.log(this.post.postedAtUnix);
+
     this.timeString = this.timeToString(this.post.postedAtUnix);
   }
 
@@ -80,7 +78,6 @@ export class PostComponent {
   }
 
   postComment() {
-    console.log(this.commentInput)
     this.postService.createComment(this.post.postId, {
       content: this.commentInput,
       commentUserId: this._authenticationService.currentUserId
@@ -88,8 +85,9 @@ export class PostComponent {
   }
 
   timeToString(timeStamp: number) {
-    let time = new Date(timeStamp);
     let currentTime = new Date(Date.now());
+    timeStamp = timeStamp - (currentTime.getTimezoneOffset() * 60 * 1000)
+    let time = new Date(timeStamp);
     let yesterdayTime = new Date(Date.now() - 24 * 60 * 60);
     yesterdayTime.setMilliseconds(0);
     yesterdayTime.setSeconds(0);
@@ -98,7 +96,7 @@ export class PostComponent {
 
     let timeDiff = (currentTime.getTime() - time.getTime()) / 1000;
 
-    if (timeDiff > 0) {
+    if (timeDiff < 0) {
       return this.timestamp(timeStamp);
     } else if (timeDiff < 60 * 60) {
       return Math.round(timeDiff / 60) + " minutes ago";
